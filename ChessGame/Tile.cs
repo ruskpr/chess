@@ -9,7 +9,9 @@ namespace ChessGame
     public class Tile : PictureBox
     {
         static Form mainForm;
-        static Bitmap whitePawnImg = new Bitmap("assets/pieces/pack1/BlackPawn.png");
+
+        static Bitmap BlackPawnImg = new Bitmap("assets/pieces/pack1/BlackPawn.png");
+        static Bitmap whitePawnImg = new Bitmap("assets/pieces/pack1/WhitePawn.png");
         public Tile(Form pntr, Size size, Point location, Color color)
         {
             //mainForm = pntr;
@@ -18,14 +20,17 @@ namespace ChessGame
             BackColor = color;
             Size = size;
             Location = location;
-            this.Click += Tile_Click;
+            this.MouseDown += Tile_MouseDown;
 
             pntr.Controls.Add(this);
         }
 
-        private void Tile_Click(object? sender, EventArgs e)
+        private void Tile_MouseDown(object? sender, MouseEventArgs e)
         {
-            Image = whitePawnImg;
+            if (e.Button == MouseButtons.Left)
+                Image = whitePawnImg;
+            if (e.Button == MouseButtons.Right)
+                Image = BlackPawnImg;
         }
     }
 }

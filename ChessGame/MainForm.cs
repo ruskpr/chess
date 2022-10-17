@@ -22,12 +22,12 @@ namespace ChessGame
             this.SizeChanged += MainForm_SizeChanged;
             this.Resize += MainForm_Resize;
 
-            
-            
 
+
+            
             Format.Center(pnlBoard);
             ResponsiveFormat();
-            
+            ConstructBoard();
 
         }
         Tile[,] tiles = new Tile[8, 8];
@@ -76,10 +76,10 @@ namespace ChessGame
             pnlMiddleContent.Top = pnlMiddleContent.Top - 20;
 
             tileSize = new Size(pnlBoard.Width / 8, pnlBoard.Width / 8);
-            foreach (Tile tile in pnlBoard.Controls)
-            {
-                tile.Size = tileSize;
-            }
+            //foreach (Tile tile in pnlBoard.Controls)
+            //{
+            //    tile.Size = tileSize;
+            //}
         }
         protected override void OnSizeChanged(EventArgs e)
         {
