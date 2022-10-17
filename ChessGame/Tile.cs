@@ -11,7 +11,11 @@ namespace ChessGame
         static Form mainForm;
 
         static Bitmap BlackPawnImg = new Bitmap("assets/pieces/pack1/BlackPawn.png");
-        static Bitmap whitePawnImg = new Bitmap("assets/pieces/pack1/WhitePawn.png");
+        static Bitmap WhitePawnImg = new Bitmap("assets/pieces/pack1/WhitePawn.png");
+        static Bitmap BlackRookImg = new Bitmap("assets/pieces/pack1/BlackRook.png");
+        static Bitmap WhiteRookImg = new Bitmap("assets/pieces/pack1/WhiteRook.png");
+        static Bitmap BlackKnightImg = new Bitmap("assets/pieces/pack1/BlackKnight.png");
+        static Bitmap WhiteKnightImg = new Bitmap("assets/pieces/pack1/WhiteKnight.png");
         public Tile(Form pntr, Size size, Point location, Color color)
         {
             //mainForm = pntr;
@@ -28,9 +32,9 @@ namespace ChessGame
         private void Tile_MouseDown(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
-                Image = whitePawnImg;
+                Image = WhiteKnightImg;
             if (e.Button == MouseButtons.Right)
-                Image = BlackPawnImg;
+                Image = BlackKnightImg;
         }
     }
 }
