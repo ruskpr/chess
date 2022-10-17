@@ -70,7 +70,9 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pnlMiddleContent);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.pnlMiddleContent.ResumeLayout(false);
             this.ResumeLayout(false);
 
