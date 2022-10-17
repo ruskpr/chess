@@ -35,17 +35,21 @@ namespace ChessGame
         {
             int locX = 0;
             int locY = 0;
+            Color tileColor;
+            bool colorToggle = true;
+
             for (int i = 0; i < 8; i++) // column
             {
-                
+                colorToggle = !colorToggle;
                 for (int j = 0; j < 8; j++) // row
                 {
-                    
-                    Color color = j % 2 == 0 ? Color.Red : Color.Green;
-                    pnlBoard.Controls.Add(new Tile(this, tileSize, new Point(locX,locY), color));
+                    tileColor = colorToggle ? Color.Black : Color.White;
+                    //Color color = j % 2 == 0 ? Color.Black : Color.White;
+                    pnlBoard.Controls.Add(new Tile(this, tileSize, new Point(locX,locY), tileColor));
                     locX += tileSize.Width;
-                    Thread.Sleep(100);
-                    this.pnlBoard.Refresh();
+                    //Thread.Sleep(100);
+                    //this.pnlBoard.Refresh();
+                    colorToggle = !colorToggle;
                 }
                 locX = 0;
                 locY += tileSize.Height;

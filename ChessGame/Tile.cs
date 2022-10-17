@@ -16,9 +16,15 @@ namespace ChessGame
             Image = null;
             BackColor = color;
             Size = size;
-            Location = location;    
+            Location = location;
+            this.Click += Tile_Click;
 
             mainForm.Controls.Add(this);
+        }
+
+        private void Tile_Click(object? sender, EventArgs e)
+        {
+            BackColor = Color.Green;
         }
     }
 }
