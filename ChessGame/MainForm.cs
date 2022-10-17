@@ -44,7 +44,7 @@ namespace ChessGame
                 colorToggle = !colorToggle;
                 for (int j = 0; j < 8; j++) // row
                 {
-                    tileColor = colorToggle ? Color.Black : Color.White;
+                    tileColor = colorToggle ? Color.MediumVioletRed : Color.DarkOrange;
                     //Color color = j % 2 == 0 ? Color.Black : Color.White;
                     Tile tile = new Tile(this, tileSize, new Point(locX, locY), tileColor);
                     pnlBoard.Controls.Add(tile);

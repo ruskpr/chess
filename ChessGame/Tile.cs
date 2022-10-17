@@ -9,22 +9,23 @@ namespace ChessGame
     public class Tile : PictureBox
     {
         static Form mainForm;
-        
+        static Bitmap whitePawnImg = new Bitmap("assets/pieces/pack1/BlackPawn.png");
         public Tile(Form pntr, Size size, Point location, Color color)
         {
-            mainForm = pntr;
+            //mainForm = pntr;
             Image = null;
+            SizeMode = PictureBoxSizeMode.StretchImage;
             BackColor = color;
             Size = size;
             Location = location;
             this.Click += Tile_Click;
 
-            mainForm.Controls.Add(this);
+            pntr.Controls.Add(this);
         }
 
         private void Tile_Click(object? sender, EventArgs e)
         {
-            BackColor = Color.Green;
+            Image = whitePawnImg;
         }
     }
 }
