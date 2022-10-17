@@ -30,7 +30,7 @@ namespace ChessGame
             ConstructBoard();
 
         }
-        Tile[,] tiles = new Tile[8, 8];
+        
         private void ConstructBoard()
         {
             int locX = 0;
@@ -45,14 +45,14 @@ namespace ChessGame
                 for (int j = 0; j < 8; j++) // row
                 {
                     tileColor = colorToggle ? Color.MediumVioletRed : Color.DarkOrange;
-                    //Color color = j % 2 == 0 ? Color.Black : Color.White;
-                    Tile tile = new Tile(this, tileSize, new Point(locX, locY), tileColor);
-                    pnlBoard.Controls.Add(tile);
-                    tiles[i, j] = tile;
+
+                    Tile tile = new Tile(this, tileSize, new Point(locX, locY), new int[i,j], tileColor);
+                    
+                    Tile.Tiles[i, j] = tile;
+
                     locX += tileSize.Width;
-                    //Thread.Sleep(100);
-                    //this.pnlBoard.Refresh();
                     colorToggle = !colorToggle;
+                    pnlBoard.Controls.Add(tile);
                 }
                 locX = 0;
                 locY += tileSize.Height;

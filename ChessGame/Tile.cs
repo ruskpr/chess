@@ -8,22 +8,36 @@ namespace ChessGame
 {
     public class Tile : PictureBox
     {
+        public enum ContainingPiece
+        {
+            None,
+            Pawn,
+            Rook,
+            Bishop,
+            Queen,
+            King
+        }
+
         static Form mainForm;
 
-        static Bitmap BlackPawnImg = new Bitmap("assets/pieces/pack1/BlackPawn.png");
-        static Bitmap WhitePawnImg = new Bitmap("assets/pieces/pack1/WhitePawn.png");
-        static Bitmap BlackRookImg = new Bitmap("assets/pieces/pack1/BlackRook.png");
-        static Bitmap WhiteRookImg = new Bitmap("assets/pieces/pack1/WhiteRook.png");
-        static Bitmap BlackKnightImg = new Bitmap("assets/pieces/pack1/BlackKnight.png");
-        static Bitmap WhiteKnightImg = new Bitmap("assets/pieces/pack1/WhiteKnight.png");
-        public Tile(Form pntr, Size size, Point location, Color color)
+        //array of tiles
+        public static Tile[,] Tiles = new Tile[8, 8];
+
+        public int[,] Coordinate { get; set; }
+        public ContainingPiece Piece { get; set; }
+        
+        
+
+        public Tile(Form pntr, Size size, Point boardlocation, int[,] arrloc, Color color)
         {
             //mainForm = pntr;
             Image = null;
             SizeMode = PictureBoxSizeMode.StretchImage;
             BackColor = color;
             Size = size;
-            Location = location;
+            Location = boardlocation;
+            Coordinate = arrloc;
+            Piece = ContainingPiece.None;
             this.MouseDown += Tile_MouseDown;
 
             pntr.Controls.Add(this);
@@ -31,10 +45,11 @@ namespace ChessGame
 
         private void Tile_MouseDown(object? sender, MouseEventArgs e)
         {
+            //MessageBox.Show(Coordinate[0,1].ToString());
             if (e.Button == MouseButtons.Left)
-                Image = WhiteKnightImg;
+                Image = MyAssets.B_KnightImg;
             if (e.Button == MouseButtons.Right)
-                Image = BlackKnightImg;
+                Image = MyAssets.W_KnightImg;
         }
     }
 }
