@@ -21,7 +21,7 @@ namespace ChessGame
             this.SizeChanged += MainForm_SizeChanged;
             this.Resize += MainForm_Resize;
 
-            Tile.SendTile += Tile_SendCoordinate;
+            Tile.SendSelectedTile += Tile_SendCoordinate;
 
             myBoard = new Board(this, 800);
             myBoard.ConstructBoard();

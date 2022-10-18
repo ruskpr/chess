@@ -8,10 +8,13 @@ namespace ChessGame
 {
     public class Board : Panel
     {
-        #region Properties
-        //array of tiles
+        #region Fields
+        // 2d array of tiles
         public Tile[,] Tiles = new Tile[8, 8];
         Size tileSize;
+        #endregion
+        #region Properties
+        public Tile SelectedTile { get; set; }
         #endregion
         #region Constructor
         public Board(Form pntr, int size)
@@ -20,9 +23,13 @@ namespace ChessGame
             tileSize = new Size(Width / 8, Width / 8);
             BackColor = Color.White;
 
-            Tile.SendTile += Tile_SendTile;
+            SelectedTile = null;
+            Tile.SendSelectedTile += Tile_SendSelectedTile;
+            Tile.SendTargetTile += Tile_SendTargetTile;
             pntr.Controls.Add(this);
         }
+
+        
         #endregion
         #region Construct Board
         public void ConstructBoard()
@@ -31,17 +38,37 @@ namespace ChessGame
             AddPieces();
         }
         #endregion
-        #region Delegate to recieve selected tile
-        private void Tile_SendTile(Tile tile)
+        #region Delegate to recieve tiles
+        private void Tile_SendSelectedTile(Tile tile) //recieve selected tile
         {
-            // return a list of valid moves for whichever tile you selected
-            GetValidMoves(tile);
+            SelectedTile = tile;
+            GetValidMoves(SelectedTile);
 
+
+        }
+        private void Tile_SendTargetTile(Tile tile) // recieve target tile (the tile the user clicks to move their piece
+        {
+            MovePiece(SelectedTile, tile);
+            tile.CurrentPiece.CompletedFirstMove = true;
+        }
+        #endregion
+        #region Move Piece
+        public void MovePiece(Tile oldPosition, Tile NewPostion)
+        {
+            NewPostion.CurrentPiece = oldPosition.CurrentPiece;
+
+            //update new tile
+            //NewPostion.Image = oldPosition.Image;
+            NewPostion.BackgroundImage = oldPosition.BackgroundImage;
+            oldPosition.BackgroundImage = null;
+
+            //remove oldtile
+            oldPosition.RemovePiece();
 
         }
         #endregion
         #region Get list of valid moves
-        public List<Tile> GetValidMoves(Tile selectedTile)
+        public List<Tile> GetValidMoves(Tile selTile)
         {
             List<Tile> validMoves = new List<Tile>();
 
@@ -54,19 +81,39 @@ namespace ChessGame
                 
 
             //calculate values on type of piece that you selectedd
-            switch (selectedTile.CurrentPiece)
+            switch (selTile.CurrentPiece)
             {
                 case Pawn:
-                    if (selectedTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                    if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
                     {
-                        validMoves.Add(Tiles[selectedTile.CoordinateY - 1, selectedTile.CoordinateX]);
-                        validMoves.Add(Tiles[selectedTile.CoordinateY - 2, selectedTile.CoordinateX]);
-                        
+                        // allow pawn to move 2 spaces on its first move
+                        if (selTile.CurrentPiece.CompletedFirstMove == false)
+                            validMoves.Add(Tiles[selTile.CoordinateY - 2, selTile.CoordinateX]);
+
+                        // error check to not allow spaces outside of board index
+                        if (selTile.CoordinateY > 0)
+                        {
+                            // 1 space forward (only allows move if no pieces infront
+                            if (Tiles[selTile.CoordinateY - 1, selTile.CoordinateX].CurrentPiece == null)
+                                validMoves.Add(Tiles[selTile.CoordinateY - 1, selTile.CoordinateX]);
+
+                            try
+                            {
+                                // if there is a tile diagnal to pawn, allow them to kill
+                                if (Tiles[selTile.CoordinateY - 1, selTile.CoordinateX - 1].CurrentPiece is Piece ||
+                                    Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1].CurrentPiece is Piece)
+                                {
+                                    validMoves.Add(Tiles[selTile.CoordinateY - 1, selTile.CoordinateX - 1]);
+                                    validMoves.Add(Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1]);
+                                }
+                            }
+                            catch { }
+                        }
                     }
-                    else if (selectedTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                    else if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
                     {
-                        validMoves.Add(Tiles[selectedTile.CoordinateY + 1, selectedTile.CoordinateX]);
-                        validMoves.Add(Tiles[selectedTile.CoordinateY + 2, selectedTile.CoordinateX]);
+                        validMoves.Add(Tiles[selTile.CoordinateY + 1, selTile.CoordinateX]);
+                        validMoves.Add(Tiles[selTile.CoordinateY + 2, selTile.CoordinateX]);
                     }
                     break;
                 case Rook:

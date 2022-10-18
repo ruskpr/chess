@@ -10,7 +10,8 @@ namespace ChessGame
     public delegate void CreateTestPieceDelegate(Tile tile);
     public class Tile : PictureBox
     {
-        public static event SendTileDelegate SendTile;
+        public static event SendTileDelegate SendSelectedTile;
+        public static event SendTileDelegate SendTargetTile;
         public static event CreateTestPieceDelegate CreateTestPiece;
         //public enum ContainingPiece
         //{
@@ -62,14 +63,11 @@ namespace ChessGame
         {            
             if (e.Button == MouseButtons.Left)
             {
-                if (IsAValidSpace) // move piece if it is marked as a valid space
-                {
-                    //ParentBoard.
-                }
-                
                 foreach (Tile tile in ParentBoard.Tiles)
                     tile.UnSelect();
 
+                if (IsAValidSpace) // move piece if it is marked as a valid space
+                    SendTargetTile.Invoke(this);
 
                 Select();
             }
@@ -87,7 +85,7 @@ namespace ChessGame
         #region Select / Unselect methods
         public void Select()
         {
-            SendTile?.Invoke(this);
+            SendSelectedTile?.Invoke(this);
             Selected = true;
             BackColor = Color.Teal;
         }
@@ -128,7 +126,14 @@ namespace ChessGame
 
         }
         #endregion
-
+        #region Remove piece
+        public void RemovePiece()
+        {
+            CurrentPiece = null;
+            Image = null;
+            BackgroundImage = null;
+        }
+        #endregion
         #region Tostring override
         public override string ToString()
         {

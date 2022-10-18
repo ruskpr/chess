@@ -12,7 +12,7 @@
         public TestForm()
         {
             InitializeComponent();
-            Tile.SendTile += Tile_SendCoordinate;
+            Tile.SendSelectedTile += Tile_SendCoordinate;
             Tile.CreateTestPiece += Tile_CreateTestPiece;
 
 

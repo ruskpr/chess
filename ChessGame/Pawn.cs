@@ -9,7 +9,6 @@ namespace ChessGame
 {
     public class Pawn : Piece
     {
-        public bool CompletedFirstMove { get; set; }
         public Pawn(Player player, Tile tile) : base(player, tile)
         {
             this.Image = player == Player.Player_One ? MyAssets.W_PawnImg : MyAssets.B_PawnImg;

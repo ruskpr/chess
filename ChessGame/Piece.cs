@@ -10,6 +10,7 @@ namespace ChessGame
     {
         public static List<Piece> pieceList = new List<Piece>();
 
+        public bool CompletedFirstMove { get; set; }
         public Bitmap Image { get; set; }
         public Player CurrentPlayer { get; set; }
 
@@ -42,10 +43,6 @@ namespace ChessGame
             oldPosition = CurrentTile;
         }
         #endregion
-        public void Remove()
-        {
-            pieceList.Remove(this);
-        }
 
         public override string ToString()
         {
