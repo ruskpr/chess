@@ -48,8 +48,8 @@ namespace ChessGame
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    //if(i == 1 || i == 6)
-                        //Tile.Tiles[i, j].Piece = i == 1 ? Tile.ContainingPiece = Tile.ContainingPiece.Pawn :
+                    if (i == 1)
+                        Tile.Tiles[i, j].CreatePiece("pawn", 2);
 
                 }
             }

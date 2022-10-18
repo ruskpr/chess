@@ -10,6 +10,9 @@ namespace ChessGame
     {
         public static List<Piece> pieceList = new List<Piece>();
 
+        public Bitmap Image { get; set; }
+
+        public Tile CurrentTile { get; set; }
         public enum Player
         {
             None,
@@ -17,11 +20,18 @@ namespace ChessGame
             PlayerTwo
         }
 
-        public Piece(Player player)
+        public Piece(Player player, Tile tile)
         {
-
-
+            CurrentTile = tile;
+            this.Image = null;
             pieceList.Add(this);
+
         }
+
+        public void Remove()
+        {
+            pieceList.Remove(this);
+        }
+
     }
 }

@@ -29,7 +29,7 @@ namespace ChessGame
 
         public int CoordinateX { get; set; }
         public int CoordinateY { get; set; }
-        public Piece ContainingPiece { get; set; }
+        public Piece CurrentPiece { get; set; }
         public bool Selected { get; set; }
 
         private Color originalColor;
@@ -37,17 +37,19 @@ namespace ChessGame
         public Tile(Form pntr, Size size, Point boardlocation, int arrX,int arrY, Color color)
         {
             //mainForm = pntr;
-            Image = null;
+            
             SizeMode = PictureBoxSizeMode.StretchImage;
             BackColor = color;
             originalColor = color;
             Size = size;
             Location = boardlocation;
-
+            Image = null;
             CoordinateX = arrX;
             CoordinateY = arrY;
             Selected = false;
-            ContainingPiece = null;
+            CurrentPiece = null;
+            
+
             this.MouseDown += Tile_MouseDown;
 
             pntr.Controls.Add(this);
@@ -64,7 +66,11 @@ namespace ChessGame
                     tile.UnSelect();
                 }
 
-                Select();
+                if (CurrentPiece != null)
+                {
+                    Select();
+                }
+                
             }
 
             //if (e.Button == MouseButtons.Right)
@@ -88,6 +94,23 @@ namespace ChessGame
         {
             return $"{CoordinateX}, {CoordinateY}";
 
+        }
+
+        public void CreatePiece(string piecename, int player)
+        {
+
+            Piece.Player selectedPlayer = player == 1 ? Piece.Player.PlayerOne : Piece.Player.PlayerTwo;
+            if (CurrentPiece == null)
+            {
+                switch (piecename)
+                {
+                    case "pawn":
+                        CurrentPiece = new Pawn(selectedPlayer, this);
+                        this.Image = CurrentPiece.Image;
+                        break;
+                }
+            }
+            
         }
     }
 }
