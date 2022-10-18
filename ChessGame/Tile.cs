@@ -72,7 +72,11 @@ namespace ChessGame
 
             if (TestForm.TestingMode == true)
                 if (e.Button == MouseButtons.Right)
+                {
+                    Select();
                     CreateTestPiece.Invoke(this);
+                }
+                    
 
         }
 
