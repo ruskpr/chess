@@ -11,17 +11,19 @@ namespace ChessGame
         public static List<Piece> pieceList = new List<Piece>();
 
         public Bitmap Image { get; set; }
+        public Player CurrentPlayer { get; set; }
 
         public Tile CurrentTile { get; set; }
         public enum Player
         {
             None,
-            PlayerOne,
-            PlayerTwo
+            Player_One,
+            Player_Two
         }
 
         public Piece(Player player, Tile tile)
         {
+            CurrentPlayer = player;
             CurrentTile = tile;
             this.Image = null;
             pieceList.Add(this);
@@ -33,5 +35,9 @@ namespace ChessGame
             pieceList.Remove(this);
         }
 
+        public override string ToString()
+        {
+            return $"{CurrentPlayer.ToString().Replace("_"," ")}'s {GetType().Name}";
+        }
     }
 }

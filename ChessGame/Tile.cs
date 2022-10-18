@@ -93,17 +93,29 @@ namespace ChessGame
 
         public void CreatePiece(string piecename, int player)
         {
+            // parse integer parameter to Player enum from Piece class
+            Piece.Player selectedPlayer = player == 1 ? Piece.Player.Player_One : Piece.Player.Player_Two;
 
-            Piece.Player selectedPlayer = player == 1 ? Piece.Player.PlayerOne : Piece.Player.PlayerTwo;
+            //only add piece if tile is empty
             if (CurrentPiece == null)
             {
                 switch (piecename)
                 {
                     case "pawn":
-                        CurrentPiece = new Pawn(selectedPlayer, this);
-                        this.Image = CurrentPiece.Image;
-                        break;
+                        CurrentPiece = new Pawn(selectedPlayer, this); break;
+                    case "rook":
+                        CurrentPiece = new Rook(selectedPlayer, this); break;
+                    case "knight":
+                        CurrentPiece = new Knight(selectedPlayer, this); break;
+                    case "bishop":
+                        CurrentPiece = new Bishop(selectedPlayer, this); break;
+                    case "queen":
+                        CurrentPiece = new Queen(selectedPlayer, this); break;
+                    case "king":
+                        CurrentPiece = new King(selectedPlayer, this); break;
                 }
+
+                this.Image = CurrentPiece.Image;
             }
             
         }

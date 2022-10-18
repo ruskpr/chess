@@ -44,14 +44,46 @@ namespace ChessGame
 
         private void AddPieces()
         {
-            for (int i = 0; i < 8; i++)
+            //loop through each tile in 2d array (player 1 is white, player 2 is black)
+            for (int i = 0; i < 8; i++) 
             {
                 for (int j = 0; j < 8; j++)
                 {
+
                     if (i == 1)
-                        Tile.Tiles[i, j].CreatePiece("pawn", 2);
+                        Tile.Tiles[i, j].CreatePiece("pawn", 2); // add player 2's pawns to 2nd row
                     if (i == 6)
-                        Tile.Tiles[i, j].CreatePiece("pawn", 1);
+                        Tile.Tiles[i, j].CreatePiece("pawn", 1); // add player 1's pawns to 7th row
+
+                    // player 1's backrow
+                    if (i == 7)
+                    {
+                        if (j == 0 || j == 7)
+                            Tile.Tiles[i, j].CreatePiece("rook", 1); // add player 1's rooks
+                        if (j == 1 || j == 6)
+                            Tile.Tiles[i, j].CreatePiece("knight", 1); // add player 1's knights
+                        if (j == 2 || j == 5)
+                            Tile.Tiles[i, j].CreatePiece("bishop", 1); // add player 1's bishops
+                        if (j == 3)
+                            Tile.Tiles[i, j].CreatePiece("queen", 1); // add player 1's queen
+                        if (j == 4)
+                            Tile.Tiles[i, j].CreatePiece("king", 1); // add player 1's king
+                    }
+
+                    // player 2's backrow
+                    if (i == 0)
+                    {
+                        if (j == 0 || j == 7)
+                            Tile.Tiles[i, j].CreatePiece("rook", 2); // add player 2's rooks
+                        if (j == 1 || j == 6)
+                            Tile.Tiles[i, j].CreatePiece("knight", 2); // add player 2's knights
+                        if (j == 2 || j == 5)
+                            Tile.Tiles[i, j].CreatePiece("bishop", 2); // add player 2's bishops
+                        if (j == 3)
+                            Tile.Tiles[i, j].CreatePiece("queen", 2); // add player 2's queen
+                        if (j == 4)
+                            Tile.Tiles[i, j].CreatePiece("king", 2); // add player 2's king
+                    }
                 }
             }
         }

@@ -9,16 +9,18 @@ namespace ChessGame
 {
     public class Pawn : Piece
     {
-        public Player CurrentPlayer { get; set; }
+        public bool CompletedFirstMove { get; set; }
         public Pawn(Player player, Tile tile) : base(player, tile)
         {
-            CurrentPlayer = player;
-            this.Image = player == Player.PlayerOne ? MyAssets.W_PawnImg : MyAssets.B_PawnImg;
+            this.Image = player == Player.Player_One ? MyAssets.W_PawnImg : MyAssets.B_PawnImg;
+            CompletedFirstMove = false;
         }
 
-        public override string ToString()
+
+        public void Move()
         {
-            return $"{CurrentPlayer.ToString()}'s Pawn";
+            
         }
+        
     }
 }
