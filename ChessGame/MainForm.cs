@@ -22,7 +22,7 @@ namespace ChessGame
             this.SizeChanged += MainForm_SizeChanged;
             this.Resize += MainForm_Resize;
 
-
+            Tile.SendCoordinate += Tile_SendCoordinate;
 
             
             Format.Center(pnlBoard);
@@ -30,7 +30,12 @@ namespace ChessGame
             ConstructBoard();
 
         }
-        
+
+        private void Tile_SendCoordinate(Tile tile)
+        {
+            lbTest.Text = tile.GetCoordinates();
+        }
+
         private void ConstructBoard()
         {
             int locX = 0;
@@ -46,7 +51,7 @@ namespace ChessGame
                 {
                     tileColor = colorToggle ? Color.MediumVioletRed : Color.DarkOrange;
 
-                    Tile tile = new Tile(this, tileSize, new Point(locX, locY), new int[i,j], tileColor);
+                    Tile tile = new Tile(this, tileSize, new Point(locX, locY), i, j, tileColor);
                     
                     Tile.Tiles[i, j] = tile;
 
@@ -98,7 +103,9 @@ namespace ChessGame
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            ConstructBoard();
+            Tile.Tiles[0, 2].BackColor = Color.Green;
         }
+
+
     }
 }

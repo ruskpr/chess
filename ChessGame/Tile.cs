@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace ChessGame
 {
+    public delegate void SendCoordinateDelegate(Tile tile);
+    
     public class Tile : PictureBox
     {
+
+        public static event SendCoordinateDelegate SendCoordinate;
         public enum ContainingPiece
         {
             None,
@@ -23,20 +27,26 @@ namespace ChessGame
         //array of tiles
         public static Tile[,] Tiles = new Tile[8, 8];
 
-        public int[,] Coordinate { get; set; }
+        public int CoordinateX { get; set; }
+        public int CoordinateY { get; set; }
         public ContainingPiece Piece { get; set; }
-        
-        
+        public bool Selected { get; set; }
 
-        public Tile(Form pntr, Size size, Point boardlocation, int[,] arrloc, Color color)
+        private Color originalColor;
+
+        public Tile(Form pntr, Size size, Point boardlocation, int arrX,int arrY, Color color)
         {
             //mainForm = pntr;
             Image = null;
             SizeMode = PictureBoxSizeMode.StretchImage;
             BackColor = color;
+            originalColor = color;
             Size = size;
             Location = boardlocation;
-            Coordinate = arrloc;
+
+            CoordinateX = arrX;
+            CoordinateY = arrY;
+            Selected = false;
             Piece = ContainingPiece.None;
             this.MouseDown += Tile_MouseDown;
 
@@ -46,10 +56,38 @@ namespace ChessGame
         private void Tile_MouseDown(object? sender, MouseEventArgs e)
         {
             //MessageBox.Show(Coordinate[0,1].ToString());
+            
             if (e.Button == MouseButtons.Left)
-                Image = MyAssets.B_KnightImg;
-            if (e.Button == MouseButtons.Right)
-                Image = MyAssets.W_KnightImg;
+            {
+                foreach (Tile tile in Tiles)
+                {
+                    tile.UnSelect();
+                }
+
+                Select();
+            }
+
+            //if (e.Button == MouseButtons.Right)
+                //GetCoordinates();
+
+        }
+
+        public void Select()
+        {
+            SendCoordinate?.Invoke(this);
+            Selected = true;
+            BackColor = Color.Teal;
+        }
+        void UnSelect()
+        {
+            Selected = false;
+            BackColor = originalColor;
+        }
+
+        public string GetCoordinates()
+        {
+            return $"{CoordinateX}, {CoordinateY}";
+
         }
     }
 }

@@ -31,6 +31,7 @@
             this.pnlMiddleContent = new System.Windows.Forms.Panel();
             this.pnlBoard = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
+            this.lbTest = new System.Windows.Forms.Label();
             this.pnlMiddleContent.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -61,12 +62,24 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // lbTest
+            // 
+            this.lbTest.AutoSize = true;
+            this.lbTest.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lbTest.ForeColor = System.Drawing.Color.White;
+            this.lbTest.Location = new System.Drawing.Point(62, 210);
+            this.lbTest.Name = "lbTest";
+            this.lbTest.Size = new System.Drawing.Size(68, 30);
+            this.lbTest.TabIndex = 3;
+            this.lbTest.Text = "label1";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(37)))), ((int)(((byte)(41)))));
             this.ClientSize = new System.Drawing.Size(1458, 918);
+            this.Controls.Add(this.lbTest);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pnlMiddleContent);
             this.Name = "MainForm";
@@ -75,6 +88,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.pnlMiddleContent.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -82,5 +96,6 @@
         private Panel pnlMiddleContent;
         private Panel pnlBoard;
         private Button button1;
+        private Label lbTest;
     }
 }
