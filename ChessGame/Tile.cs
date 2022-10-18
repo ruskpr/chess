@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace ChessGame
 {
-    public delegate void SendSelectionDelegate(Tile tile);
-    
+    public delegate void SendTileDelegate(Tile tile);
+    public delegate void CreateTestPieceDelegate(Tile tile);
     public class Tile : PictureBox
     {
-        public static event SendSelectionDelegate SendSelection;
+        public static event SendTileDelegate SendTile;
+        public static event CreateTestPieceDelegate CreateTestPiece;
         //public enum ContainingPiece
         //{
         //    None,
@@ -24,9 +25,9 @@ namespace ChessGame
 
         static Form mainForm;
 
-        //array of tiles
-        public static Tile[,] Tiles = new Tile[8, 8];
 
+
+        public Board ParentBoard { get; set; }
         public int CoordinateX { get; set; }
         public int CoordinateY { get; set; }
         public Piece CurrentPiece { get; set; }
@@ -34,10 +35,10 @@ namespace ChessGame
 
         private Color originalColor;
 
-        public Tile(Form pntr, Size size, Point boardlocation, int arrX,int arrY, Color color)
+        public Tile(Form pntr,Board board, Size size, Point boardlocation, int arrX,int arrY, Color color)
         {
             //mainForm = pntr;
-            
+            ParentBoard = board;
             SizeMode = PictureBoxSizeMode.StretchImage;
             BackColor = color;
             originalColor = color;
@@ -61,26 +62,23 @@ namespace ChessGame
             
             if (e.Button == MouseButtons.Left)
             {
-                foreach (Tile tile in Tiles)
+                foreach (Tile tile in ParentBoard.Tiles)
                 {
                     tile.UnSelect();
                 }
 
-                if (CurrentPiece != null)
-                {
-                    
-                }
                 Select();
             }
 
-            //if (e.Button == MouseButtons.Right)
-                //GetCoordinates();
+            if (TestForm.TestingMode == true)
+                if (e.Button == MouseButtons.Right)
+                    CreateTestPiece.Invoke(this);
 
         }
 
         public void Select()
         {
-            SendSelection?.Invoke(this);
+            SendTile?.Invoke(this);
             Selected = true;
             BackColor = Color.Teal;
         }
@@ -116,8 +114,9 @@ namespace ChessGame
                 }
 
                 this.Image = CurrentPiece.Image;
+
             }
-            
+
         }
 
         public override string ToString()

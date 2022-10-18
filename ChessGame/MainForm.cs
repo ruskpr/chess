@@ -14,7 +14,8 @@ namespace ChessGame
     public partial class MainForm : Form
     {
 
-        private Size tileSize;
+        private static Size tileSize;
+        private Board board;
         public MainForm()
         {
             InitializeComponent();
@@ -22,10 +23,11 @@ namespace ChessGame
             this.SizeChanged += MainForm_SizeChanged;
             this.Resize += MainForm_Resize;
 
-            Tile.SendSelection += Tile_SendCoordinate;
+            Tile.SendTile += Tile_SendCoordinate;
 
-            
-            Format.Center(pnlBoard);
+            board = new Board(this);
+            board.Parent = pnlMiddleContent;
+            Format.Center(board);
             ResponsiveFormat();
             ConstructBoard();
 
@@ -38,7 +40,7 @@ namespace ChessGame
 
         private void ConstructBoard()
         {
-            AddTiles();
+            AddTiles(board);
             AddPieces();
         }
 
@@ -51,44 +53,44 @@ namespace ChessGame
                 {
 
                     if (i == 1)
-                        Tile.Tiles[i, j].CreatePiece("pawn", 2); // add player 2's pawns to 2nd row
+                        board.Tiles[i, j].CreatePiece("pawn", 2); // add player 2's pawns to 2nd row
                     if (i == 6)
-                        Tile.Tiles[i, j].CreatePiece("pawn", 1); // add player 1's pawns to 7th row
+                        board.Tiles[i, j].CreatePiece("pawn", 1); // add player 1's pawns to 7th row
 
                     // player 1's backrow
                     if (i == 7)
                     {
                         if (j == 0 || j == 7)
-                            Tile.Tiles[i, j].CreatePiece("rook", 1); // add player 1's rooks
+                            board.Tiles[i, j].CreatePiece("rook", 1); // add player 1's rooks
                         if (j == 1 || j == 6)
-                            Tile.Tiles[i, j].CreatePiece("knight", 1); // add player 1's knights
+                            board.Tiles[i, j].CreatePiece("knight", 1); // add player 1's knights
                         if (j == 2 || j == 5)
-                            Tile.Tiles[i, j].CreatePiece("bishop", 1); // add player 1's bishops
+                            board.Tiles[i, j].CreatePiece("bishop", 1); // add player 1's bishops
                         if (j == 3)
-                            Tile.Tiles[i, j].CreatePiece("queen", 1); // add player 1's queen
+                            board.Tiles[i, j].CreatePiece("queen", 1); // add player 1's queen
                         if (j == 4)
-                            Tile.Tiles[i, j].CreatePiece("king", 1); // add player 1's king
+                            board.Tiles[i, j].CreatePiece("king", 1); // add player 1's king
                     }
 
                     // player 2's backrow
                     if (i == 0)
                     {
                         if (j == 0 || j == 7)
-                            Tile.Tiles[i, j].CreatePiece("rook", 2); // add player 2's rooks
+                            board.Tiles[i, j].CreatePiece("rook", 2); // add player 2's rooks
                         if (j == 1 || j == 6)
-                            Tile.Tiles[i, j].CreatePiece("knight", 2); // add player 2's knights
+                            board.Tiles[i, j].CreatePiece("knight", 2); // add player 2's knights
                         if (j == 2 || j == 5)
-                            Tile.Tiles[i, j].CreatePiece("bishop", 2); // add player 2's bishops
+                            board.Tiles[i, j].CreatePiece("bishop", 2); // add player 2's bishops
                         if (j == 3)
-                            Tile.Tiles[i, j].CreatePiece("queen", 2); // add player 2's queen
+                            board.Tiles[i, j].CreatePiece("queen", 2); // add player 2's queen
                         if (j == 4)
-                            Tile.Tiles[i, j].CreatePiece("king", 2); // add player 2's king
+                            board.Tiles[i, j].CreatePiece("king", 2); // add player 2's king
                     }
                 }
             }
         }
 
-        void AddTiles()
+        void AddTiles(Control control)
         {
             int locX = 0;
             int locY = 0;
@@ -103,17 +105,17 @@ namespace ChessGame
                 {
                     tileColor = colorToggle ? Color.MediumVioletRed : Color.DarkOrange;
 
-                    Tile tile = new Tile(this, tileSize, new Point(locX, locY), i, j, tileColor);
+                    Tile tile = new Tile(this, board, tileSize, new Point(locX, locY), i, j, tileColor);
 
-                    Tile.Tiles[i, j] = tile;
+                    board.Tiles[i, j] = tile;
 
                     locX += tileSize.Width;
                     colorToggle = !colorToggle;
-                    pnlBoard.Controls.Add(tile);
+                    control.Controls.Add(tile);
                 }
                 locX = 0;
                 locY += tileSize.Height;
-                pnlBoard.BackColor = Color.White;
+                board.BackColor = Color.White;
             }
         }
         private void MainForm_SizeChanged(object? sender, EventArgs e)
@@ -128,10 +130,10 @@ namespace ChessGame
         private void ResponsiveFormat()
         {
             Format.Center(pnlMiddleContent);
-            Format.Center(pnlBoard);
+            Format.Center(board);
             pnlMiddleContent.Top = pnlMiddleContent.Top - 20;
 
-            tileSize = new Size(pnlBoard.Width / 8, pnlBoard.Width / 8);
+            tileSize = new Size(board.Width / 8, board.Width / 8);
             //foreach (Tile tile in pnlBoard.Controls)
             //{
             //    tile.Size = tileSize;
@@ -154,7 +156,8 @@ namespace ChessGame
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Tile.Tiles[0, 2].BackColor = Color.Green;
+            TestForm testFrm = new TestForm();
+            testFrm.Show();
         }
 
 

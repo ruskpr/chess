@@ -29,31 +29,20 @@
         private void InitializeComponent()
         {
             this.pnlMiddleContent = new System.Windows.Forms.Panel();
-            this.pnlBoard = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.lbTest1 = new System.Windows.Forms.Label();
             this.lbTest2 = new System.Windows.Forms.Label();
             this.lbTest3 = new System.Windows.Forms.Label();
             this.lbTest4 = new System.Windows.Forms.Label();
-            this.pnlMiddleContent.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlMiddleContent
             // 
             this.pnlMiddleContent.BackColor = System.Drawing.Color.White;
-            this.pnlMiddleContent.Controls.Add(this.pnlBoard);
             this.pnlMiddleContent.Location = new System.Drawing.Point(324, 12);
             this.pnlMiddleContent.Name = "pnlMiddleContent";
             this.pnlMiddleContent.Size = new System.Drawing.Size(850, 850);
             this.pnlMiddleContent.TabIndex = 1;
-            // 
-            // pnlBoard
-            // 
-            this.pnlBoard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.pnlBoard.Location = new System.Drawing.Point(16, 15);
-            this.pnlBoard.Name = "pnlBoard";
-            this.pnlBoard.Size = new System.Drawing.Size(800, 800);
-            this.pnlBoard.TabIndex = 0;
             // 
             // button1
             // 
@@ -125,7 +114,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.pnlMiddleContent.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,7 +121,6 @@
 
         #endregion
         private Panel pnlMiddleContent;
-        private Panel pnlBoard;
         private Button button1;
         private Label lbTest1;
         private Label lbTest2;
