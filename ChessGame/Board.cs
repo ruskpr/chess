@@ -19,14 +19,43 @@ namespace ChessGame
             Size = new Size(size, size);
             tileSize = new Size(Width / 8, Width / 8);
             BackColor = Color.White;
+
+            Tile.SendTile += Tile_SendTile;
             pntr.Controls.Add(this);
         }
         #endregion
+        #region Construct Board
         public void ConstructBoard()
         {
             AddTiles();
             AddPieces();
         }
+        #endregion
+
+        private void Tile_SendTile(Tile tile)
+        {
+            //MessageBox.Show(tile.ToString());
+            CalcValidMoves(tile);
+        }
+        public void CalcValidMoves(Tile selectedTile)
+        {
+            foreach (Tile tile in Tiles)
+            {
+                BackgroundImage = null;
+            }
+            switch (selectedTile.CurrentPiece)
+            {
+                case Pawn:
+                    if (selectedTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                    {
+                        Tiles[selectedTile.CoordinateX-1, selectedTile.CoordinateY].BackgroundImage = MyAssets.ValidSpaceImg;
+                        Tiles[selectedTile.CoordinateX-2, selectedTile.CoordinateY].BackgroundImage = MyAssets.ValidSpaceImg;
+                    }
+                    //else if (selectedTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                    break;
+            }
+        }
+        
         #region Add tiles
         public void AddTiles()
         {
@@ -100,10 +129,15 @@ namespace ChessGame
                         if (j == 4)
                             Tiles[i, j].CreatePiece("king", 2); // add player 2's king
                     }
+
+                    //test
+                    //if (i == 5 || i == 6)
+                        //Tiles[i, j].Image = MyAssets.ValidSpaceImg;
                 }
             }
         }
         #endregion
+        
         #region Overrided ToString() method
         public override string ToString()
         {

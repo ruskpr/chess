@@ -27,5 +27,8 @@ namespace ChessGame
         public static Bitmap W_QueenImg = new Bitmap("assets/pieces/pack1/WhiteQueen.png");
         public static Bitmap W_KingImg = new Bitmap("assets/pieces/pack1/WhiteKing.png");
 
+
+        //valid space indicator
+        public static Bitmap ValidSpaceImg = new Bitmap("assets/ValidSpace.png");
     }
 }

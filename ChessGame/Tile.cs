@@ -39,12 +39,14 @@ namespace ChessGame
         {
             //mainForm = pntr;
             ParentBoard = board;
+            BackgroundImageLayout = ImageLayout.Stretch;
             SizeMode = PictureBoxSizeMode.StretchImage;
             BackColor = color;
             originalColor = color;
             Size = size;
             Location = boardlocation;
             Image = null;
+            BackgroundImage = null;
             CoordinateX = arrX;
             CoordinateY = arrY;
             Selected = false;
@@ -55,7 +57,7 @@ namespace ChessGame
 
             board.Controls.Add(this);
         }
-
+        #region Mouse down event
         private void Tile_MouseDown(object? sender, MouseEventArgs e)
         {
             //MessageBox.Show(Coordinate[0,1].ToString());
@@ -79,7 +81,8 @@ namespace ChessGame
                     
 
         }
-
+        #endregion
+        #region Select / Unselect methods
         public void Select()
         {
             SendTile?.Invoke(this);
@@ -91,7 +94,8 @@ namespace ChessGame
             Selected = false;
             BackColor = originalColor;
         }
-
+        #endregion
+        #region Create piece
         public void CreatePiece(string piecename, int player)
         {
             // parse integer parameter to Player enum from Piece class
@@ -116,12 +120,14 @@ namespace ChessGame
                         CurrentPiece = new King(selectedPlayer, this); break;
                 }
 
-                this.Image = CurrentPiece?.Image;
+                this.BackgroundImage = CurrentPiece?.Image;
 
             }
 
         }
+        #endregion
 
+        #region Tostring override
         public override string ToString()
         {
             if (CurrentPiece == null)
@@ -132,5 +138,6 @@ namespace ChessGame
                 return $"{CurrentPiece.ToString()} at {CoordinateX}, {CoordinateY}";
 
         }
+        #endregion
     }
 }

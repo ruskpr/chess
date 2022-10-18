@@ -13,7 +13,7 @@ namespace ChessGame
 {
     public partial class MainForm : Form
     {
-        private Board myBoard;
+        public static Board myBoard;
         public MainForm()
         {
             InitializeComponent();

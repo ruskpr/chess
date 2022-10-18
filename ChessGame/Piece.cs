@@ -29,7 +29,19 @@ namespace ChessGame
             pieceList.Add(this);
 
         }
+        #region Calc valid moves
+        public virtual void CalcValidMoves()
+        {
 
+        }
+        #endregion
+        #region Move piece
+        private void MovePiece(Tile oldPosition, Tile NewPosition)
+        {
+
+            oldPosition = CurrentTile;
+        }
+        #endregion
         public void Remove()
         {
             pieceList.Remove(this);
