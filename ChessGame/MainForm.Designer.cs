@@ -28,21 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlMiddleContent = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.lbTest1 = new System.Windows.Forms.Label();
             this.lbTest2 = new System.Windows.Forms.Label();
             this.lbTest3 = new System.Windows.Forms.Label();
             this.lbTest4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // pnlMiddleContent
-            // 
-            this.pnlMiddleContent.BackColor = System.Drawing.Color.White;
-            this.pnlMiddleContent.Location = new System.Drawing.Point(324, 12);
-            this.pnlMiddleContent.Name = "pnlMiddleContent";
-            this.pnlMiddleContent.Size = new System.Drawing.Size(850, 850);
-            this.pnlMiddleContent.TabIndex = 1;
             // 
             // button1
             // 
@@ -109,7 +100,6 @@
             this.Controls.Add(this.lbTest2);
             this.Controls.Add(this.lbTest1);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.pnlMiddleContent);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
@@ -120,7 +110,6 @@
         }
 
         #endregion
-        private Panel pnlMiddleContent;
         private Button button1;
         private Label lbTest1;
         private Label lbTest2;

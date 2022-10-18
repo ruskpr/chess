@@ -35,7 +35,7 @@ namespace ChessGame
 
         private Color originalColor;
 
-        public Tile(Form pntr,Board board, Size size, Point boardlocation, int arrX,int arrY, Color color)
+        public Tile(Board board, Size size, Point boardlocation, int arrX,int arrY, Color color)
         {
             //mainForm = pntr;
             ParentBoard = board;
@@ -53,7 +53,7 @@ namespace ChessGame
 
             this.MouseDown += Tile_MouseDown;
 
-            pntr.Controls.Add(this);
+            board.Controls.Add(this);
         }
 
         private void Tile_MouseDown(object? sender, MouseEventArgs e)
@@ -92,7 +92,6 @@ namespace ChessGame
             BackColor = originalColor;
         }
 
-
         public void CreatePiece(string piecename, int player)
         {
             // parse integer parameter to Player enum from Piece class
@@ -117,7 +116,7 @@ namespace ChessGame
                         CurrentPiece = new King(selectedPlayer, this); break;
                 }
 
-                this.Image = CurrentPiece.Image;
+                this.Image = CurrentPiece?.Image;
 
             }
 

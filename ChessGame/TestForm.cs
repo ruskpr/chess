@@ -8,23 +8,18 @@
         private string peiceName;
         private int selectedPlayer;
 
-        Board board;
+        static Board board;
         public TestForm()
         {
             InitializeComponent();
             Tile.SendTile += Tile_SendCoordinate;
             Tile.CreateTestPiece += Tile_CreateTestPiece;
 
-            board = new Board(this);
 
-            tileSize = new Size(board.Width / 8, board.Width / 8);
-
-            cbPiece.SelectedIndex = 2;
-            peiceName = cbPiece.SelectedText;
-            selectedPlayer = 1;
-
+            //initialize board
+            board = new Board(this, 800);
+            board.ConstructBoard();
             Format.Center(board);
-            AddTiles(board);
         }
 
         private void Tile_CreateTestPiece(Tile tile)
@@ -34,33 +29,7 @@
 
         }
 
-        void AddTiles(Control control)
-        {
-            int locX = 0;
-            int locY = 0;
-            Color tileColor;
-            bool colorToggle = true;
-
-
-            for (int i = 0; i < 8; i++) // column
-            {
-                colorToggle = !colorToggle;
-                for (int j = 0; j < 8; j++) // row
-                {
-                    tileColor = colorToggle ? Color.MediumVioletRed : Color.DarkOrange;
-
-                    Tile tile = new Tile(this, board, tileSize, new Point(locX, locY), i, j, tileColor);
-
-                    board.Tiles[i, j] = tile;
-
-                    locX += tileSize.Width;
-                    colorToggle = !colorToggle;
-                    control.Controls.Add(tile);
-                }
-                locX = 0;
-                locY += tileSize.Height;
-            }
-        }
+       
         private void btnTest1_Click(object sender, EventArgs e)
         {
             
