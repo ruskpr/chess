@@ -29,6 +29,7 @@ namespace ChessGame
 
 
         //valid space indicator
-        public static Bitmap ValidSpaceImg = new Bitmap("assets/ValidSpace.png");
+        public static Bitmap ValidMoveImg = new Bitmap("assets/ValidSpace.png");
+        public static Bitmap ValidKillImg = new Bitmap("assets/ValidKill.png");
     }
 }

@@ -135,7 +135,7 @@ namespace ChessGame
 
             foreach (Tile tile in validMoves)
             {
-                tile.Image = MyAssets.ValidSpaceImg;
+                tile.Image = MyAssets.ValidMoveImg;
                 tile.IsAValidSpace = true;
             }
             return validMoves;
