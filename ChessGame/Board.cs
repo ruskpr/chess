@@ -39,19 +39,42 @@ namespace ChessGame
         }
         public void CalcValidMoves(Tile selectedTile)
         {
+            List<Tile> validMoves = new List<Tile>();
+
+            //clear valid move indicators on each selection
             foreach (Tile tile in Tiles)
-            {
-                BackgroundImage = null;
-            }
+                tile.Image = null;
+
+            //calculate values on type of piece that you selectedd
             switch (selectedTile.CurrentPiece)
             {
                 case Pawn:
                     if (selectedTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
                     {
-                        Tiles[selectedTile.CoordinateX-1, selectedTile.CoordinateY].BackgroundImage = MyAssets.ValidSpaceImg;
-                        Tiles[selectedTile.CoordinateX-2, selectedTile.CoordinateY].BackgroundImage = MyAssets.ValidSpaceImg;
+                        validMoves.Add(Tiles[selectedTile.CoordinateX - 1, selectedTile.CoordinateY]);
+                        validMoves.Add(Tiles[selectedTile.CoordinateX - 2, selectedTile.CoordinateY]);
+                        
                     }
-                    //else if (selectedTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                    else if (selectedTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                    {
+                        validMoves.Add(Tiles[selectedTile.CoordinateX + 1, selectedTile.CoordinateY]);
+                        validMoves.Add(Tiles[selectedTile.CoordinateX + 2, selectedTile.CoordinateY]);
+                    }
+                    break;
+                case Rook:
+
+                    break;
+                case Knight:
+
+                    break;
+                case Bishop:
+
+                    break;
+                case Queen:
+
+                    break;
+                case King:
+
                     break;
             }
         }
