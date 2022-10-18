@@ -31,19 +31,27 @@ namespace ChessGame
             AddPieces();
         }
         #endregion
-
+        #region Delegate to recieve selected tile
         private void Tile_SendTile(Tile tile)
         {
-            //MessageBox.Show(tile.ToString());
-            CalcValidMoves(tile);
+            // return a list of valid moves for whichever tile you selected
+            GetValidMoves(tile);
+
+
         }
-        public void CalcValidMoves(Tile selectedTile)
+        #endregion
+        #region Get list of valid moves
+        public List<Tile> GetValidMoves(Tile selectedTile)
         {
             List<Tile> validMoves = new List<Tile>();
 
             //clear valid move indicators on each selection
             foreach (Tile tile in Tiles)
+            {
+                tile.IsAValidSpace = false;
                 tile.Image = null;
+            }
+                
 
             //calculate values on type of piece that you selectedd
             switch (selectedTile.CurrentPiece)
@@ -51,14 +59,14 @@ namespace ChessGame
                 case Pawn:
                     if (selectedTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
                     {
-                        validMoves.Add(Tiles[selectedTile.CoordinateX - 1, selectedTile.CoordinateY]);
-                        validMoves.Add(Tiles[selectedTile.CoordinateX - 2, selectedTile.CoordinateY]);
+                        validMoves.Add(Tiles[selectedTile.CoordinateY - 1, selectedTile.CoordinateX]);
+                        validMoves.Add(Tiles[selectedTile.CoordinateY - 2, selectedTile.CoordinateX]);
                         
                     }
                     else if (selectedTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
                     {
-                        validMoves.Add(Tiles[selectedTile.CoordinateX + 1, selectedTile.CoordinateY]);
-                        validMoves.Add(Tiles[selectedTile.CoordinateX + 2, selectedTile.CoordinateY]);
+                        validMoves.Add(Tiles[selectedTile.CoordinateY + 1, selectedTile.CoordinateX]);
+                        validMoves.Add(Tiles[selectedTile.CoordinateY + 2, selectedTile.CoordinateX]);
                     }
                     break;
                 case Rook:
@@ -77,8 +85,15 @@ namespace ChessGame
 
                     break;
             }
+
+            foreach (Tile tile in validMoves)
+            {
+                tile.Image = MyAssets.ValidSpaceImg;
+                tile.IsAValidSpace = true;
+            }
+            return validMoves;
         }
-        
+        #endregion
         #region Add tiles
         public void AddTiles()
         {
@@ -88,14 +103,14 @@ namespace ChessGame
             bool colorToggle = true;
 
 
-            for (int i = 0; i < 8; i++) // column
+            for (int i = 0; i < 8; i++) // column Y
             {
                 colorToggle = !colorToggle;
-                for (int j = 0; j < 8; j++) // row
+                for (int j = 0; j < 8; j++) // row X
                 {
                     tileColor = colorToggle ? Color.MediumVioletRed : Color.DarkOrange;
 
-                    Tile tile = new Tile(this, tileSize, new Point(locX, locY), i, j, tileColor);
+                    Tile tile = new Tile(this, tileSize, new Point(locX, locY), j, i, tileColor);
 
                     Tiles[i, j] = tile;
 

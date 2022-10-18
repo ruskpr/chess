@@ -32,12 +32,12 @@ namespace ChessGame
         public int CoordinateY { get; set; }
         public Piece CurrentPiece { get; set; }
         public bool Selected { get; set; }
+        public bool IsAValidSpace { get; set; }
 
         private Color originalColor;
 
         public Tile(Board board, Size size, Point boardlocation, int arrX,int arrY, Color color)
         {
-            //mainForm = pntr;
             ParentBoard = board;
             BackgroundImageLayout = ImageLayout.Stretch;
             SizeMode = PictureBoxSizeMode.StretchImage;
@@ -50,8 +50,8 @@ namespace ChessGame
             CoordinateX = arrX;
             CoordinateY = arrY;
             Selected = false;
+            IsAValidSpace = false;
             CurrentPiece = null;
-            
 
             this.MouseDown += Tile_MouseDown;
 
@@ -59,15 +59,17 @@ namespace ChessGame
         }
         #region Mouse down event
         private void Tile_MouseDown(object? sender, MouseEventArgs e)
-        {
-            //MessageBox.Show(Coordinate[0,1].ToString());
-            
+        {            
             if (e.Button == MouseButtons.Left)
             {
-                foreach (Tile tile in ParentBoard.Tiles)
+                if (IsAValidSpace) // move piece if it is marked as a valid space
                 {
-                    tile.UnSelect();
+                    //ParentBoard.
                 }
+                
+                foreach (Tile tile in ParentBoard.Tiles)
+                    tile.UnSelect();
+
 
                 Select();
             }
