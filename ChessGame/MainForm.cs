@@ -22,7 +22,7 @@ namespace ChessGame
             this.SizeChanged += MainForm_SizeChanged;
             this.Resize += MainForm_Resize;
 
-            Tile.SendCoordinate += Tile_SendCoordinate;
+            Tile.SendSelection += Tile_SendCoordinate;
 
             
             Format.Center(pnlBoard);
@@ -33,16 +33,35 @@ namespace ChessGame
 
         private void Tile_SendCoordinate(Tile tile)
         {
-            lbTest.Text = tile.GetCoordinates();
+            lbTest1.Text = tile.GetCoordinates();
         }
 
         private void ConstructBoard()
+        {
+            AddTiles();
+            AddPieces();
+        }
+
+        private void AddPieces()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    //if(i == 1 || i == 6)
+                        //Tile.Tiles[i, j].Piece = i == 1 ? Tile.ContainingPiece = Tile.ContainingPiece.Pawn :
+
+                }
+            }
+        }
+
+        void AddTiles()
         {
             int locX = 0;
             int locY = 0;
             Color tileColor;
             bool colorToggle = true;
-            
+
 
             for (int i = 0; i < 8; i++) // column
             {
@@ -52,7 +71,7 @@ namespace ChessGame
                     tileColor = colorToggle ? Color.MediumVioletRed : Color.DarkOrange;
 
                     Tile tile = new Tile(this, tileSize, new Point(locX, locY), i, j, tileColor);
-                    
+
                     Tile.Tiles[i, j] = tile;
 
                     locX += tileSize.Width;
@@ -64,7 +83,6 @@ namespace ChessGame
                 pnlBoard.BackColor = Color.White;
             }
         }
-
         private void MainForm_SizeChanged(object? sender, EventArgs e)
         {
             ResponsiveFormat();

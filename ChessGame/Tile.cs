@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace ChessGame
 {
-    public delegate void SendCoordinateDelegate(Tile tile);
+    public delegate void SendSelectionDelegate(Tile tile);
     
     public class Tile : PictureBox
     {
-
-        public static event SendCoordinateDelegate SendCoordinate;
-        public enum ContainingPiece
-        {
-            None,
-            Pawn,
-            Rook,
-            Bishop,
-            Queen,
-            King
-        }
+        public static event SendSelectionDelegate SendSelection;
+        //public enum ContainingPiece
+        //{
+        //    None,
+        //    Pawn,
+        //    Rook,
+        //    Bishop,
+        //    Queen,
+        //    King
+        //}
+        
 
         static Form mainForm;
 
@@ -29,7 +29,7 @@ namespace ChessGame
 
         public int CoordinateX { get; set; }
         public int CoordinateY { get; set; }
-        public ContainingPiece Piece { get; set; }
+        public Piece ContainingPiece { get; set; }
         public bool Selected { get; set; }
 
         private Color originalColor;
@@ -47,7 +47,7 @@ namespace ChessGame
             CoordinateX = arrX;
             CoordinateY = arrY;
             Selected = false;
-            Piece = ContainingPiece.None;
+            ContainingPiece = null;
             this.MouseDown += Tile_MouseDown;
 
             pntr.Controls.Add(this);
@@ -74,7 +74,7 @@ namespace ChessGame
 
         public void Select()
         {
-            SendCoordinate?.Invoke(this);
+            SendSelection?.Invoke(this);
             Selected = true;
             BackColor = Color.Teal;
         }
