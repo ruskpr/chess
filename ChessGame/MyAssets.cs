@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,5 +32,8 @@ namespace ChessGame
         //valid space indicator
         public static Bitmap ValidMoveImg = new Bitmap("assets/ValidSpace.png");
         public static Bitmap ValidKillImg = new Bitmap("assets/ValidKill.png");
+
+        public static SoundPlayer sp = new SoundPlayer("assets/sounds/levelup2.wav");
+
     }
 }

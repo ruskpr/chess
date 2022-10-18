@@ -88,15 +88,12 @@ namespace ChessGame
         {
             SendSelectedTile?.Invoke(this);
             Selected = true;
-            //BackColor = Color.Teal;
-            BorderStyle = BorderStyle.Fixed3D;
+            BackColor = Color.Teal;
         }
         void UnSelect()
         {
             Selected = false;
-            //BackColor = originalColor;
-            BorderStyle = BorderStyle.None;
-
+            BackColor = originalColor;
         }
         #endregion
         #region Create piece

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ namespace ChessGame
 {
     public class Board : Panel
     {
+
+
         #region Fields
         // 2d array of tiles
         public Tile[,] Tiles = new Tile[8, 8];
@@ -42,12 +45,12 @@ namespace ChessGame
         private void Tile_SendSelectedTile(Tile tile) //recieve selected tile
         {
             SelectedTile = tile;
+            //display valid moves for selected tile
             GetValidMoves(SelectedTile);
-
-
         }
         private void Tile_SendTargetTile(Tile tile) // recieve target tile (the tile the user clicks to move their piece
         {
+            
             MovePiece(SelectedTile, tile);
             tile.CurrentPiece.CompletedFirstMove = true;
         }
@@ -64,7 +67,6 @@ namespace ChessGame
 
             //remove oldtile
             oldPosition.RemovePiece();
-
         }
         #endregion
         #region Get list of valid moves
@@ -79,7 +81,6 @@ namespace ChessGame
                 tile.Image = null;
             }
                 
-
             //calculate values on type of piece that you selectedd
             switch (selTile.CurrentPiece)
             {
@@ -97,15 +98,21 @@ namespace ChessGame
                             if (Tiles[selTile.CoordinateY - 1, selTile.CoordinateX].CurrentPiece == null)
                                 validMoves.Add(Tiles[selTile.CoordinateY - 1, selTile.CoordinateX]);
 
-                            try
+                            try // try catch to ignore out of board index
                             {
-                                // if there is a tile diagnal to pawn, allow them to kill
-                                if (Tiles[selTile.CoordinateY - 1, selTile.CoordinateX - 1].CurrentPiece is Piece ||
-                                    Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1].CurrentPiece is Piece)
-                                {
+                                // if there is a enemy peice AND they are left diagnal of pawn, allow them to kill
+                                if (Tiles[selTile.CoordinateY - 1, selTile.CoordinateX - 1].CurrentPiece is Piece &&
+                                    Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
                                     validMoves.Add(Tiles[selTile.CoordinateY - 1, selTile.CoordinateX - 1]);
+
+                            }
+                            catch { }
+                            try// try catch to ignore out of board index
+                            {
+                                // enemy at right diagnal -> valid kill
+                                if (Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1].CurrentPiece is Piece &&
+                                    Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
                                     validMoves.Add(Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1]);
-                                }
                             }
                             catch { }
                         }
@@ -135,7 +142,11 @@ namespace ChessGame
 
             foreach (Tile tile in validMoves)
             {
-                tile.Image = MyAssets.ValidMoveImg;
+                if (tile.CurrentPiece != null)
+                    tile.Image = MyAssets.ValidKillImg;
+                else
+                    tile.Image = MyAssets.ValidMoveImg;
+
                 tile.IsAValidSpace = true;
             }
             return validMoves;
