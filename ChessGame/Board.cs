@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace ChessGame
 {
+
+    public delegate void PieceMovedDelegate(Tile tileStart, Tile tileEnd);
     public class Board : Panel
     {
-
-
+        #region Delegates
+        public event PieceMovedDelegate PieceMoved;
+        #endregion
         #region Fields
         // 2d array of tiles
         public Tile[,] Tiles = new Tile[8, 8];
@@ -56,20 +59,22 @@ namespace ChessGame
         }
         #endregion
         #region Move Piece
-        public void MovePiece(Tile oldPosition, Tile NewPostion)
+        public void MovePiece(Tile oldTile, Tile newTile)
         {
-            NewPostion.CurrentPiece = oldPosition.CurrentPiece;
+            newTile.CurrentPiece = oldTile.CurrentPiece;
 
             //update new tile
-            //NewPostion.Image = oldPosition.Image;
-            NewPostion.BackgroundImage = oldPosition.BackgroundImage;
-            oldPosition.BackgroundImage = null;
+            newTile.BackgroundImage = oldTile.BackgroundImage;
+            oldTile.BackgroundImage = null;
 
             //remove oldtile
-            oldPosition.RemovePiece();
+            oldTile.RemovePiece();
+
+            //send delegate 
+            PieceMoved.Invoke(oldTile, newTile);
         }
         #endregion
-        #region Get list of valid moves
+        #region Get valid moves
         public List<Tile> GetValidMoves(Tile selTile)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -85,7 +90,7 @@ namespace ChessGame
             switch (selTile.CurrentPiece)
             {
                 case Pawn:
-                    if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                    if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
                     {
                         // allow pawn to move 2 spaces on its first move
                         if (selTile.CurrentPiece.CompletedFirstMove == false)
@@ -105,22 +110,50 @@ namespace ChessGame
                                     Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
                                     validMoves.Add(Tiles[selTile.CoordinateY - 1, selTile.CoordinateX - 1]);
 
-                            }
-                            catch { }
-                            try// try catch to ignore out of board index
+                            } catch { } // ignore exception 
+
+                            try // try catch to ignore out of board index
                             {
                                 // enemy at right diagnal -> valid kill
                                 if (Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1].CurrentPiece is Piece &&
                                     Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
                                     validMoves.Add(Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1]);
-                            }
-                            catch { }
+
+                            } catch { } // ignore exception 
                         }
                     }
-                    else if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                    else if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
                     {
-                        validMoves.Add(Tiles[selTile.CoordinateY + 1, selTile.CoordinateX]);
-                        validMoves.Add(Tiles[selTile.CoordinateY + 2, selTile.CoordinateX]);
+                        // allow pawn to move 2 spaces on its first move
+                        if (selTile.CurrentPiece.CompletedFirstMove == false)
+                            validMoves.Add(Tiles[selTile.CoordinateY + 2, selTile.CoordinateX]);
+
+                        // error check to not allow spaces outside of board index
+                        if (selTile.CoordinateY < 7)
+                        {
+                            // 1 space forward (only allows move if no pieces infront
+                            if (Tiles[selTile.CoordinateY + 1, selTile.CoordinateX].CurrentPiece == null)
+                                validMoves.Add(Tiles[selTile.CoordinateY + 1, selTile.CoordinateX]);
+
+                            try // try catch to ignore out of board index
+                            {
+                                // if there is a enemy piece AND they are left diagnal of pawn, allow them to kill
+                                if (Tiles[selTile.CoordinateY + 1, selTile.CoordinateX + 1].CurrentPiece is Piece &&
+                                    Tiles[selTile.CoordinateY + 1, selTile.CoordinateX + 1].CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                                    validMoves.Add(Tiles[selTile.CoordinateY + 1, selTile.CoordinateX + 1]);
+
+                            }
+                            catch { } // ignore exception 
+
+                            try // try catch to ignore out of board index
+                            {
+                                // enemy at right diagnal -> valid kill
+                                if (Tiles[selTile.CoordinateY + 1, selTile.CoordinateX - 1].CurrentPiece is Piece &&
+                                    Tiles[selTile.CoordinateY + 1, selTile.CoordinateX - 1].CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                                    validMoves.Add(Tiles[selTile.CoordinateY + 1, selTile.CoordinateX - 1]);
+                            }
+                            catch { } // ignore exception 
+                        }
                     }
                     break;
                 case Rook:
