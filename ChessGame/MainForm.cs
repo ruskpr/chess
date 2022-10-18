@@ -33,7 +33,7 @@ namespace ChessGame
 
         private void Tile_SendCoordinate(Tile tile)
         {
-            lbTest1.Text = tile.GetCoordinates();
+            lbTest1.Text = tile.ToString();
         }
 
         private void ConstructBoard()
@@ -50,7 +50,8 @@ namespace ChessGame
                 {
                     if (i == 1)
                         Tile.Tiles[i, j].CreatePiece("pawn", 2);
-
+                    if (i == 6)
+                        Tile.Tiles[i, j].CreatePiece("pawn", 1);
                 }
             }
         }

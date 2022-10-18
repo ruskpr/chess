@@ -9,15 +9,16 @@ namespace ChessGame
 {
     public class Pawn : Piece
     {
+        public Player CurrentPlayer { get; set; }
         public Pawn(Player player, Tile tile) : base(player, tile)
         {
-
+            CurrentPlayer = player;
             this.Image = player == Player.PlayerOne ? MyAssets.W_PawnImg : MyAssets.B_PawnImg;
         }
 
         public override string ToString()
         {
-            return "Pawn";
+            return $"{CurrentPlayer.ToString()}'s Pawn";
         }
     }
 }

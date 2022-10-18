@@ -68,9 +68,9 @@ namespace ChessGame
 
                 if (CurrentPiece != null)
                 {
-                    Select();
+                    
                 }
-                
+                Select();
             }
 
             //if (e.Button == MouseButtons.Right)
@@ -90,11 +90,6 @@ namespace ChessGame
             BackColor = originalColor;
         }
 
-        public string GetCoordinates()
-        {
-            return $"{CoordinateX}, {CoordinateY}";
-
-        }
 
         public void CreatePiece(string piecename, int player)
         {
@@ -111,6 +106,17 @@ namespace ChessGame
                 }
             }
             
+        }
+
+        public override string ToString()
+        {
+            if (CurrentPiece == null)
+            {
+                return $"Empty tile at {CoordinateX}, {CoordinateY}";
+            }
+            else
+                return $"{CurrentPiece.ToString()} at {CoordinateX}, {CoordinateY}";
+
         }
     }
 }
