@@ -8,6 +8,7 @@ namespace ChessGame
 {
     public delegate void SendTileDelegate(Tile tile);
     public delegate void CreateTestPieceDelegate(Tile tile);
+
     public class Tile : PictureBox
     {
         public static event SendTileDelegate SendSelectedTile;
@@ -87,12 +88,15 @@ namespace ChessGame
         {
             SendSelectedTile?.Invoke(this);
             Selected = true;
-            BackColor = Color.Teal;
+            //BackColor = Color.Teal;
+            BorderStyle = BorderStyle.Fixed3D;
         }
         void UnSelect()
         {
             Selected = false;
-            BackColor = originalColor;
+            //BackColor = originalColor;
+            BorderStyle = BorderStyle.None;
+
         }
         #endregion
         #region Create piece
