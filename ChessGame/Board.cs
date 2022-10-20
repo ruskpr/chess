@@ -66,7 +66,7 @@ namespace ChessGame
         public void MovePiece(Tile oldTile, Tile newTile)
         {
             newTile.CurrentPiece = oldTile.CurrentPiece;
-
+            newTile.CurrentPiece.CurrentTile = oldTile.CurrentPiece.CurrentTile;
             //update new tile
             newTile.BackgroundImage = oldTile.BackgroundImage;
             oldTile.BackgroundImage = null;
@@ -83,6 +83,7 @@ namespace ChessGame
         {
             List<Tile> validMoves = new List<Tile>();
 
+            
             //clear valid move indicators on each selection
             foreach (Tile tile in Tiles)
             {
@@ -95,6 +96,9 @@ namespace ChessGame
             {
                 #region Pawn movement
                 case Pawn:
+                    Piece pawn = ((Piece)selTile.CurrentPiece).;
+                    
+
                     if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
                     {
                         // allow pawn to move 2 spaces on its first move

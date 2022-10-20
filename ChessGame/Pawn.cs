@@ -14,5 +14,10 @@ namespace ChessGame
             this.Image = player == Player.Player_One ? MyAssets.W_PawnImg : MyAssets.B_PawnImg;
             CompletedFirstMove = false;
         }        
+
+        public void MoveForward()
+        {
+
+        }
     }
 }
