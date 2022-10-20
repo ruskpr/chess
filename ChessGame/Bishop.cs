@@ -12,9 +12,10 @@ namespace ChessGame
         {
             this.Image = player == Player.Player_One ? MyAssets.W_BishopImg : MyAssets.B_BishopImg;
         }
-        public override void GetValidMoves(Tile tile)
+
+        public override List<Tile> GetValidMoves(Board board, Tile selTile)
         {
-            MessageBox.Show("Test" + this.ToString());
+            throw new NotImplementedException();
         }
     }
 }

@@ -30,7 +30,7 @@ namespace ChessGame
 
         }
         #region Calc valid moves
-        public abstract void GetValidMoves(Tile tile);
+        public abstract List<Tile> GetValidMoves(Board board, Tile selTile);
 
         #endregion
 
