@@ -112,7 +112,7 @@ namespace ChessGame
                             {
                                 // if there is a enemy peice AND they are left diagnal of pawn, allow them to kill
                                 if (Tiles[selTile.CoordinateY - 1, selTile.CoordinateX - 1].CurrentPiece is Piece &&
-                                    Tiles[selTile.CoordinateY - 1, selTile.CoordinateX + 1].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                                    Tiles[selTile.CoordinateY - 1, selTile.CoordinateX - 1].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
                                     validMoves.Add(Tiles[selTile.CoordinateY - 1, selTile.CoordinateX - 1]);
 
                             } catch { } // ignore exception 
@@ -162,14 +162,17 @@ namespace ChessGame
                     }
                     break;
                 #endregion
+                #region Rook movement
                 case Rook:
 
                     int currentX = selTile.CoordinateX;
                     int currentY = selTile.CoordinateY;
 
+
+                    //player 1
                     if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
                     {
-                    // UP and DONW movement
+                    // UP and DOWN movement
                         for (int i = currentY; i >= 0; i--) //cast movement upward
                         {
                             if (selTile.CoordinateY != i )
@@ -253,20 +256,99 @@ namespace ChessGame
                                 validMoves.Add(Tiles[currentY, i]); // add valid move if there is empty tile
                             }
                         }
-                    } 
+                    }
+                    //////////////////////
+                    //player 2
+                    if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+                    {
+                        // UP and DOWN movement
+                        for (int i = currentY; i >= 0; i--) //cast movement upward
+                        {
+                            if (selTile.CoordinateY != i)
+                            {
+                                if (Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                                {
+                                    if (Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                                    {
+                                        break;
+                                    }
+                                    if (Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                                    {
+                                        validMoves.Add(Tiles[i, currentX]);
+                                        break;
+                                    }
+                                }
 
+                                validMoves.Add(Tiles[i, currentX]);
+                            }
+                        }
+                        for (int i = currentY; i <= 7; i++) //cast movement downward
+                        {
+                            if (selTile.CoordinateY != i) // skip add the valid location on same position of selected rook
+                            {
+                                if (Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                                {
+                                    if (Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                                    {
+                                        break; // break out of loop
+                                    }
+                                    if (Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                                    {
+                                        validMoves.Add(Tiles[i, currentX]); // mark tile as valid
+                                        break; // break out of loop
+                                    }
+                                }
 
+                                validMoves.Add(Tiles[i, currentX]); // add valid move if there is empty tile
+                            }
 
-                    //validMoves.Add(Tiles[currentY - 2, currentX]);
-                    //validMoves.Add(Tiles[currentY - 3, currentX]);
-                    //validMoves.Add(Tiles[currentY - 4, currentX]);
-                    //validMoves.Add(Tiles[currentY - 5, currentX]);
+                        }
 
+                        // LEFT and RIGHT movement
+                        for (int i = currentX; i >= 0; i--) //cast movement left
+                        {
+                            if (selTile.CoordinateX != i) // skip add the valid location on same position of selected rook
+                            {
+                                if (Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                                {
+                                    if (Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                                    {
+                                        break; // break out of loop
+                                    }
+                                    if (Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                                    {
+                                        validMoves.Add(Tiles[currentY, i]); // mark tile as valid
+                                        break; // break out of loop
+                                    }
+                                }
 
-                    //cast movement downward
+                                validMoves.Add(Tiles[currentY, i]); // add valid move if there is empty tile
+                            }
+                        }
+                        for (int i = currentX; i <= 7; i++) //cast movement right
+                        {
+                            if (selTile.CoordinateX != i) // skip add the valid location on same position of selected rook
+                            {
+                                if (Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                                {
+                                    if (Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                                    {
+                                        break; // break out of loop
+                                    }
+                                    if (Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                                    {
+                                        validMoves.Add(Tiles[currentY, i]); // mark tile as valid
+                                        break; // break out of loop
+                                    }
+                                }
 
+                                validMoves.Add(Tiles[currentY, i]); // add valid move if there is empty tile
+                            }
+                        }
+                    }
 
                     break;
+                #endregion
                 case Knight:
 
                     break;
