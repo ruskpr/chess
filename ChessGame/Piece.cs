@@ -13,7 +13,6 @@ namespace ChessGame
         public bool CompletedFirstMove { get; set; }
         public Bitmap Image { get; set; }
         public Player CurrentPlayer { get; set; }
-
         public Tile CurrentTile { get; set; }
         public enum Player
         {

@@ -11,12 +11,16 @@ namespace ChessGame
     public delegate void PieceMovedDelegate(Tile tileStart, Tile tileEnd);
     public class Board : Panel
     {
-        #region Delegates
+        #region Delegate definition
+        //event is called on main form constructor
         public event PieceMovedDelegate PieceMoved;
         #endregion
         #region Fields
         // 2d array of tiles
         public Tile[,] Tiles = new Tile[8, 8];
+
+        //size of the tiles (initialized in Board class constructor
+        // used in AddTiles() method
         Size tileSize;
         #endregion
         #region Properties
@@ -58,7 +62,7 @@ namespace ChessGame
             tile.CurrentPiece.CompletedFirstMove = true;
         }
         #endregion
-        #region Move Piece
+        #region Move Piece method
         public void MovePiece(Tile oldTile, Tile newTile)
         {
             newTile.CurrentPiece = oldTile.CurrentPiece;
@@ -74,7 +78,7 @@ namespace ChessGame
             PieceMoved.Invoke(oldTile, newTile);
         }
         #endregion
-        #region Get valid moves
+        #region Get valid moves method
         public List<Tile> GetValidMoves(Tile selTile)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -85,10 +89,11 @@ namespace ChessGame
                 tile.IsAValidSpace = false;
                 tile.Image = null;
             }
-                
+             
             //calculate values on type of piece that you selectedd
             switch (selTile.CurrentPiece)
             {
+                #region Pawn movement
                 case Pawn:
                     if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
                     {
@@ -156,7 +161,110 @@ namespace ChessGame
                         }
                     }
                     break;
+                #endregion
                 case Rook:
+
+                    int currentX = selTile.CoordinateX;
+                    int currentY = selTile.CoordinateY;
+
+                    if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+                    {
+                    // UP and DONW movement
+                        for (int i = currentY; i >= 0; i--) //cast movement upward
+                        {
+                            if (selTile.CoordinateY != i )
+                            {
+                                if (Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                                {
+                                    if (Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                                    {
+                                        break;
+                                    }
+                                    if (Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                                    {
+                                        validMoves.Add(Tiles[i, currentX]);
+                                        break;
+                                    }
+                                }
+
+                                validMoves.Add(Tiles[i, currentX]);
+                            }
+                        }
+                        for (int i = currentY; i <= 7; i++) //cast movement downward
+                        {
+                            if (selTile.CoordinateY != i) // skip add the valid location on same position of selected rook
+                            {
+                                if (Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                                {
+                                    if (Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                                    {
+                                        break; // break out of loop
+                                    }
+                                    if (Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                                    {
+                                        validMoves.Add(Tiles[i, currentX]); // mark tile as valid
+                                        break; // break out of loop
+                                    }
+                                }
+
+                                validMoves.Add(Tiles[i, currentX]); // add valid move if there is empty tile
+                            }
+
+                        }
+
+                        // LEFT and RIGHT movement
+                        for (int i = currentX; i >= 0; i--) //cast movement left
+                        {
+                            if (selTile.CoordinateX != i) // skip add the valid location on same position of selected rook
+                            {
+                                if (Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                                {
+                                    if (Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                                    {
+                                        break; // break out of loop
+                                    }
+                                    if (Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                                    {
+                                        validMoves.Add(Tiles[currentY, i]); // mark tile as valid
+                                        break; // break out of loop
+                                    }
+                                }
+
+                                validMoves.Add(Tiles[currentY, i]); // add valid move if there is empty tile
+                            }
+                        }
+                        for (int i = currentX; i <= 7; i++) //cast movement right
+                        {
+                            if (selTile.CoordinateX != i) // skip add the valid location on same position of selected rook
+                            {
+                                if (Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                                {
+                                    if (Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                                    {
+                                        break; // break out of loop
+                                    }
+                                    if (Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                                    {
+                                        validMoves.Add(Tiles[currentY, i]); // mark tile as valid
+                                        break; // break out of loop
+                                    }
+                                }
+
+                                validMoves.Add(Tiles[currentY, i]); // add valid move if there is empty tile
+                            }
+                        }
+                    } 
+
+
+
+                    //validMoves.Add(Tiles[currentY - 2, currentX]);
+                    //validMoves.Add(Tiles[currentY - 3, currentX]);
+                    //validMoves.Add(Tiles[currentY - 4, currentX]);
+                    //validMoves.Add(Tiles[currentY - 5, currentX]);
+
+
+                    //cast movement downward
+
 
                     break;
                 case Knight:
@@ -185,7 +293,7 @@ namespace ChessGame
             return validMoves;
         }
         #endregion
-        #region Add tiles
+        #region Add tiles method
         public void AddTiles()
         {
             int locX = 0;
@@ -215,7 +323,7 @@ namespace ChessGame
             }
         }
         #endregion
-        #region Add pieces
+        #region Add pieces method
         public void AddPieces()
         {
             //loop through each tile in 2d array (player 1 is white, player 2 is black)
@@ -265,8 +373,7 @@ namespace ChessGame
                 }
             }
         }
-        #endregion
-        
+        #endregion  
         #region Overrided ToString() method
         public override string ToString()
         {
