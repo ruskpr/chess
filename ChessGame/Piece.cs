@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ChessGame
 {
-    abstract class Piece
+    public abstract class Piece
     {
         public static List<Piece> pieceList = new List<Piece>();
 
@@ -30,10 +30,8 @@ namespace ChessGame
 
         }
         #region Calc valid moves
-        public virtual void CalcValidMoves()
-        {
+        public abstract void GetValidMoves(Tile tile);
 
-        }
         #endregion
 
         public override string ToString()

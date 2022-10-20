@@ -13,5 +13,9 @@ namespace ChessGame
         {
             this.Image = player == Player.Player_One ? MyAssets.W_KingImg : MyAssets.B_KingImg;
         }
+        public override void GetValidMoves(Tile tile)
+        {
+            MessageBox.Show("Test" + this.ToString());
+        }
     }
 }

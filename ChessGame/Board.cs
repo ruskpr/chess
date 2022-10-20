@@ -90,14 +90,15 @@ namespace ChessGame
                 tile.IsAValidSpace = false;
                 tile.Image = null;
             }
-             
+
+            Piece piece = selTile.CurrentPiece;
+
             //calculate values on type of piece that you selectedd
             switch (selTile.CurrentPiece)
             {
                 #region Pawn movement
                 case Pawn:
-                    Piece pawn = ((Piece)selTile.CurrentPiece).;
-                    
+                    piece.GetValidMoves(selTile);
 
                     if (selTile.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
                     {
