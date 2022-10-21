@@ -11,33 +11,23 @@ namespace ChessGame
 
     public class Tile : PictureBox
     {
+        #region Delegate Events
         public static event SendTileDelegate SendSelectedTile;
         public static event SendTileDelegate SendTargetTile;
         public static event CreateTestPieceDelegate CreateTestPiece;
-        //public enum ContainingPiece
-        //{
-        //    None,
-        //    Pawn,
-        //    Rook,
-        //    Bishop,
-        //    Queen,
-        //    King
-        //}
-        
-
-        static Form mainForm;
-
-
-
+        #endregion
+        #region Properties
         public Board ParentBoard { get; set; }
         public int CoordinateX { get; set; }
         public int CoordinateY { get; set; }
         public Piece CurrentPiece { get; set; }
         public bool Selected { get; set; }
         public bool IsAValidSpace { get; set; }
-
+        #endregion
+        #region Fields
         private Color originalColor;
-
+        #endregion
+        #region Constructor
         public Tile(Board board, Size size, Point boardlocation, int arrX,int arrY, Color color)
         {
             ParentBoard = board;
@@ -59,12 +49,13 @@ namespace ChessGame
 
             board.Controls.Add(this);
         }
+        #endregion
         #region Mouse down event
         private void Tile_MouseDown(object? sender, MouseEventArgs e)
         {            
             if (e.Button == MouseButtons.Left)
             {
-                foreach (Tile tile in ParentBoard.Tiles)
+                foreach (Tile tile in ParentBoard.Tiles) // reset all tiles to original color when new tile is clicked
                     tile.UnSelect();
 
                 if (IsAValidSpace) // move piece if it is marked as a valid space
@@ -72,23 +63,14 @@ namespace ChessGame
 
                 Select();
             }
-
-            if (TestForm.TestingMode == true)
-                if (e.Button == MouseButtons.Right)
-                {
-                    Select();
-                    CreateTestPiece.Invoke(this);
-                }
-                    
-
         }
         #endregion
         #region Select / Unselect methods
-        public void Select()
+        public new void Select()
         {
             SendSelectedTile?.Invoke(this);
             Selected = true;
-            BackColor = Color.Teal;
+            BackColor = GameManager.SelectionColor;
         }
         void UnSelect()
         {
@@ -136,16 +118,10 @@ namespace ChessGame
         }
         #endregion
         #region Tostring override
-        public override string ToString()
-        {
-            if (CurrentPiece == null)
-            {
-                return $"Empty tile at {CoordinateX}, {CoordinateY}";
-            }
-            else
-                return $"{CurrentPiece.ToString()} at {CoordinateX}, {CoordinateY}";
-
-        }
+        public override string ToString() =>
+            CurrentPiece == null ? 
+            $"Empty tile at {CoordinateX}, {CoordinateY}" :
+            $"{CurrentPiece.ToString()} at {CoordinateX}, {CoordinateY}";
         #endregion
     }
 }

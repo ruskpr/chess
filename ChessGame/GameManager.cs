@@ -10,5 +10,9 @@ namespace ChessGame
     {
         public enum PlayerTurn { p1, p2};
         public static PlayerTurn Turn = GameManager.PlayerTurn.p1;
+
+        public static Color TileColorA = Color.LightSlateGray;
+        public static Color TileColorB = Color.White;
+        public static Color SelectionColor = Color.Pink;
     }
 }

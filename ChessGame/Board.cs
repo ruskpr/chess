@@ -149,7 +149,7 @@ namespace ChessGame
                 colorToggle = !colorToggle;
                 for (int j = 0; j < 8; j++) // row X
                 {
-                    tileColor = colorToggle ? Color.MediumVioletRed : Color.DarkOrange;
+                    tileColor = colorToggle ? GameManager.TileColorA : GameManager.TileColorB;
 
                     Tile tile = new Tile(this, tileSize, new Point(locX, locY), j, i, tileColor);
 
@@ -217,10 +217,7 @@ namespace ChessGame
         }
         #endregion  
         #region Overrided ToString() method
-        public override string ToString()
-        {
-            return "Chessboard";
-        }
+        public override string ToString() => "Chessboard";
         #endregion
     }
 }
