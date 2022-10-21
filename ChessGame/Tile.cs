@@ -121,7 +121,7 @@ namespace ChessGame
         public override string ToString() =>
             CurrentPiece == null ? 
             $"Empty tile at {CoordinateX}, {CoordinateY}" :
-            $"{CurrentPiece.ToString()} at {CoordinateX}, {CoordinateY}";
+            $"{CurrentPiece} at {CoordinateX}, {CoordinateY}";
         #endregion
     }
 }

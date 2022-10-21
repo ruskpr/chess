@@ -15,8 +15,6 @@ namespace ChessGame
             //control.Width = parent.Height - 50;
             control.Left = parent.Width / 2 - (control.Width / 2);
             control.Top = parent.Height / 2 - (control.Height / 2);
-
-
         }
         public static void CenterWithoutSizeChange(Control control)
         {

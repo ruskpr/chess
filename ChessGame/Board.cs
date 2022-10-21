@@ -48,7 +48,7 @@ namespace ChessGame
             AddPieces();
         }
         #endregion
-        #region Delegate to recieve tiles
+        #region Delegate to send and recieve tiles
         private void Tile_SendSelectedTile(Tile tile) //recieve selected tile
         {
             SelectedTile = tile;
@@ -83,7 +83,6 @@ namespace ChessGame
         {
             List<Tile> validMoves = new List<Tile>();
 
-            
             //clear valid move indicators on each selection
             foreach (Tile tile in Tiles)
             {
@@ -96,39 +95,32 @@ namespace ChessGame
             //calculate values on type of piece that you selected
             switch (selTile.CurrentPiece)
             {
-                #region Pawn movement
                 case Pawn:
                     validMoves = piece.GetValidMoves(this, selTile);                
                     break;
-                #endregion
-                #region Rook movement
                 case Rook:
                     validMoves = piece.GetValidMoves(this, selTile);
-
-                    
-
                     break;
-                #endregion
                 case Knight:
-
+                    validMoves = piece.GetValidMoves(this, selTile);
                     break;
                 case Bishop:
-
+                    validMoves = piece.GetValidMoves(this, selTile);
                     break;
                 case Queen:
-
+                    validMoves = piece.GetValidMoves(this, selTile);
                     break;
                 case King:
-
+                    validMoves = piece.GetValidMoves(this, selTile);
                     break;
             }
 
-            foreach (Tile tile in validMoves)
+            foreach (Tile tile in validMoves) 
             {
                 if (tile.CurrentPiece != null)
-                    tile.Image = MyAssets.ValidKillImg;
+                    tile.Image = MyAssets.ValidKillImg; // if valid space contains enemy, display kill indicator
                 else
-                    tile.Image = MyAssets.ValidMoveImg;
+                    tile.Image = MyAssets.ValidMoveImg; // if valid space is open open space display indicator
 
                 tile.IsAValidSpace = true;
             }
