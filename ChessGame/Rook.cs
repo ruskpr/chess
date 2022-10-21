@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static ChessGame.Piece;
-
-namespace ChessGame
+﻿namespace ChessGame
 {
     public class Rook : Piece
     {
@@ -14,14 +7,14 @@ namespace ChessGame
             this.Image = player == Player.Player_One ? MyAssets.W_RookImg : MyAssets.B_RookImg;
         #endregion
         #region Public Methods
-        public override List<Tile> GetValidMoves(Board board, Tile selTile)
+        public override List<Tile> GetValidMoves(Board board, Tile selectedTile)
         {
             List<Tile> validMoves = new List<Tile>();
 
-            validMoves.AddRange(CastForwardMovement(board,selTile));
-            validMoves.AddRange(CastBackwardMovement(board, selTile));
-            validMoves.AddRange(CastLeftMovement(board, selTile));
-            validMoves.AddRange(CastRightMovement(board, selTile));
+            validMoves.AddRange(CastForwardMovement(board,selectedTile));
+            validMoves.AddRange(CastBackwardMovement(board, selectedTile));
+            validMoves.AddRange(CastLeftMovement(board, selectedTile));
+            validMoves.AddRange(CastRightMovement(board, selectedTile));
 
             return validMoves;
         }

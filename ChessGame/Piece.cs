@@ -8,35 +8,33 @@ namespace ChessGame
 {
     public abstract class Piece
     {
+        #region Fields
         public static List<Piece> pieceList = new List<Piece>();
 
+        public enum Player
+        {
+            Player_One,
+            Player_Two
+        }
+        #endregion
+        #region Properties
         public bool CompletedFirstMove { get; set; }
         public Bitmap Image { get; set; }
         public Player CurrentPlayer { get; set; }
         public Tile CurrentTile { get; set; }
-        public enum Player
-        {
-            None,
-            Player_One,
-            Player_Two
-        }
-
+        #endregion
+        #region Constructor
         public Piece(Player player, Tile tile)
         {
             CurrentPlayer = player;
             CurrentTile = tile;
             this.Image = null;
             pieceList.Add(this);
-
         }
-        #region Calc valid moves
-        public abstract List<Tile> GetValidMoves(Board board, Tile selTile);
-
         #endregion
-
-        public override string ToString()
-        {
-            return $"{CurrentPlayer.ToString().Replace("_"," ")}'s {GetType().Name}";
-        }
+        #region Methods
+        public abstract List<Tile> GetValidMoves(Board board, Tile selTile);
+        public override string ToString() => $"{CurrentPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";
+        #endregion
     }
 }
