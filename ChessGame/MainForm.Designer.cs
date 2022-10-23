@@ -29,22 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.button1 = new System.Windows.Forms.Button();
             this.lbTest1 = new System.Windows.Forms.Label();
             this.lbTest2 = new System.Windows.Forms.Label();
             this.lbTest3 = new System.Windows.Forms.Label();
             this.lbTest4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(108, 68);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // lbTest1
             // 
@@ -100,7 +89,6 @@
             this.Controls.Add(this.lbTest3);
             this.Controls.Add(this.lbTest2);
             this.Controls.Add(this.lbTest1);
-            this.Controls.Add(this.button1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -112,7 +100,6 @@
         }
 
         #endregion
-        private Button button1;
         private Label lbTest1;
         private Label lbTest2;
         private Label lbTest3;

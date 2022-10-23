@@ -22,7 +22,9 @@ namespace ChessGame
             this.MinimumSize = new Size(1100, 800);
             this.SizeChanged += MainForm_SizeChanged;
             this.Resize += MainForm_Resize;
-            lbTest2.Text = $"Turn: {GameManager.Turn}";
+
+            lbTest2.Text = GameManager.Turn == GameManager.PlayerTurn.p1 ?
+                $"TURN: Player 1" : $"TURN: Player 2";
 
             Tile.SendSelectedTile += Tile_SendCoordinate;
             
@@ -43,7 +45,8 @@ namespace ChessGame
             else
                 GameManager.Turn = GameManager.PlayerTurn.p1;
 
-            lbTest2.Text = $"Turn: {GameManager.Turn}";
+            lbTest2.Text = GameManager.Turn == GameManager.PlayerTurn.p1 ?
+                $"TURN: Player 1" : $"TURN: Player 2";
 
             var movedpeice = tileEnd.CurrentPiece;
             lbTest4.Text = $"{movedpeice} moved from" + " " +
@@ -57,11 +60,7 @@ namespace ChessGame
         private void MainForm_Resize(object? sender, EventArgs e) => ResponsiveFormat();
         #endregion
         #region Button clicks
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            TestForm testFrm = new TestForm();
-            testFrm.Show();
-        }
+
         #endregion
     }
 }
