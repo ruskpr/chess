@@ -56,8 +56,7 @@ namespace ChessGame
             GetValidMoves(SelectedTile);
         }
         private void Tile_SendTargetTile(Tile tile) // recieve target tile (the tile the user clicks to move their piece
-        {
-            
+        {  
             MovePiece(SelectedTile, tile);
             tile.CurrentPiece.CompletedFirstMove = true;
         }
