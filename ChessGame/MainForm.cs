@@ -44,6 +44,11 @@ namespace ChessGame
                 GameManager.Turn = GameManager.PlayerTurn.p1;
 
             lbTest2.Text = $"Turn: {GameManager.Turn}";
+
+            var movedpeice = tileEnd.CurrentPiece;
+            lbTest4.Text = $"{movedpeice} moved from" + " " +
+                $"{tileStart.CoordinateX}, {tileStart.CoordinateY}" + " " +
+                $"to {tileEnd.CoordinateX}, {tileEnd.CoordinateY}";
         }
         #endregion
         #region Responsive operations
