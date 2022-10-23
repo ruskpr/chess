@@ -27,6 +27,8 @@ namespace ChessGame
         }
         #endregion
         #region Private Methods
+
+        #region Diagnal upper right
         private List<Tile> CastDiagnalUpperRight(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -86,6 +88,8 @@ namespace ChessGame
 
             return validMoves; // return valid forward spaces
         }
+        #endregion
+        #region Diagnal upper left
         private List<Tile> CastDiagnalUpperLeft(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -145,6 +149,8 @@ namespace ChessGame
 
             return validMoves; // return valid forward spaces
         }
+        #endregion
+        #region Diagnal lower right
         private List<Tile> CastDiagnaLowerRight(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -204,6 +210,8 @@ namespace ChessGame
 
             return validMoves; // return valid forward spaces
         }
+        #endregion
+        #region Diagnal lower left
         private List<Tile> CastDiagnaLowerLeft(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -262,6 +270,8 @@ namespace ChessGame
 
             return validMoves; // return valid forward spaces
         }
+        #endregion
+
         #endregion
     }
 }
