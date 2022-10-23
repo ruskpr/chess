@@ -34,6 +34,13 @@ namespace ChessGame
         #endregion
         #region Methods
         public abstract List<Tile> GetValidMoves(Board board, Tile selTile);
+
+        protected void IgnoreKingMove(List<Tile> validMoves) 
+        {
+            for (int i = 0; i < validMoves.Count; i++)
+                if (validMoves[i].CurrentPiece is King)
+                    validMoves.RemoveAt(i);
+        }
         public override string ToString() => $"{CurrentPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";
         #endregion
     }

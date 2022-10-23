@@ -23,6 +23,7 @@ namespace ChessGame
 
             validMoves.AddRange(GetForwardMovement(board, selectedTile));
             validMoves.AddRange(GetDiagnalMovement(board, selectedTile));
+            IgnoreKingMove(validMoves);
 
             return validMoves;
         }

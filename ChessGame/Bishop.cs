@@ -18,6 +18,9 @@ namespace ChessGame
             List<Tile> validMoves = new List<Tile>();
 
             validMoves.AddRange(CastDiagnalUpperRight(board, selectedTile));
+            validMoves.AddRange(CastDiagnalUpperLeft(board, selectedTile));
+            IgnoreKingMove(validMoves);
+
 
             return validMoves;
         }
@@ -37,10 +40,16 @@ namespace ChessGame
                     try 
                     {
                         var location = b.Tiles[currentY - i, currentX + i]; // current location of iteration
-                        //stop casting if there is friendly piece
+                        //add valid move if there is enemy(not king) and stop loop
+                        //if (location.CurrentPiece.CurrentPlayer == Player.Player_Two && )
+                        //{
+
+                        //}
+                        //stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
                             location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
                             break;
+
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
                     } 
                     catch { }
@@ -52,7 +61,47 @@ namespace ChessGame
                     try
                     {
                         var location = b.Tiles[currentY + i, currentX - i]; // current location of iteration
-                        //stop casting if there is friendly piece
+                        //stop loop if there is friendly piece blocking the way
+                        if (location.CurrentPiece != null &&
+                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                            break;
+                        validMoves.Add(location); // add to valid moves if loop in not broken out of
+                    }
+                    catch { }
+            }
+
+            return validMoves; // return valid forward spaces
+        }
+        private List<Tile> CastDiagnalUpperLeft(Board b, Tile t)
+        {
+            List<Tile> validMoves = new List<Tile>(); // list that will be returned
+
+            int currentX = t.CoordinateX; // added for readability
+            int currentY = t.CoordinateY;
+
+            //player 1
+            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            {  //int i = 1; i < 7; i++
+                for (int i = 6; i > 0; i--) // cast to the left end of the board
+                    try
+                    {
+                        var location = b.Tiles[currentY - i, currentX - i]; // current location of iteration
+                        //stop loop if there is friendly piece blocking the way
+                        if (location.CurrentPiece != null &&
+                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                            break;
+                        validMoves.Add(location); // add to valid moves if loop in not broken out of
+                    }
+                    catch { }
+            }
+            //player 2
+            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            {
+                for (int i = 6; i > 0; i--) // cast to the left end of the board
+                    try
+                    {
+                        var location = b.Tiles[currentY + i, currentX - i]; // current location of iteration
+                        //stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
                             location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
                             break;
