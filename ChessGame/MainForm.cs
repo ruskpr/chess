@@ -14,7 +14,8 @@ namespace ChessGame
 {
     public partial class MainForm : Form
     {
-        public static Board myBoard;
+        public static Board? myBoard;
+        #region Constructor
         public MainForm()
         {
             InitializeComponent();
@@ -25,15 +26,18 @@ namespace ChessGame
 
             Tile.SendSelectedTile += Tile_SendCoordinate;
             
-            myBoard = new Board(this, 800);
+            myBoard = new Board(this, 1000);
             myBoard.ConstructBoard();
             myBoard.PieceMoved += MyBoard_PieceMoved;
 
             ResponsiveFormat();
         }
-
+        #endregion
+        #region Delegates
+        private void Tile_SendCoordinate(Tile tile) => lbTest1.Text = tile.ToString();
         private void MyBoard_PieceMoved(Tile tileStart, Tile tileEnd)
         {
+            // change turns when piece is moved
             if (GameManager.Turn == GameManager.PlayerTurn.p1)
                 GameManager.Turn = GameManager.PlayerTurn.p2;
             else
@@ -41,39 +45,11 @@ namespace ChessGame
 
             lbTest2.Text = $"Turn: {GameManager.Turn}";
         }
-        #region Initialize board
-
         #endregion
-        #region Delegate target
-        private void Tile_SendCoordinate(Tile tile)
-        {
-            lbTest1.Text = tile.ToString();
-        }
-        #endregion
-        #region Form resize events
-        private void MainForm_SizeChanged(object? sender, EventArgs e)
-        {
-            ResponsiveFormat();
-        }
-        private void MainForm_Resize(object? sender, EventArgs e)
-        {
-            ResponsiveFormat();
-        }
-        protected override void OnSizeChanged(EventArgs e)
-        {
-            if (this.WindowState == FormWindowState.Maximized)// || this.WindowState == FormWindowState.Normal
-            {
-                //ResponsiveFormat();
-
-            }
-            base.OnSizeChanged(e);
-        }
-        #endregion
-        #region Responsive format
-        private void ResponsiveFormat()
-        {
-            Format.Center(myBoard);
-        }
+        #region Responsive operations
+        private void ResponsiveFormat() => Format.Center(myBoard);
+        private void MainForm_SizeChanged(object? sender, EventArgs e) => ResponsiveFormat();
+        private void MainForm_Resize(object? sender, EventArgs e) => ResponsiveFormat();
         #endregion
         #region Button clicks
         private void button1_Click_1(object sender, EventArgs e)
