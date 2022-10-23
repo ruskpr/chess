@@ -30,16 +30,36 @@ namespace ChessGame
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
 
+            //player 1
             if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
             {
-                for (int i = 0; i <= 7; i++)
-                        try 
-                        {
-                            if (b.Tiles[currentY - i, currentX + i].CurrentPiece != null)// && b.Tiles[currentY - i, currentX + i].CurrentPiece.CurrentPlayer != Player.Player_One
-                                validMoves.Add(b.Tiles[currentY - i, currentX + i]); 
-                        } catch { }
+                for (int i = 1; i < 7; i++) // cast to the right end of the board
+                    try 
+                    {
+                        var location = b.Tiles[currentY - i, currentX + i]; // current location of iteration
+                        //stop casting if there is friendly piece
+                        if (location.CurrentPiece != null &&
+                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                            break;
+                        validMoves.Add(location); // add to valid moves if loop in not broken out of
+                    } 
+                    catch { }
             }
-
+            //player 2
+            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            {
+                for (int i = 6; i > 0; i--) // cast to the left end of the board
+                    try
+                    {
+                        var location = b.Tiles[currentY + i, currentX - i]; // current location of iteration
+                        //stop casting if there is friendly piece
+                        if (location.CurrentPiece != null &&
+                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                            break;
+                        validMoves.Add(location); // add to valid moves if loop in not broken out of
+                    }
+                    catch { }
+            }
 
             return validMoves; // return valid forward spaces
         }
