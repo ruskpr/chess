@@ -27,8 +27,10 @@ namespace ChessGame
                 $"TURN: Player 1" : $"TURN: Player 2";
 
             Tile.SendSelectedTile += Tile_SendCoordinate;
-            
-            myBoard = new Board(this, 1000);
+
+            int monitorHeight = Screen.PrimaryScreen.Bounds.Height;
+
+            myBoard = new Board(this, (int)Math.Round(monitorHeight * 0.8));
             myBoard.ConstructBoard();
             myBoard.PieceMoved += MyBoard_PieceMoved;
 
