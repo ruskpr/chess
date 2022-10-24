@@ -81,7 +81,6 @@ namespace ChessGame
         #region Create piece
         public void CreatePiece(string piecename, int player)
         {
-            // parse integer parameter to Player enum from Piece class
             Piece.Player selectedPlayer = player == 1 ? Piece.Player.Player_One : Piece.Player.Player_Two;
 
             //only add piece if tile is empty
