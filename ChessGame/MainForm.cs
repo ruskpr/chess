@@ -14,7 +14,7 @@ namespace ChessGame
 {
     public partial class MainForm : Form
     {
-        public static Board? myBoard;
+        private Board? myBoard;
         #region Constructor
         public MainForm()
         {
@@ -37,7 +37,7 @@ namespace ChessGame
             ResponsiveFormat();
         }
         #endregion
-        #region Delegates
+        #region Delegate methods
         private void Tile_SendCoordinate(Tile tile) => lbTest1.Text = tile.ToString();
         private void MyBoard_PieceMoved(Tile tileStart, Tile tileEnd)
         {
