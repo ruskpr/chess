@@ -60,7 +60,9 @@ namespace ChessGame
             foreach (Piece piece in Piece.pieceList)
             {
                 if (piece is King)
-                    piece.CheckIfInCheck(piece);
+                {
+
+                }
             }
         }
         #endregion

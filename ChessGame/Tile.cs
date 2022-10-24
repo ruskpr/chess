@@ -62,6 +62,13 @@ namespace ChessGame
                     SendTargetTile.Invoke(this);
 
                 Select();
+
+                ParentBoard.GetValidMoves(this);
+
+                if (this.CurrentPiece is King)
+                {
+                    //ParentBoard.CheckIfInCheck(this.CurrentPiece);
+                }
             }
         }
         #endregion

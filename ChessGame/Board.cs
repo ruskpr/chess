@@ -54,7 +54,7 @@ namespace ChessGame
         {
             SelectedTile = tile;
             //display valid moves for selected tile
-            GetValidMoves(SelectedTile);
+            //GetValidMoves(SelectedTile);
         }
         private void Tile_SendTargetTile(Tile tile) // recieve target tile (the tile the user clicks to move their piece
         {  
@@ -96,7 +96,7 @@ namespace ChessGame
             switch (selTile.CurrentPiece)
             {
                 case Pawn:
-                    validMoves = piece.GetValidMoves(this, selTile);                
+                    validMoves = piece.GetValidMoves(this, selTile);
                     break;
                 case Rook:
                     validMoves = piece.GetValidMoves(this, selTile);
@@ -145,6 +145,18 @@ namespace ChessGame
                     if (p == kingPiece) // get all king moves
                         kingMoves.AddRange(kingPiece.GetValidMoves(this, kingPiece.CurrentTile));
 
+                }
+                for (int i = 0; i < kingMoves.Count; i++)
+                {
+                    for (int j = 0; j < allMoves.Count; j++)
+                    {
+                        if (kingMoves[i] == allMoves[j])
+                        {
+                            MessageBox.Show("test");
+                        }
+                    }
+
+                    
                 }
             }
 
