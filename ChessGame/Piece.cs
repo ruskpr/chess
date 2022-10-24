@@ -13,8 +13,8 @@ namespace ChessGame
 
         public enum Player
         {
-            Player_One,
-            Player_Two
+            Player_One = 1,
+            Player_Two = 2
         }
         #endregion
         #region Properties

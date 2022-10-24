@@ -8,7 +8,7 @@ namespace ChessGame
 {
     public class GameManager
     {
-        public enum PlayerTurn { p1, p2};
+        public enum PlayerTurn { p1 = 1, p2 = 2};
         public static PlayerTurn Turn = GameManager.PlayerTurn.p1;
 
         public static Color TileColorA = Color.LightSlateGray;
