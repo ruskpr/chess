@@ -25,7 +25,7 @@ namespace ChessGame
             GameManager.Turn == GameManager.PlayerTurn.p2)
                 validMoves.AddRange(GetPlayerTwoMoves(board, selectedTile));
 
-            IgnoreKingMove(validMoves);
+            IgnoreKing(validMoves);
 
             return validMoves;
         }

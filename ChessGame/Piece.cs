@@ -35,7 +35,7 @@ namespace ChessGame
         #region Methods
         public abstract List<Tile> GetValidMoves(Board board, Tile selTile);
 
-        protected void IgnoreKingMove(List<Tile> validMoves) 
+        protected void IgnoreKing(List<Tile> validMoves) 
         {
             for (int i = 0; i < validMoves.Count; i++)
                 if (validMoves[i].CurrentPiece is King)

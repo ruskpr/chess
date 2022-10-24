@@ -21,7 +21,7 @@ namespace ChessGame
             validMoves.AddRange(CastDiagnalUpperLeft(board, selectedTile));
             validMoves.AddRange(CastDiagnaLowerRight(board, selectedTile));
             validMoves.AddRange(CastDiagnaLowerLeft(board, selectedTile));
-            IgnoreKingMove(validMoves);
+            IgnoreKing(validMoves);
 
             return validMoves;
         }

@@ -20,10 +20,9 @@ namespace ChessGame
             List<Tile> validMoves = new List<Tile>();
 
             validMoves.AddRange(OneInEachDirection(board, selectedTile));
-            IgnoreKingMove(validMoves);
+            IgnoreKing(validMoves);
 
             return validMoves;
-
         }
 
         private List<Tile> OneInEachDirection(Board b, Tile t)

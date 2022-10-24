@@ -15,7 +15,7 @@
             validMoves.AddRange(CastBackwardMovement(board, selectedTile));
             validMoves.AddRange(CastLeftMovement(board, selectedTile));
             validMoves.AddRange(CastRightMovement(board, selectedTile));
-            IgnoreKingMove(validMoves);
+            IgnoreKing(validMoves);
 
             return validMoves;
         }
