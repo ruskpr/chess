@@ -52,6 +52,7 @@ namespace ChessGame
 
             return validMoves;
         }
+
         private void IgnoreOccupiedSpaces(List<Tile> validMoves)
         {
             int numofMoves = validMoves.Count;
@@ -62,8 +63,7 @@ namespace ChessGame
                         validMoves.RemoveAt(i);
                 }
                 catch { }
-                
-        }
+        } 
         #endregion
     }
 }

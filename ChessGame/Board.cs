@@ -4,6 +4,7 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ChessGame
 {
@@ -126,6 +127,29 @@ namespace ChessGame
             return validMoves;
         }
         #endregion
+        public void CheckIfInCheck(Piece kingPiece)
+        {
+            var turn = GameManager.Turn; // current turn
+
+            if ((int)kingPiece.CurrentPlayer == (int)turn)
+            {
+                List<Tile> allMoves = new List<Tile>(); // get all moves of enemy pieces
+                List<Tile> kingMoves = new List<Tile>(); 
+
+                
+                foreach (Piece p in Piece.pieceList)
+                {
+                    if ((int)p.CurrentPlayer != (int)turn)
+                        allMoves.AddRange(p.GetValidMoves(this, p.CurrentTile));
+
+                    if (p == kingPiece) // get all king moves
+                        kingMoves.AddRange(kingPiece.GetValidMoves(this, kingPiece.CurrentTile));
+
+                }
+            }
+
+
+        }
         #region Add tiles method
         public void AddTiles()
         {

@@ -50,10 +50,18 @@ namespace ChessGame
             lbTest2.Text = GameManager.Turn == GameManager.PlayerTurn.p1 ?
                 $"TURN: Player 1" : $"TURN: Player 2";
 
+            // display latest move
             var movedpeice = tileEnd.CurrentPiece;
             lbTest4.Text = $"{movedpeice} moved from" + " " +
                 $"{tileStart.CoordinateX}, {tileStart.CoordinateY}" + " " +
                 $"to {tileEnd.CoordinateX}, {tileEnd.CoordinateY}";
+
+            //check if kings are in check
+            foreach (Piece piece in Piece.pieceList)
+            {
+                if (piece is King)
+                    piece.CheckIfInCheck(piece);
+            }
         }
         #endregion
         #region Responsive operations

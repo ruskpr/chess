@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ChessGame.Piece;
 
 namespace ChessGame
 {
@@ -34,13 +35,13 @@ namespace ChessGame
         #endregion
         #region Methods
         public abstract List<Tile> GetValidMoves(Board board, Tile selTile);
-
         protected void IgnoreKing(List<Tile> validMoves) 
         {
             for (int i = 0; i < validMoves.Count; i++)
                 if (validMoves[i].CurrentPiece is King)
                     validMoves.RemoveAt(i);
         }
+        
         public override string ToString() => $"{CurrentPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";
         #endregion
     }
