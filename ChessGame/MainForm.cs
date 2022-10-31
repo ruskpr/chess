@@ -35,8 +35,6 @@ namespace ChessGame
             myBoard.ConstructBoard();
             myBoard.PieceMoved += MyBoard_PieceMoved;
 
-            MessageBox.Show(Assets.file);
-
             ResponsiveFormat();
         }
         #endregion

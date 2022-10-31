@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Media;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 
 namespace ChessLibrary
 {
@@ -12,8 +15,6 @@ namespace ChessLibrary
     {
 
         // https://www.pinclipart.com/downpngs/hRbwim_file-pieces-sprite-wikimedia-chess-pieces-png-clipart/
-        public static string common = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        public static string file = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
 
         //black pieces
         public static Bitmap B_PawnImg = new Bitmap("assets/pieces/pack1/BlackPawn.png");
@@ -31,11 +32,11 @@ namespace ChessLibrary
         public static Bitmap W_QueenImg = new Bitmap("assets/pieces/pack1/WhiteQueen.png");
         public static Bitmap W_KingImg = new Bitmap("assets/pieces/pack1/WhiteKing.png");
 
-
         //valid space indicator
         public static Bitmap ValidMoveImg = new Bitmap("assets/ValidSpace.png");
         public static Bitmap ValidKillImg = new Bitmap("assets/ValidKill.png");
 
+        //sounds
         public static SoundPlayer sp = new SoundPlayer("assets/sounds/levelup2.wav");
 
     }
