@@ -1,2 +1,2 @@
-# Chess
-Chess game made with C#
+# Chess Library
+Chess Library made in C#
