@@ -6,14 +6,6 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "ChessGame/1.0.0": {
-        "dependencies": {
-          "ChessLibrary": "1.0.0"
-        },
-        "runtime": {
-          "ChessGame.dll": {}
-        }
-      },
       "ChessLibrary/1.0.0": {
         "runtime": {
           "ChessLibrary.dll": {}
@@ -22,11 +14,6 @@
     }
   },
   "libraries": {
-    "ChessGame/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
     "ChessLibrary/1.0.0": {
       "type": "project",
       "serviceable": false,

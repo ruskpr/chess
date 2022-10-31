@@ -1,10 +1,10 @@
-﻿namespace ChessGame
+﻿namespace ChessLibrary
 {
     public class Rook : Piece
     {
         #region Constructor
         public Rook(Player player, Tile tile) : base(player, tile) =>
-            this.Image = player == Player.Player_One ? MyAssets.W_RookImg : MyAssets.B_RookImg;
+            this.Image = player == Player.Player_One ? Assets.W_RookImg : Assets.B_RookImg;
         #endregion
         #region Public Methods
         public override List<Tile> GetValidMoves(Board board, Tile selectedTile)

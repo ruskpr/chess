@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
-namespace ChessGame
+namespace ChessLibrary
 {
 
     public delegate void PieceMovedDelegate(Tile tileStart, Tile tileEnd);
@@ -118,9 +118,9 @@ namespace ChessGame
             foreach (Tile tile in validMoves) 
             {
                 if (tile.CurrentPiece != null)
-                    tile.Image = MyAssets.ValidKillImg; // if valid space contains enemy, display kill indicator
+                    tile.Image = Assets.ValidKillImg; // if valid space contains enemy, display kill indicator
                 else
-                    tile.Image = MyAssets.ValidMoveImg; // if valid space is open open space display indicator
+                    tile.Image = Assets.ValidMoveImg; // if valid space is open open space display indicator
 
                 tile.IsAValidSpace = true;
             }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
+using ChessLibrary;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace ChessGame
@@ -33,6 +34,8 @@ namespace ChessGame
             myBoard = new Board(this, (int)Math.Round(monitorHeight * 0.8));
             myBoard.ConstructBoard();
             myBoard.PieceMoved += MyBoard_PieceMoved;
+
+            MessageBox.Show(Assets.file);
 
             ResponsiveFormat();
         }

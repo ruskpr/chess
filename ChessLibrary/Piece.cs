@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ChessGame.Piece;
+//using static ChessGame.Piece;
 
-namespace ChessGame
+namespace ChessLibrary
 {
     public abstract class Piece
     {

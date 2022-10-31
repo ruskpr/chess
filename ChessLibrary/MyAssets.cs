@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessGame
+namespace ChessLibrary
 {
-    static class MyAssets
+    public static class Assets
     {
 
         // https://www.pinclipart.com/downpngs/hRbwim_file-pieces-sprite-wikimedia-chess-pieces-png-clipart/
+        public static string common = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public static string file = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
 
         //black pieces
         public static Bitmap B_PawnImg = new Bitmap("assets/pieces/pack1/BlackPawn.png");

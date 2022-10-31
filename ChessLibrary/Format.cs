@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessGame
+namespace ChessLibrary
 {
-    static class Format
+    public static class Format
     {
         public static void Center(Control control)
         {

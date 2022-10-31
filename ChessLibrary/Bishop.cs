@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessGame
+namespace ChessLibrary
 {
     public class Bishop : Piece
     {
         #region Constructor
         public Bishop(Player player, Tile tile) : base(player, tile) =>
-            this.Image = player == Player.Player_One ? MyAssets.W_BishopImg : MyAssets.B_BishopImg;
+            this.Image = player == Player.Player_One ? Assets.W_BishopImg : Assets.B_BishopImg;
         #endregion
         #region Public Methods
         public override List<Tile> GetValidMoves(Board board, Tile selectedTile)

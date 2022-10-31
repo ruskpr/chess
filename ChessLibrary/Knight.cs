@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessGame
+namespace ChessLibrary
 {
     public class Knight : Piece
     {
         #region Constructor
         public Knight(Player player, Tile tile) : base(player, tile) =>
-            this.Image = player == Player.Player_One ? MyAssets.W_KnightImg : MyAssets.B_KnightImg;
+            this.Image = player == Player.Player_One ? Assets.W_KnightImg : Assets.B_KnightImg;
         #endregion
         #region Public Methods
         public override List<Tile> GetValidMoves(Board board, Tile selectedTile)

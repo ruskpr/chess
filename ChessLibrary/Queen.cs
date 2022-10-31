@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessGame
+namespace ChessLibrary
 {
     public class Queen : Piece
     {
         public Queen(Player player, Tile tile) : base(player, tile)
         {
-            this.Image = player == Player.Player_One ? MyAssets.W_QueenImg : MyAssets.B_QueenImg;
+            this.Image = player == Player.Player_One ? Assets.W_QueenImg : Assets.B_QueenImg;
         }
 
         #region Public methods

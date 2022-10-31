@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ChessGame.Piece;
+//using static ChessGame.Piece;
 
-namespace ChessGame
+namespace ChessLibrary
 {
     public class King : Piece
     {
         public bool InCheck { get; set; }
         public King(Player player, Tile tile) : base(player, tile)
         {
-            this.Image = player == Player.Player_One ? MyAssets.W_KingImg : MyAssets.B_KingImg;
+            this.Image = player == Player.Player_One ? Assets.W_KingImg : Assets.B_KingImg;
             InCheck = false;
         }
         #region Public methods

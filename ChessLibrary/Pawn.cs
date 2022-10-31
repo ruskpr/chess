@@ -5,14 +5,14 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessGame
+namespace ChessLibrary
 {
     public class Pawn : Piece
     {
         #region Constructor
         public Pawn(Player player, Tile tile) : base(player, tile)
         {
-            this.Image = player == Player.Player_One ? MyAssets.W_PawnImg : MyAssets.B_PawnImg;
+            this.Image = player == Player.Player_One ? Assets.W_PawnImg : Assets.B_PawnImg;
             CompletedFirstMove = false;
         }
         #endregion

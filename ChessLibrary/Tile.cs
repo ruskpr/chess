@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessGame
+namespace ChessLibrary
 {
     public delegate void SendTileDelegate(Tile tile);
     public delegate void CreateTestPieceDelegate(Tile tile);
