@@ -36,29 +36,29 @@ namespace ChessLibrary
             if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
             {
                 // allow pawn to move 2 spaces on its first move
-                if (t.CurrentPiece.CompletedFirstMove == false)
+                if (t.CurrentPiece.CompletedFirstMove == false && // condition: first move has been completed
+                    b.Tiles[t.CoordinateY - 2, t.CoordinateX].CurrentPiece == null && // condition: tile 2 steps ahead is empty
+                    b.Tiles[t.CoordinateY - 1, t.CoordinateX].CurrentPiece == null // condition: tile 1 step ahead isnt taken
+                    )
                     validMoves.Add(b.Tiles[t.CoordinateY - 2, t.CoordinateX]);
 
-                if (t.CoordinateY > 0)
-                {
-                    // 1 space forward (only allows move if no pieces infront
+                    
+                if (t.CoordinateY > 0) // allow 1 space forward if the tile is empty
                     if (b.Tiles[t.CoordinateY - 1, t.CoordinateX].CurrentPiece == null)
                         validMoves.Add(b.Tiles[t.CoordinateY - 1, t.CoordinateX]);
-
-                    
-                       
-                }
             }
             else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
             {
-                if (t.CurrentPiece.CompletedFirstMove == false)
+                // allow pawn to move 2 spaces on its first move
+                if (t.CurrentPiece.CompletedFirstMove == false && // condition: first move has been completed
+                    b.Tiles[t.CoordinateY + 2, t.CoordinateX].CurrentPiece == null && // condition: tile 2 steps ahead is empty
+                    b.Tiles[t.CoordinateY + 1, t.CoordinateX].CurrentPiece == null // condition: tile 1 step ahead isnt taken
+                    )
                     validMoves.Add(b.Tiles[t.CoordinateY + 2, t.CoordinateX]);
 
-                if (t.CoordinateY > 0)
-                {
-                    if (b.Tiles[t.CoordinateY + 1, t.CoordinateX].CurrentPiece == null)
-                        validMoves.Add(b.Tiles[t.CoordinateY + 1, t.CoordinateX]);
-                }
+                // allow 1 space forward if the tile is empty
+                if (b.Tiles[t.CoordinateY + 1, t.CoordinateX].CurrentPiece == null) 
+                    validMoves.Add(b.Tiles[t.CoordinateY + 1, t.CoordinateX]);
             }
 
             return validMoves;
@@ -100,7 +100,6 @@ namespace ChessLibrary
                         if (b.Tiles[t.CoordinateY + 1, t.CoordinateX + 1].CurrentPiece is Piece &&
                         b.Tiles[t.CoordinateY + 1, t.CoordinateX + 1].CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
                             validMoves.Add(b.Tiles[t.CoordinateY + 1, t.CoordinateX + 1]);
-
                     }
                     catch { } // ignore exception 
 
