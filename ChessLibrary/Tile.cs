@@ -63,7 +63,7 @@ namespace ChessLibrary
 
                 Select();
 
-                ParentBoard.GetValidMoves(this);
+                ParentBoard.GetMoves(this);
 
                 if (this.CurrentPiece is King)
                 {

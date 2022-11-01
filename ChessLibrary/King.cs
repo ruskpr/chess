@@ -22,7 +22,7 @@ namespace ChessLibrary
 
             validMoves.AddRange(OneInEachDirection(board, selectedTile, selectedTile.CurrentPiece.CurrentPlayer));
             IgnoreKing(validMoves); // inherited
-            IgnoreOccupiedSpaces(validMoves); // ignore all spaces where a piece sits
+            //IgnoreOccupiedSpaces(validMoves); // ignore all spaces where a piece sits
 
             return validMoves;
         }
@@ -38,8 +38,10 @@ namespace ChessLibrary
 
             var turn = GameManager.Turn; // current turn
 
-            if ((int)player == (int)turn) 
+            if ((int)player == (int)turn) // if it is the pieces turn...
             {
+
+                // all moves (1 in each direction)
                 try { validMoves.Add(b.Tiles[currentY - 1, currentX - 1]); } catch { }
                 try { validMoves.Add(b.Tiles[currentY - 1, currentX]); } catch { }
                 try { validMoves.Add(b.Tiles[currentY - 1, currentX + 1]); } catch { }
@@ -59,7 +61,7 @@ namespace ChessLibrary
             for (int i = numofMoves; i >= 0; i--)
                 try
                 { // remove moves where there are friendly peices
-                    if (validMoves[i].CurrentPiece is Piece)
+                    if (validMoves[i].CurrentPiece != null)
                         validMoves.RemoveAt(i);
                 }
                 catch { }

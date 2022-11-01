@@ -42,7 +42,7 @@ namespace ChessLibrary
 
         
         #endregion
-        #region Construct Board
+        #region Construct Board method
         public void ConstructBoard()
         {
             AddTiles();
@@ -76,10 +76,12 @@ namespace ChessLibrary
 
             //send delegate 
             PieceMoved.Invoke(oldTile, newTile);
+
+            //CheckIfInCheck(newTile);
         }
         #endregion
         #region Get valid moves method
-        public List<Tile> GetValidMoves(Tile selTile)
+        public List<Tile> GetMoves(Tile selTile)
         {
             List<Tile> validMoves = new List<Tile>();
 
@@ -127,40 +129,21 @@ namespace ChessLibrary
             return validMoves;
         }
         #endregion
-        public void CheckIfInCheck(Piece kingPiece)
+        public void CheckIfInCheck(Tile mostrecentmove)
         {
             var turn = GameManager.Turn; // current turn
 
-            if ((int)kingPiece.CurrentPlayer == (int)turn)
+            List<Tile> attackerMoves = mostrecentmove.CurrentPiece.GetValidMoves(this, mostrecentmove);
+
+            foreach (Tile move in attackerMoves)
             {
-                List<Tile> allMoves = new List<Tile>(); // get all moves of enemy pieces
-                List<Tile> kingMoves = new List<Tile>(); 
-
-                
-                foreach (Piece p in Piece.pieceList)
+                move.BackColor = Color.AliceBlue;
+                if (move.CurrentPiece is King)
                 {
-                    if ((int)p.CurrentPlayer != (int)turn)
-                        allMoves.AddRange(p.GetValidMoves(this, p.CurrentTile));
-
-                    if (p == kingPiece) // get all king moves
-                        kingMoves.AddRange(kingPiece.GetValidMoves(this, kingPiece.CurrentTile));
-
-                }
-                for (int i = 0; i < kingMoves.Count; i++)
-                {
-                    for (int j = 0; j < allMoves.Count; j++)
-                    {
-                        if (kingMoves[i] == allMoves[j])
-                        {
-                            MessageBox.Show("test");
-                        }
-                    }
-
-                    
+                    MessageBox.Show("In check");
+                    move.BackColor = Color.Green;
                 }
             }
-
-
         }
         #region Add tiles method
         public void AddTiles()

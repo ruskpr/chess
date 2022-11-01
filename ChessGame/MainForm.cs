@@ -58,13 +58,7 @@ namespace ChessGame
                 $"to {tileEnd.CoordinateX}, {tileEnd.CoordinateY}";
 
             //check if kings are in check
-            foreach (Piece piece in Piece.pieceList)
-            {
-                if (piece is King)
-                {
-
-                }
-            }
+            myBoard.CheckIfInCheck(tileEnd);
         }
         #endregion
         #region Responsive operations

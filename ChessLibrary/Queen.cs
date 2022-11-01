@@ -29,7 +29,7 @@ namespace ChessLibrary
             validMoves.AddRange(CastDiagnalUpperLeft(board, selectedTile));
             validMoves.AddRange(CastDiagnaLowerRight(board, selectedTile));
             validMoves.AddRange(CastDiagnaLowerLeft(board, selectedTile));
-            IgnoreKing(validMoves);
+            //IgnoreKing(validMoves);
 
             return validMoves;
         }
