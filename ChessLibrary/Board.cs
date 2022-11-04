@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Devices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Media;
@@ -10,11 +11,17 @@ namespace ChessLibrary
 {
 
     public delegate void PieceMovedDelegate(Tile tileStart, Tile tileEnd);
+
+
     public class Board : Panel
     {
         #region Delegate definition
         //event is called on main form constructor
         public event PieceMovedDelegate PieceMoved;
+
+
+        public delegate void OnKingCheckedDelegate(King kingThatIsChecked);
+        public event OnKingCheckedDelegate OnKingChecked;
         #endregion
         #region Fields
         // 2d array of tiles
@@ -74,10 +81,11 @@ namespace ChessLibrary
             //remove oldtile
             oldTile.RemovePiece();
 
+            //check if recently moved piece is checking a king
+            CheckIfInCheck(newTile);
+
             //send delegate 
             PieceMoved.Invoke(oldTile, newTile);
-
-            //CheckIfInCheck(newTile);
         }
         #endregion
         #region Get valid moves method
@@ -129,19 +137,22 @@ namespace ChessLibrary
             return validMoves;
         }
         #endregion
-        public void CheckIfInCheck(Tile mostrecentmove)
+        public void CheckIfInCheck(Tile mostRecentTile)
         {
-            var turn = GameManager.Turn; // current turn
+            //var turn = GameManager.Turn; // current turn
 
-            List<Tile> attackerMoves = mostrecentmove.CurrentPiece.GetValidMoves(this, mostrecentmove);
+            List<Tile> attackerMoves = new List<Tile>();
+
+            attackerMoves = mostRecentTile.CurrentPiece.GetValidMoves(this, mostRecentTile);
 
             foreach (Tile move in attackerMoves)
             {
-                move.BackColor = Color.AliceBlue;
                 if (move.CurrentPiece is King)
                 {
-                    MessageBox.Show("In check");
-                    move.BackColor = Color.Green;
+                    move.BackColor = Color.AliceBlue;
+                    King king = (King)move.CurrentPiece; // type cast to king
+                    OnKingChecked.Invoke(king);
+
                 }
             }
         }

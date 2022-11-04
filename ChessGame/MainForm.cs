@@ -57,8 +57,6 @@ namespace ChessGame
                 $"{tileStart.CoordinateX}, {tileStart.CoordinateY}" + " " +
                 $"to {tileEnd.CoordinateX}, {tileEnd.CoordinateY}";
 
-            //check if kings are in check
-            myBoard.CheckIfInCheck(tileEnd);
         }
         #endregion
         #region Responsive operations

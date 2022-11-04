@@ -37,9 +37,9 @@ namespace ChessLibrary
         public abstract List<Tile> GetValidMoves(Board board, Tile selTile);
         protected void IgnoreKing(List<Tile> validMoves) 
         {
-            for (int i = 0; i < validMoves.Count; i++)
-                if (validMoves[i].CurrentPiece is King)
-                    validMoves.RemoveAt(i);
+            //for (int i = 0; i < validMoves.Count; i++)
+            //    if (validMoves[i].CurrentPiece is King)
+            //        validMoves.RemoveAt(i);
         }
         
         public override string ToString() => $"{CurrentPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";

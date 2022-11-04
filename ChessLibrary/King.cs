@@ -14,12 +14,19 @@ namespace ChessLibrary
         {
             this.Image = player == Player.Player_One ? Assets.W_KingImg : Assets.B_KingImg;
             InCheck = false;
+            CurrentTile.ParentBoard.OnKingChecked += ParentBoard_OnKingChecked;
+        }
+
+        private void ParentBoard_OnKingChecked(King kingThatIsChecked)
+        {
+            kingThatIsChecked.CurrentTile.BackColor = Color.Red;
+            MessageBox.Show(kingThatIsChecked.ToString() + "is in check!");
         }
         #region Public methods
         public override List<Tile> GetValidMoves(Board board, Tile selectedTile)
         {
             List<Tile> validMoves = new List<Tile>();
-
+            
             validMoves.AddRange(OneInEachDirection(board, selectedTile, selectedTile.CurrentPiece.CurrentPlayer));
             IgnoreKing(validMoves); // inherited
             //IgnoreOccupiedSpaces(validMoves); // ignore all spaces where a piece sits
