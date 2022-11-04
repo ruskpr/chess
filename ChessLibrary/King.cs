@@ -16,12 +16,36 @@ namespace ChessLibrary
             InCheck = false;
             CurrentTile.ParentBoard.OnKingChecked += ParentBoard_OnKingChecked;
         }
-
+        #region Delegate
         private void ParentBoard_OnKingChecked(King kingThatIsChecked)
         {
+            // when king is check put that king in a state
+            // where they can only make moves to escape from check
+            InCheck = true;
             kingThatIsChecked.CurrentTile.BackColor = Color.Red;
-            MessageBox.Show(kingThatIsChecked.ToString() + "is in check!");
+            // Check spaces that are occupied by enemy players
+            List<Tile> tilesOccupiedByOpponent = new List<Tile>();
+            foreach (Tile tile in CurrentTile.ParentBoard.Tiles)
+            {
+                // if the tiles pieces on the team opposite from the checked king...
+                if (tile.CurrentPiece != null)
+                {
+                    if (tile.CurrentPiece.CurrentPlayer != kingThatIsChecked.CurrentPlayer)
+                    {
+                        tile.BackColor = Color.LightGoldenrodYellow;
+                        // add all the moves of enemy tiles to one list
+                        tilesOccupiedByOpponent.AddRange(
+                            tile.CurrentPiece.GetValidMoves(tile.ParentBoard, tile));
+                    }
+                }
+            }
+
+            if (true) // if king is checked and all spaces are occupied by opponent...
+            {
+                // Checkmate();
+            }
         }
+        #endregion
         #region Public methods
         public override List<Tile> GetValidMoves(Board board, Tile selectedTile)
         {
@@ -29,12 +53,17 @@ namespace ChessLibrary
             
             validMoves.AddRange(OneInEachDirection(board, selectedTile, selectedTile.CurrentPiece.CurrentPlayer));
             IgnoreKing(validMoves); // inherited
+
             //IgnoreOccupiedSpaces(validMoves); // ignore all spaces where a piece sits
 
             return validMoves;
         }
         #endregion
         #region Private methods
+        private void Checkmate()
+        {
+            MessageBox.Show("Checkmate!");
+        }
         private List<Tile> OneInEachDirection(Board b, Tile t, Player player)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned

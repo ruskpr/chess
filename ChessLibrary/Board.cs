@@ -33,18 +33,24 @@ namespace ChessLibrary
         #endregion
         #region Properties
         public Tile SelectedTile { get; set; }
+        public Form ParentForm { get; set; }
         #endregion
         #region Constructor
         public Board(Form pntr, int size)
         {
-            Size = new Size(size, size);
+            this.ParentForm = pntr;
+            this.Size = new Size(size, size);
+            this.BackColor = Color.White;
             tileSize = new Size(Width / 8, Width / 8);
-            BackColor = Color.White;
+
+            // add side panels
+            ParentForm.Controls.Add(new LeftPanel(this));
+
 
             SelectedTile = null;
             Tile.SendSelectedTile += Tile_SendSelectedTile;
             Tile.SendTargetTile += Tile_SendTargetTile;
-            pntr.Controls.Add(this);
+            this.ParentForm.Controls.Add(this);
         }
 
         
@@ -80,6 +86,8 @@ namespace ChessLibrary
 
             //remove oldtile
             oldTile.RemovePiece();
+
+            newTile.CurrentPiece.GetValidMoves(this, newTile);
 
             //check if recently moved piece is checking a king
             CheckIfInCheck(newTile);
@@ -141,22 +149,19 @@ namespace ChessLibrary
         {
             //var turn = GameManager.Turn; // current turn
 
-            List<Tile> attackerMoves = new List<Tile>();
-
-            attackerMoves = mostRecentTile.CurrentPiece.GetValidMoves(this, mostRecentTile);
+            List<Tile> attackerMoves = mostRecentTile.CurrentPiece.GetValidMoves(this, mostRecentTile);
 
             foreach (Tile move in attackerMoves)
             {
                 if (move.CurrentPiece is King)
                 {
                     move.BackColor = Color.AliceBlue;
-                    King king = (King)move.CurrentPiece; // type cast to king
-                    OnKingChecked.Invoke(king);
-
+                    King kingThatIsChecked = (King)move.CurrentPiece; // type cast to king
+                    OnKingChecked.Invoke(kingThatIsChecked);
                 }
             }
         }
-        #region Add tiles method
+        #region Add tiles to board method
         public void AddTiles()
         {
             int locX = 0;
@@ -186,7 +191,7 @@ namespace ChessLibrary
             }
         }
         #endregion
-        #region Add pieces method
+        #region Add game pieces to board method
         public void AddPieces()
         {
             //loop through each tile in 2d array (player 1 is white, player 2 is black)
