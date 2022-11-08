@@ -23,18 +23,20 @@ namespace ChessLibrary
         public Bitmap Image { get; set; }
         public Player CurrentPlayer { get; set; }
         public Tile CurrentTile { get; set; }
+        public List<Tile> CurrentValidMoves { get; set; }
         #endregion
         #region Constructor
         public Piece(Player player, Tile tile)
         {
             CurrentPlayer = player;
             CurrentTile = tile;
+            CurrentValidMoves = new List<Tile>();
             this.Image = null;
             pieceList.Add(this);
         }
         #endregion
         #region Methods
-        public abstract List<Tile> GetValidMoves(Board board, Tile selTile);
+        public abstract void GetValidMoves(Board board, Tile selTile);
         protected void IgnoreKing(List<Tile> validMoves) 
         {
             //for (int i = 0; i < validMoves.Count; i++)

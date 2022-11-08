@@ -32,7 +32,7 @@ namespace ChessGame
             int monitorHeight = Screen.PrimaryScreen.Bounds.Height;
 
             myBoard = new Board(this, (int)Math.Round(monitorHeight * 0.8));
-            myBoard.ConstructBoard();
+            
             myBoard.PieceMoved += MyBoard_PieceMoved;
 
             ResponsiveFormat();
@@ -42,11 +42,7 @@ namespace ChessGame
         private void Tile_SendCoordinate(Tile tile) => lbTest1.Text = tile.ToString();
         private void MyBoard_PieceMoved(Tile tileStart, Tile tileEnd)
         {
-            // change turns when piece is moved
-            if (GameManager.Turn == GameManager.PlayerTurn.p1)
-                GameManager.Turn = GameManager.PlayerTurn.p2;
-            else
-                GameManager.Turn = GameManager.PlayerTurn.p1;
+            GameManager.SwapTurns();
 
             lbTest2.Text = GameManager.Turn == GameManager.PlayerTurn.p1 ?
                 $"TURN: Player 1" : $"TURN: Player 2";

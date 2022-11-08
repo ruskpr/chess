@@ -13,17 +13,15 @@ namespace ChessLibrary
             this.Image = player == Player.Player_One ? Assets.W_BishopImg : Assets.B_BishopImg;
         #endregion
         #region Public Methods
-        public override List<Tile> GetValidMoves(Board board, Tile selectedTile)
+        public override void GetValidMoves(Board board, Tile selectedTile)
         {
-            List<Tile> validMoves = new List<Tile>();
+            CurrentValidMoves.Clear();
 
-            validMoves.AddRange(CastDiagnalUpperRight(board, selectedTile));
-            validMoves.AddRange(CastDiagnalUpperLeft(board, selectedTile));
-            validMoves.AddRange(CastDiagnaLowerRight(board, selectedTile));
-            validMoves.AddRange(CastDiagnaLowerLeft(board, selectedTile));
-            IgnoreKing(validMoves);
-
-            return validMoves;
+            CurrentValidMoves.AddRange(CastDiagnalUpperRight(board, selectedTile));
+            CurrentValidMoves.AddRange(CastDiagnalUpperLeft(board, selectedTile));
+            CurrentValidMoves.AddRange(CastDiagnaLowerRight(board, selectedTile));
+            CurrentValidMoves.AddRange(CastDiagnaLowerLeft(board, selectedTile));
+            IgnoreKing(CurrentValidMoves);
         }
         #endregion
         #region Private Methods

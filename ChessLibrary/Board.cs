@@ -46,11 +46,17 @@ namespace ChessLibrary
             // add side panels
             ParentForm.Controls.Add(new LeftPanel(this));
 
-
             SelectedTile = null;
             Tile.SendSelectedTile += Tile_SendSelectedTile;
             Tile.SendTargetTile += Tile_SendTargetTile;
+
+            ConstructBoard();
             this.ParentForm.Controls.Add(this);
+
+            // store all the moves of each piece when board is created
+            foreach (Tile tile in Tiles)
+                if (tile.CurrentPiece != null)
+                    tile.CurrentPiece.GetValidMoves(this, tile);
         }
 
         
@@ -69,93 +75,96 @@ namespace ChessLibrary
             //display valid moves for selected tile
             //GetValidMoves(SelectedTile);
         }
-        private void Tile_SendTargetTile(Tile tile) // recieve target tile (the tile the user clicks to move their piece
+        private void Tile_SendTargetTile(Tile tile) // recieve target tile (the tiles new position)
         {  
             MovePiece(SelectedTile, tile);
-            tile.CurrentPiece.CompletedFirstMove = true;
         }
         #endregion
         #region Move Piece method
         public void MovePiece(Tile oldTile, Tile newTile)
         {
-            newTile.CurrentPiece = oldTile.CurrentPiece;
-            newTile.CurrentPiece.CurrentTile = oldTile.CurrentPiece.CurrentTile;
-            //update new tile
-            newTile.BackgroundImage = oldTile.BackgroundImage;
-            oldTile.BackgroundImage = null;
+            if (oldTile.CurrentPiece != null)
+            {
+                if ((int)SelectedTile.CurrentPiece.CurrentPlayer == (int)GameManager.Turn)
+                {
+                    newTile.CurrentPiece = oldTile.CurrentPiece;
+                    newTile.CurrentPiece.CurrentTile = oldTile.CurrentPiece.CurrentTile;
+                    //update new tile
+                    newTile.BackgroundImage = oldTile.BackgroundImage;
+                    oldTile.BackgroundImage = null;
 
-            //remove oldtile
-            oldTile.RemovePiece();
+                    //remove oldtile
+                    oldTile.RemovePiece();
 
-            newTile.CurrentPiece.GetValidMoves(this, newTile);
+                    // set bool
+                    newTile.CurrentPiece.CompletedFirstMove = true;
 
-            //check if recently moved piece is checking a king
-            CheckIfInCheck(newTile);
 
-            //send delegate 
-            PieceMoved.Invoke(oldTile, newTile);
+                    //store new set of moves
+                    newTile.CurrentPiece.GetValidMoves(this, newTile);
+
+                    //check if recently moved piece is checking a king
+                    CheckIfInCheck(newTile);
+
+                    // hide indicators
+                    foreach (Tile tile in Tiles)
+                    {
+                        // generate opposing pieces' moves to see if the recent move is a valid kill for the enemy
+                        if (tile.CurrentPiece != null)
+                            if (tile.CurrentPiece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
+                                tile.CurrentPiece.GetValidMoves(this, tile);
+
+                        tile.IsAValidSpace = false;
+                        tile.Image = null;
+                    }
+
+                    //send delegate 
+                    PieceMoved.Invoke(oldTile, newTile);
+                }
+            }       
         }
         #endregion
-        #region Get valid moves method
-        public List<Tile> GetMoves(Tile selTile)
+        #region Get moves method
+        public void ShowMovesOfSelectedTile(Tile selTile)
         {
-            List<Tile> validMoves = new List<Tile>();
-
-            //clear valid move indicators on each selection
-            foreach (Tile tile in Tiles)
+            if (selTile.CurrentPiece != null)
             {
-                tile.IsAValidSpace = false;
-                tile.Image = null;
+                //only show moves if it is the players turn
+                if ((int)SelectedTile.CurrentPiece.CurrentPlayer == (int)GameManager.Turn)
+                {
+                    // get list of moves for selected tile
+                    List<Tile> currentTilesMoves = selTile.CurrentPiece != null ?
+                    selTile.CurrentPiece.CurrentValidMoves : new List<Tile>();
+
+                    //clear valid move indicators on all tiles
+                    foreach (Tile tile in Tiles)
+                    {
+                        tile.IsAValidSpace = false;
+                        tile.Image = null;
+                    }
+
+                    foreach (Tile tile in currentTilesMoves)
+                    {
+                        tile.IsAValidSpace = true;
+
+                        tile.Image = tile.CurrentPiece != null ?
+                            Assets.ValidKillImg : Assets.ValidMoveImg;
+                    }
+                }
             }
-
-            Piece piece = selTile.CurrentPiece;
-
-            //calculate values on type of piece that you selected
-            switch (selTile.CurrentPiece)
-            {
-                case Pawn:
-                    validMoves = piece.GetValidMoves(this, selTile);
-                    break;
-                case Rook:
-                    validMoves = piece.GetValidMoves(this, selTile);
-                    break;
-                case Knight:
-                    validMoves = piece.GetValidMoves(this, selTile);
-                    break;
-                case Bishop:
-                    validMoves = piece.GetValidMoves(this, selTile);
-                    break;
-                case Queen:
-                    validMoves = piece.GetValidMoves(this, selTile);
-                    break;
-                case King:
-                    validMoves = piece.GetValidMoves(this, selTile);
-                    break;
-            }
-
-            foreach (Tile tile in validMoves) 
-            {
-                if (tile.CurrentPiece != null)
-                    tile.Image = Assets.ValidKillImg; // if valid space contains enemy, display kill indicator
-                else
-                    tile.Image = Assets.ValidMoveImg; // if valid space is open open space display indicator
-
-                tile.IsAValidSpace = true;
-            }
-            return validMoves;
         }
         #endregion
         public void CheckIfInCheck(Tile mostRecentTile)
         {
-            //var turn = GameManager.Turn; // current turn
+            var turn = GameManager.Turn; // current turn
 
-            List<Tile> attackerMoves = mostRecentTile.CurrentPiece.GetValidMoves(this, mostRecentTile);
+            //mostRecentTile.CurrentPiece.GetValidMoves(this, mostRecentTile);
 
-            foreach (Tile move in attackerMoves)
+            foreach (Tile move in mostRecentTile.CurrentPiece.CurrentValidMoves)
             {
                 if (move.CurrentPiece is King)
                 {
-                    move.BackColor = Color.AliceBlue;
+                    move.BackColor = Color.Red;
                     King kingThatIsChecked = (King)move.CurrentPiece; // type cast to king
                     OnKingChecked.Invoke(kingThatIsChecked);
                 }

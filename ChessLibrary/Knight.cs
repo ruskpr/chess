@@ -13,21 +13,19 @@ namespace ChessLibrary
             this.Image = player == Player.Player_One ? Assets.W_KnightImg : Assets.B_KnightImg;
         #endregion
         #region Public Methods
-        public override List<Tile> GetValidMoves(Board board, Tile selectedTile)
+        public override void GetValidMoves(Board board, Tile selectedTile)
         {
-            List<Tile> validMoves = new List<Tile>();
+            CurrentValidMoves.Clear();
 
             if (selectedTile.CurrentPiece.CurrentPlayer == Player.Player_One &&
             GameManager.Turn == GameManager.PlayerTurn.p1)
-                validMoves.AddRange(GetPlayerOneMoves(board, selectedTile));
+                CurrentValidMoves.AddRange(GetPlayerOneMoves(board, selectedTile));
 
             if (selectedTile.CurrentPiece.CurrentPlayer == Player.Player_Two &&
             GameManager.Turn == GameManager.PlayerTurn.p2)
-                validMoves.AddRange(GetPlayerTwoMoves(board, selectedTile));
+                CurrentValidMoves.AddRange(GetPlayerTwoMoves(board, selectedTile));
 
-            IgnoreKing(validMoves);
-
-            return validMoves;
+            IgnoreKing(CurrentValidMoves);
         }
         #endregion
         #region Private Methods

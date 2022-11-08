@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 namespace ChessLibrary
 {
     public delegate void SendTileDelegate(Tile tile);
-    public delegate void CreateTestPieceDelegate(Tile tile);
 
     public class Tile : PictureBox
     {
         #region Delegate Events
         public static event SendTileDelegate SendSelectedTile;
         public static event SendTileDelegate SendTargetTile;
-        public static event CreateTestPieceDelegate CreateTestPiece;
         #endregion
         #region Properties
         public Board ParentBoard { get; set; }
@@ -56,33 +54,31 @@ namespace ChessLibrary
             if (e.Button == MouseButtons.Left)
             {
                 foreach (Tile tile in ParentBoard.Tiles) // reset all tiles to original color when new tile is clicked
-                    tile.UnSelect();
+                    tile.UnSelectTile();
 
                 if (IsAValidSpace) // move piece if it is marked as a valid space
                     SendTargetTile.Invoke(this);
 
-                Select();
+                SelectTile();
 
-                ParentBoard.GetMoves(this);
+                //show moves of selected tile on click
+                ParentBoard.ShowMovesOfSelectedTile(this);
 
-                if (this.CurrentPiece is King)
-                {
-                    //ParentBoard.CheckIfInCheck(this.CurrentPiece);
-                }
             }
         }
         #endregion
         #region Select / Unselect methods
-        public new void Select()
+        public void SelectTile()
         {
             SendSelectedTile?.Invoke(this);
             Selected = true;
             BackColor = GameManager.SelectionColor;
         }
-        void UnSelect()
+        public void UnSelectTile()
         {
             Selected = false;
             BackColor = originalColor;
+            Image = null;
         }
         #endregion
         #region Create piece

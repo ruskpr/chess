@@ -11,6 +11,9 @@ namespace ChessLibrary
         public enum PlayerTurn { p1 = 1, p2 = 2};
         public static PlayerTurn Turn = GameManager.PlayerTurn.p1;
 
+        public static void SwapTurns() => 
+            Turn = Turn == PlayerTurn.p1 ? PlayerTurn.p2 : PlayerTurn.p1;
+
         public static Color TileColorA = Color.LightSlateGray;
         public static Color TileColorB = Color.White;
         public static Color SelectionColor = Color.Pink;

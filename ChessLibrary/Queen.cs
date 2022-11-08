@@ -14,24 +14,22 @@ namespace ChessLibrary
         }
 
         #region Public methods
-        public override List<Tile> GetValidMoves(Board board, Tile selectedTile)
+        public override void GetValidMoves(Board board, Tile selectedTile)
         {
-            List<Tile> validMoves = new List<Tile>();
+            CurrentValidMoves.Clear();
 
             //straight line movement
-            validMoves.AddRange(CastForwardMovement(board, selectedTile));
-            validMoves.AddRange(CastBackwardMovement(board, selectedTile));
-            validMoves.AddRange(CastLeftMovement(board, selectedTile));
-            validMoves.AddRange(CastRightMovement(board, selectedTile));
+            CurrentValidMoves.AddRange(CastForwardMovement(board, selectedTile));
+            CurrentValidMoves.AddRange(CastBackwardMovement(board, selectedTile));
+            CurrentValidMoves.AddRange(CastLeftMovement(board, selectedTile));
+            CurrentValidMoves.AddRange(CastRightMovement(board, selectedTile));
 
             //diagnal movement
-            validMoves.AddRange(CastDiagnalUpperRight(board, selectedTile));
-            validMoves.AddRange(CastDiagnalUpperLeft(board, selectedTile));
-            validMoves.AddRange(CastDiagnaLowerRight(board, selectedTile));
-            validMoves.AddRange(CastDiagnaLowerLeft(board, selectedTile));
+            CurrentValidMoves.AddRange(CastDiagnalUpperRight(board, selectedTile));
+            CurrentValidMoves.AddRange(CastDiagnalUpperLeft(board, selectedTile));
+            CurrentValidMoves.AddRange(CastDiagnaLowerRight(board, selectedTile));
+            CurrentValidMoves.AddRange(CastDiagnaLowerLeft(board, selectedTile));
             //IgnoreKing(validMoves);
-
-            return validMoves;
         }
         #endregion
 

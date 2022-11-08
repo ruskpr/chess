@@ -7,17 +7,15 @@
             this.Image = player == Player.Player_One ? Assets.W_RookImg : Assets.B_RookImg;
         #endregion
         #region Public Methods
-        public override List<Tile> GetValidMoves(Board board, Tile selectedTile)
+        public override void GetValidMoves(Board board, Tile selectedTile)
         {
-            List<Tile> validMoves = new List<Tile>();
+            CurrentValidMoves.Clear();
 
-            validMoves.AddRange(CastForwardMovement(board,selectedTile));
-            validMoves.AddRange(CastBackwardMovement(board, selectedTile));
-            validMoves.AddRange(CastLeftMovement(board, selectedTile));
-            validMoves.AddRange(CastRightMovement(board, selectedTile));
-            IgnoreKing(validMoves);
-
-            return validMoves;
+            CurrentValidMoves.AddRange(CastForwardMovement(board,selectedTile));
+            CurrentValidMoves.AddRange(CastBackwardMovement(board, selectedTile));
+            CurrentValidMoves.AddRange(CastLeftMovement(board, selectedTile));
+            CurrentValidMoves.AddRange(CastRightMovement(board, selectedTile));
+            IgnoreKing(CurrentValidMoves);
         }
         #endregion
         #region Private Methods

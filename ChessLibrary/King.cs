@@ -21,22 +21,21 @@ namespace ChessLibrary
         {
             // when king is check put that king in a state
             // where they can only make moves to escape from check
+
             InCheck = true;
-            kingThatIsChecked.CurrentTile.BackColor = Color.Red;
+            //kingThatIsChecked.CurrentTile.BackColor = Color.Red;
             // Check spaces that are occupied by enemy players
             List<Tile> tilesOccupiedByOpponent = new List<Tile>();
             foreach (Tile tile in CurrentTile.ParentBoard.Tiles)
             {
                 // if the tiles pieces on the team opposite from the checked king...
-                if (tile.CurrentPiece != null)
+                if (tile.CurrentPiece != null &&
+                    tile.CurrentPiece.CurrentPlayer != kingThatIsChecked.CurrentPlayer)
                 {
-                    if (tile.CurrentPiece.CurrentPlayer != kingThatIsChecked.CurrentPlayer)
-                    {
-                        tile.BackColor = Color.LightGoldenrodYellow;
-                        // add all the moves of enemy tiles to one list
-                        tilesOccupiedByOpponent.AddRange(
-                            tile.CurrentPiece.GetValidMoves(tile.ParentBoard, tile));
-                    }
+                    tile.BackColor = Color.LightGoldenrodYellow;
+                    // add all the moves of enemy tiles to one list
+                    //tilesOccupiedByOpponent.AddRange(
+                    //    tile.CurrentPiece.GetValidMoves(tile.ParentBoard, tile));
                 }
             }
 
@@ -47,16 +46,15 @@ namespace ChessLibrary
         }
         #endregion
         #region Public methods
-        public override List<Tile> GetValidMoves(Board board, Tile selectedTile)
+        public override void GetValidMoves(Board board, Tile selectedTile)
         {
-            List<Tile> validMoves = new List<Tile>();
-            
-            validMoves.AddRange(OneInEachDirection(board, selectedTile, selectedTile.CurrentPiece.CurrentPlayer));
-            IgnoreKing(validMoves); // inherited
+            CurrentValidMoves.Clear();
+
+
+            CurrentValidMoves.AddRange(OneInEachDirection(board, selectedTile, selectedTile.CurrentPiece.CurrentPlayer));
+            IgnoreKing(CurrentValidMoves); // inherited
 
             //IgnoreOccupiedSpaces(validMoves); // ignore all spaces where a piece sits
-
-            return validMoves;
         }
         #endregion
         #region Private methods
