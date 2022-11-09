@@ -86,6 +86,22 @@ namespace ChessLibrary
             {
                 if ((int)SelectedTile.CurrentPiece.CurrentPlayer == (int)GameManager.Turn)
                 {
+                    //check if opponent piece was captured
+                    if (newTile.CurrentPiece != null)
+                    {
+                        Piece capturedPiece = newTile.CurrentPiece;
+                        MessageBox.Show(newTile.ToString());
+
+                        // remove from main list
+                        Piece.Pieces.Remove(capturedPiece);
+
+                        // if piece is captured place it in capturedPiece list
+                        if ((int)capturedPiece.CurrentPlayer == 1)
+                            Piece.PlayerOne_CapturedPieces.Add(capturedPiece);
+                        else
+                            Piece.PlayerTwo_CapturedPieces.Add(capturedPiece);   
+                    }
+
                     //set selected tiles to have the newly moved piece
                     newTile.CurrentPiece = oldTile.CurrentPiece;
 
@@ -96,7 +112,7 @@ namespace ChessLibrary
                     oldTile.BackgroundImage = null;
 
                     //remove oldtile
-                    oldTile.DiscardOldPosition();
+                    oldTile.DiscardPosition();
 
                     // set bool
                     newTile.CurrentPiece.CompletedFirstMove = true;

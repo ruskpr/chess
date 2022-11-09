@@ -11,6 +11,8 @@ namespace ChessLibrary
     {
         #region Fields
         public static List<Piece> Pieces = new List<Piece>();
+        public static List<Piece> PlayerOne_CapturedPieces = new List<Piece>();
+        public static List<Piece> PlayerTwo_CapturedPieces = new List<Piece>();
 
         public enum Player
         {

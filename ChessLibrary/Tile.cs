@@ -112,7 +112,7 @@ namespace ChessLibrary
         }
         #endregion
         #region Remove piece
-        public void DiscardOldPosition()
+        public void DiscardPosition()
         {
             CurrentPiece = null;
             Image = null;
