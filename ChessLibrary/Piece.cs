@@ -14,11 +14,7 @@ namespace ChessLibrary
         public static List<Piece> PlayerOne_CapturedPieces = new List<Piece>();
         public static List<Piece> PlayerTwo_CapturedPieces = new List<Piece>();
 
-        public enum Player
-        {
-            Player_One = 1,
-            Player_Two = 2
-        }
+        public enum Player { Player_One = 1, Player_Two = 2 }
         #endregion
         #region Properties
         public bool CompletedFirstMove { get; set; }

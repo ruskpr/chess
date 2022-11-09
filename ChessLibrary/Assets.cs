@@ -37,7 +37,7 @@ namespace ChessLibrary
         public static Bitmap ValidKillImg = new Bitmap("assets/ValidKill.png");
 
         //sounds
-        public static SoundPlayer sp = new SoundPlayer("assets/sounds/levelup2.wav");
+        public static SoundPlayer moveSound = new SoundPlayer("assets/sounds/levelup2.wav");
 
     }
 }

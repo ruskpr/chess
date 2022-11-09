@@ -90,7 +90,6 @@ namespace ChessLibrary
                     if (newTile.CurrentPiece != null)
                     {
                         Piece capturedPiece = newTile.CurrentPiece;
-                        MessageBox.Show(newTile.ToString());
 
                         // remove from main list
                         Piece.Pieces.Remove(capturedPiece);
@@ -111,7 +110,7 @@ namespace ChessLibrary
                     newTile.BackgroundImage = oldTile.BackgroundImage;
                     oldTile.BackgroundImage = null;
 
-                    //remove oldtile
+                    //remove oldtile (set images and child piece of tile to null)
                     oldTile.DiscardPosition();
 
                     // set bool
@@ -132,9 +131,9 @@ namespace ChessLibrary
 
                     foreach (Piece piece in Piece.Pieces)
                     {
-                        // generate opposing pieces' moves to see if the recent move is a valid kill for the enemy
-                        if (newTile.CurrentPiece != null)
-                            piece.GetValidMoves(this, piece.CurrentTile);
+                        // generate opposing pieces' moves to see if the recent move is a valid kill for the enemy)
+                        if (piece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
+                        piece.GetValidMoves(this, piece.CurrentTile);
 
                         //if (piece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
                     }

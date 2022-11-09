@@ -25,8 +25,6 @@ namespace ChessLibrary
         }
         #endregion
         #region Private Methods
-
-        #region Diagnal upper right
         private List<Tile> CastDiagnalUpperRight(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -35,7 +33,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = 1; i < 7; i++) // cast to the right end of the board
                     try 
@@ -44,7 +42,7 @@ namespace ChessLibrary
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrentPiece != null && 
-                            location.CurrentPiece.CurrentPlayer == Player.Player_Two)
+                            (int)location.CurrentPiece.CurrentPlayer == 2)
                         {
                             validMoves.Add(location); break;
                         }
@@ -52,7 +50,7 @@ namespace ChessLibrary
 
                         // stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                            (int)location.CurrentPiece.CurrentPlayer == 1)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -60,7 +58,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -69,14 +67,14 @@ namespace ChessLibrary
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_One)
+                            (int)location.CurrentPiece.CurrentPlayer == 1)
                         {
                             validMoves.Add(location); break;
                         }
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                            (int)location.CurrentPiece.CurrentPlayer == 2)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -86,8 +84,6 @@ namespace ChessLibrary
 
             return validMoves; // return valid forward spaces
         }
-        #endregion
-        #region Diagnal upper left
         private List<Tile> CastDiagnalUpperLeft(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -96,7 +92,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {  //int i = 1; i < 7; i++
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -105,14 +101,14 @@ namespace ChessLibrary
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_Two)
+                            (int)location.CurrentPiece.CurrentPlayer == 2)
                         {
                             validMoves.Add(location); break;
                         }
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                            (int)location.CurrentPiece.CurrentPlayer == 1)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -120,7 +116,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -129,7 +125,7 @@ namespace ChessLibrary
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_One)
+                            (int)location.CurrentPiece.CurrentPlayer == 1)
                         {
                             validMoves.Add(location); 
                             break;
@@ -137,7 +133,7 @@ namespace ChessLibrary
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                            (int)location.CurrentPiece.CurrentPlayer == 2)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -147,8 +143,6 @@ namespace ChessLibrary
 
             return validMoves; // return valid forward spaces
         }
-        #endregion
-        #region Diagnal lower right
         private List<Tile> CastDiagnaLowerRight(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -157,7 +151,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = 1; i < 7; i++) 
                     try
@@ -166,7 +160,7 @@ namespace ChessLibrary
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_Two)
+                            (int)location.CurrentPiece.CurrentPlayer == 2)
                         {
                             validMoves.Add(location); break;
                         }
@@ -174,7 +168,7 @@ namespace ChessLibrary
 
                         // stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                            (int)location.CurrentPiece.CurrentPlayer == 1)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -182,7 +176,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -191,14 +185,14 @@ namespace ChessLibrary
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_One)
+                            (int)location.CurrentPiece.CurrentPlayer == 1)
                         {
                             validMoves.Add(location); break;
                         }
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                            (int)location.CurrentPiece.CurrentPlayer == 2)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -208,8 +202,6 @@ namespace ChessLibrary
 
             return validMoves; // return valid forward spaces
         }
-        #endregion
-        #region Diagnal lower left
         private List<Tile> CastDiagnaLowerLeft(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -218,7 +210,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = 1; i < 7; i++)
                     try
@@ -227,14 +219,14 @@ namespace ChessLibrary
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_Two)
+                            (int)location.CurrentPiece.CurrentPlayer == 2)
                         {
                             validMoves.Add(location); break;
                         }
 
                         // stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                            (int)location.CurrentPiece.CurrentPlayer == 1)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -242,7 +234,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -251,14 +243,14 @@ namespace ChessLibrary
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_One)
+                            (int)location.CurrentPiece.CurrentPlayer == 2)
                         {
                             validMoves.Add(location); break;
                         }
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                            (int)location.CurrentPiece.CurrentPlayer == 2)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -268,8 +260,6 @@ namespace ChessLibrary
 
             return validMoves; // return valid forward spaces
         }
-        #endregion
-
         #endregion
     }
 }
