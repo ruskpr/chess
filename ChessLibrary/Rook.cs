@@ -18,9 +18,7 @@
             IgnoreKing(CurrentValidMoves);
         }
         #endregion
-        #region Private Methods
-
-        #region Forward Movement
+        #region Private Methods 
         private List<Tile> CastForwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -28,7 +26,7 @@
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
 
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
@@ -44,7 +42,7 @@
                         validMoves.Add(b.Tiles[i, currentX]); // add valid move if space is empty
                     }
             }
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
@@ -63,8 +61,6 @@
 
             return validMoves; // return valid forward spaces
         }
-        #endregion
-        #region Backward Movement
         private List<Tile> CastBackwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -72,7 +68,7 @@
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
@@ -96,7 +92,7 @@
 
                 }
             }
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
@@ -122,8 +118,6 @@
 
             return validMoves;
         }
-        #endregion
-        #region Left Movement
         private List<Tile> CastLeftMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -131,7 +125,7 @@
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
@@ -154,7 +148,7 @@
                     }
                 }
             }
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
@@ -180,8 +174,6 @@
 
             return validMoves;
         }
-        #endregion
-        #region Right Movement
         private List<Tile> CastRightMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -189,7 +181,7 @@
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
@@ -212,7 +204,7 @@
                     }
                 }
             }
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
@@ -238,8 +230,6 @@
 
             return validMoves;
         }
-        #endregion
-
         #endregion
     }
 }

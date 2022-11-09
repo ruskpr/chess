@@ -8,10 +8,8 @@ namespace ChessLibrary
 {
     public class Queen : Piece
     {
-        public Queen(Player player, Tile tile) : base(player, tile)
-        {
+        public Queen(Player player, Tile tile) : base(player, tile) => 
             this.Image = player == Player.Player_One ? Assets.W_QueenImg : Assets.B_QueenImg;
-        }
 
         #region Public methods
         public override void GetValidMoves(Board board, Tile selectedTile)
@@ -34,8 +32,7 @@ namespace ChessLibrary
         #endregion
 
         #region Private methods
-
-        #region Forward Movement
+        #region Straight line movement
         private List<Tile> CastForwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -43,7 +40,7 @@ namespace ChessLibrary
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
 
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
@@ -59,7 +56,7 @@ namespace ChessLibrary
                         validMoves.Add(b.Tiles[i, currentX]); // add valid move if space is empty
                     }
             }
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
@@ -78,8 +75,6 @@ namespace ChessLibrary
 
             return validMoves; // return valid forward spaces
         }
-        #endregion
-        #region Backward Movement
         private List<Tile> CastBackwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -87,7 +82,7 @@ namespace ChessLibrary
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
@@ -111,7 +106,7 @@ namespace ChessLibrary
 
                 }
             }
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
@@ -137,8 +132,6 @@ namespace ChessLibrary
 
             return validMoves;
         }
-        #endregion
-        #region Left Movement
         private List<Tile> CastLeftMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -146,7 +139,7 @@ namespace ChessLibrary
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
@@ -169,7 +162,7 @@ namespace ChessLibrary
                     }
                 }
             }
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
@@ -195,8 +188,6 @@ namespace ChessLibrary
 
             return validMoves;
         }
-        #endregion
-        #region Right Movement
         private List<Tile> CastRightMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -204,7 +195,7 @@ namespace ChessLibrary
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
@@ -227,7 +218,7 @@ namespace ChessLibrary
                     }
                 }
             }
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
@@ -255,7 +246,7 @@ namespace ChessLibrary
         }
         #endregion
 
-        #region Diagnal upper right
+        #region Diagnal movement
         private List<Tile> CastDiagnalUpperRight(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -264,7 +255,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = 1; i < 7; i++) // cast to the right end of the board
                     try
@@ -289,7 +280,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -315,8 +306,6 @@ namespace ChessLibrary
 
             return validMoves; // return valid forward spaces
         }
-        #endregion
-        #region Diagnal upper left
         private List<Tile> CastDiagnalUpperLeft(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -325,7 +314,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {  //int i = 1; i < 7; i++
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -349,7 +338,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -376,8 +365,6 @@ namespace ChessLibrary
 
             return validMoves; // return valid forward spaces
         }
-        #endregion
-        #region Diagnal lower right
         private List<Tile> CastDiagnaLowerRight(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -386,7 +373,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = 1; i < 7; i++)
                     try
@@ -411,7 +398,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -437,8 +424,6 @@ namespace ChessLibrary
 
             return validMoves; // return valid forward spaces
         }
-        #endregion
-        #region Diagnal lower left
         private List<Tile> CastDiagnaLowerLeft(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -447,7 +432,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_One && GameManager.Turn == GameManager.PlayerTurn.p1)
+            if ((int)t.CurrentPiece.CurrentPlayer == 1)
             {
                 for (int i = 1; i < 7; i++)
                     try
@@ -471,7 +456,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if (t.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two && GameManager.Turn == GameManager.PlayerTurn.p2)
+            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -498,7 +483,6 @@ namespace ChessLibrary
             return validMoves; // return valid forward spaces
         }
         #endregion
-
         #endregion
     }
 }
