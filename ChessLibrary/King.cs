@@ -32,7 +32,7 @@ namespace ChessLibrary
                 if (tile.CurrentPiece != null &&
                     tile.CurrentPiece.CurrentPlayer != kingThatIsChecked.CurrentPlayer)
                 {
-                    tile.BackColor = Color.LightGoldenrodYellow;
+                    //tile.BackColor = Color.LightGoldenrodYellow;
                     // add all the moves of enemy tiles to one list
                     //tilesOccupiedByOpponent.AddRange(
                     //    tile.CurrentPiece.GetValidMoves(tile.ParentBoard, tile));
@@ -41,7 +41,7 @@ namespace ChessLibrary
 
             if (true) // if king is checked and all spaces are occupied by opponent...
             {
-                // Checkmate();
+                // MessageBox.Show("Checkmate!");
             }
         }
         #endregion
@@ -50,11 +50,11 @@ namespace ChessLibrary
         {
             CurrentValidMoves.Clear();
 
-
-            CurrentValidMoves.AddRange(OneInEachDirection(board, selectedTile, selectedTile.CurrentPiece.CurrentPlayer));
+            CurrentValidMoves.AddRange(OneInEachDirection(board, selectedTile));
             IgnoreKing(CurrentValidMoves); // inherited
 
-            //IgnoreOccupiedSpaces(validMoves); // ignore all spaces where a piece sits
+            IgnoreOccupiedSpaces(CurrentValidMoves); // ignore all spaces where a piece sits
+            IgnoreEnemyMoves(CurrentValidMoves);
         }
         #endregion
         #region Private methods
@@ -62,44 +62,41 @@ namespace ChessLibrary
         {
             MessageBox.Show("Checkmate!");
         }
-        private List<Tile> OneInEachDirection(Board b, Tile t, Player player)
+        private List<Tile> OneInEachDirection(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
-            var currPiece = t.CurrentPiece.CurrentPlayer;
+            var player = t.CurrentPiece.CurrentPlayer;
 
-            var turn = GameManager.Turn; // current turn
-
-            if ((int)player == (int)turn) // if it is the pieces turn...
-            {
-
-                // all moves (1 in each direction)
-                try { validMoves.Add(b.Tiles[currentY - 1, currentX - 1]); } catch { }
-                try { validMoves.Add(b.Tiles[currentY - 1, currentX]); } catch { }
-                try { validMoves.Add(b.Tiles[currentY - 1, currentX + 1]); } catch { }
-                try { validMoves.Add(b.Tiles[currentY, currentX + 1]); } catch { }
-                try { validMoves.Add(b.Tiles[currentY + 1, currentX + 1]); } catch { }
-                try { validMoves.Add(b.Tiles[currentY + 1, currentX]); } catch { }
-                try { validMoves.Add(b.Tiles[currentY + 1, currentX - 1]); } catch { }
-                try { validMoves.Add(b.Tiles[currentY, currentX - 1]); } catch { }
-            }
+            // all moves (1 in each direction)
+            try { validMoves.Add(b.Tiles[currentY - 1, currentX - 1]); } catch { }
+            try { validMoves.Add(b.Tiles[currentY - 1, currentX]); } catch { }
+            try { validMoves.Add(b.Tiles[currentY - 1, currentX + 1]); } catch { }
+            try { validMoves.Add(b.Tiles[currentY, currentX + 1]); } catch { }
+            try { validMoves.Add(b.Tiles[currentY + 1, currentX + 1]); } catch { }
+            try { validMoves.Add(b.Tiles[currentY + 1, currentX]); } catch { }
+            try { validMoves.Add(b.Tiles[currentY + 1, currentX - 1]); } catch { }
+            try { validMoves.Add(b.Tiles[currentY, currentX - 1]); } catch { }
 
             return validMoves;
         }
 
         private void IgnoreOccupiedSpaces(List<Tile> validMoves)
         {
-            int numofMoves = validMoves.Count;
-            for (int i = numofMoves; i >= 0; i--)
-                try
-                { // remove moves where there are friendly peices
-                    if (validMoves[i].CurrentPiece != null)
-                        validMoves.RemoveAt(i);
-                }
-                catch { }
-        } 
+            foreach (Tile move in validMoves.ToList())
+            {
+                // remove moves where there are friendly pieces
+                if (move.CurrentPiece != null)
+                    if (move.CurrentPiece.CurrentPlayer == this.CurrentPlayer)
+                        validMoves.Remove(move);
+            }
+        }
+        private void IgnoreEnemyMoves(List<Tile> validMoves)
+        {
+
+        }
         #endregion
     }
 }

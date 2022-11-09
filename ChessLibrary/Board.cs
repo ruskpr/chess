@@ -26,7 +26,7 @@ namespace ChessLibrary
         #region Fields
         // 2d array of tiles
         public Tile[,] Tiles = new Tile[8, 8];
-
+        public Stack<Tuple<Piece, Tile, Tile>> MoveStack = new Stack<Tuple<Piece, Tile, Tile>>();
         //size of the tiles (initialized in Board class constructor
         // used in AddTiles() method
         Size tileSize;
@@ -34,6 +34,7 @@ namespace ChessLibrary
         #region Properties
         public Tile SelectedTile { get; set; }
         public Form ParentForm { get; set; }
+        public int ColorPack { get; set; }
         #endregion
         #region Constructor
         public Board(Form pntr, int size)
@@ -42,7 +43,7 @@ namespace ChessLibrary
             this.Size = new Size(size, size);
             this.BackColor = Color.White;
             tileSize = new Size(Width / 8, Width / 8);
-
+            ColorPack = 0;
             // add side panels
             ParentForm.Controls.Add(new LeftPanel(this));
 
@@ -110,17 +111,19 @@ namespace ChessLibrary
                     newTile.BackgroundImage = oldTile.BackgroundImage;
                     oldTile.BackgroundImage = null;
 
+                    // push move into stack
+                    MoveStack.Push(new Tuple<Piece, Tile, Tile>(newTile.CurrentPiece, oldTile, newTile));
+
                     //remove oldtile (set images and child piece of tile to null)
                     oldTile.DiscardPosition();
 
                     // set bool
                     newTile.CurrentPiece.CompletedFirstMove = true;
 
-                    //store new set of moves after being moved
-                    //newTile.CurrentPiece.GetValidMoves(this, newTile);
-
-                    //check if recently moved piece is checking a king
-                    //CheckIfInCheck(newTile);
+                    // check if recently moved piece is checking a king
+                    newTile.CurrentPiece.GetValidMoves(this, newTile);
+                    CheckIfInCheck(newTile);
+                    
 
                     // hide indicators
                     foreach (Tile tile in Tiles)
@@ -129,18 +132,18 @@ namespace ChessLibrary
                         tile.Image = null;
                     }
 
+                    // update opposing pieces' moves to see if the recent move is a valid kill for the enemy
                     foreach (Piece piece in Piece.Pieces)
-                    {
-                        // generate opposing pieces' moves to see if the recent move is a valid kill for the enemy)
                         if (piece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
-                        piece.GetValidMoves(this, piece.CurrentTile);
+                            piece.GetValidMoves(this, piece.CurrentTile);
 
-                        //if (piece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
-                    }
 
+                    // switch turn after a move
                     GameManager.SwapTurns();
-                    PieceMoved.Invoke(oldTile, newTile);
+
                     //send delegate to form
+                    PieceMoved.Invoke(oldTile, newTile);
+
                 }
             }       
         }
@@ -177,7 +180,7 @@ namespace ChessLibrary
         #endregion
         public void CheckIfInCheck(Tile mostRecentTile)
         {
-            var turn = GameManager.Turn; // current turn
+            //var turn = GameManager.Turn; // current turn
 
             //mostRecentTile.CurrentPiece.GetValidMoves(this, mostRecentTile);
 
@@ -205,7 +208,9 @@ namespace ChessLibrary
                 colorToggle = !colorToggle;
                 for (int j = 0; j < 8; j++) // row X
                 {
-                    tileColor = colorToggle ? GameManager.TileColorA : GameManager.TileColorB;
+                    tileColor = colorToggle ?
+                        GameManager.ColorPackages[ColorPack].Item1 :
+                        GameManager.ColorPackages[ColorPack].Item2;
 
                     Tile tile = new Tile(this, tileSize, new Point(locX, locY), j, i, tileColor);
 

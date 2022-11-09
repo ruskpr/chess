@@ -72,7 +72,7 @@ namespace ChessLibrary
         {
             SendSelectedTile?.Invoke(this);
             Selected = true;
-            BackColor = GameManager.SelectionColor;
+            BackColor = GameManager.ColorPackages[ParentBoard.ColorPack].Item3;
         }
         public void UnSelectTile()
         {

@@ -48,6 +48,12 @@ namespace ChessGame
                 $"{tileStart.CoordinateX}, {tileStart.CoordinateY} " +
                 $"to {tileEnd.CoordinateX}, {tileEnd.CoordinateY}";
 
+            lstMoves.Items.Clear();
+
+            foreach (Tuple<Piece, Tile, Tile> move in myBoard.MoveStack)
+                lstMoves.Items.Add($"{move.Item1}: x{move.Item2.CoordinateX}, y{move.Item2.CoordinateY} -> " +
+                    $"x{move.Item3.CoordinateX}, y{move.Item3.CoordinateY}");
+
         }
         #endregion
         #region Responsive operations

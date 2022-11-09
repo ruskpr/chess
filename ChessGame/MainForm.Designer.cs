@@ -33,6 +33,7 @@
             this.lbTest2 = new System.Windows.Forms.Label();
             this.lbTest3 = new System.Windows.Forms.Label();
             this.lbTest4 = new System.Windows.Forms.Label();
+            this.lstMoves = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // lbTest1
@@ -79,12 +80,22 @@
             this.lbTest4.TabIndex = 3;
             this.lbTest4.Text = "label1";
             // 
+            // lstMoves
+            // 
+            this.lstMoves.FormattingEnabled = true;
+            this.lstMoves.ItemHeight = 15;
+            this.lstMoves.Location = new System.Drawing.Point(39, 356);
+            this.lstMoves.Name = "lstMoves";
+            this.lstMoves.Size = new System.Drawing.Size(402, 319);
+            this.lstMoves.TabIndex = 4;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(37)))), ((int)(((byte)(41)))));
             this.ClientSize = new System.Drawing.Size(1458, 918);
+            this.Controls.Add(this.lstMoves);
             this.Controls.Add(this.lbTest4);
             this.Controls.Add(this.lbTest3);
             this.Controls.Add(this.lbTest2);
@@ -104,5 +115,6 @@
         private Label lbTest2;
         private Label lbTest3;
         private Label lbTest4;
+        private ListBox lstMoves;
     }
 }
