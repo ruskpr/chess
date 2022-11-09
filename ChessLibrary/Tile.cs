@@ -18,7 +18,7 @@ namespace ChessLibrary
         public Board ParentBoard { get; set; }
         public int CoordinateX { get; set; }
         public int CoordinateY { get; set; }
-        public Piece CurrentPiece { get; set; }
+        public Piece? CurrentPiece { get; set; }
         public bool Selected { get; set; }
         public bool IsAValidSpace { get; set; }
         #endregion
@@ -112,7 +112,7 @@ namespace ChessLibrary
         }
         #endregion
         #region Remove piece
-        public void RemovePiece()
+        public void DiscardOldPosition()
         {
             CurrentPiece = null;
             Image = null;

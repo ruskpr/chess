@@ -96,7 +96,7 @@ namespace ChessLibrary
                     oldTile.BackgroundImage = null;
 
                     //remove oldtile
-                    oldTile.RemovePiece();
+                    oldTile.DiscardOldPosition();
 
                     // set bool
                     newTile.CurrentPiece.CompletedFirstMove = true;
@@ -105,7 +105,7 @@ namespace ChessLibrary
                     //newTile.CurrentPiece.GetValidMoves(this, newTile);
 
                     //check if recently moved piece is checking a king
-                    CheckIfInCheck(newTile);
+                    //CheckIfInCheck(newTile);
 
                     // hide indicators
                     foreach (Tile tile in Tiles)
