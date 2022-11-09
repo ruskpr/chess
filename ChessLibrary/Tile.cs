@@ -122,8 +122,8 @@ namespace ChessLibrary
         #region Tostring override
         public override string ToString() =>
             CurrentPiece == null ? 
-            $"Empty tile at {CoordinateX}, {CoordinateY}" :
-            $"{CurrentPiece} at {CoordinateX}, {CoordinateY}";
+            $"Empty tile at x{CoordinateX}, y{CoordinateY}" :
+            $"{CurrentPiece} at x{CoordinateX}, y{CoordinateY}";
         #endregion
     }
 }

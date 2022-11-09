@@ -10,7 +10,7 @@ namespace ChessLibrary
     public abstract class Piece
     {
         #region Fields
-        public static List<Piece> pieceList = new List<Piece>();
+        public static List<Piece> Pieces = new List<Piece>();
 
         public enum Player
         {
@@ -32,7 +32,7 @@ namespace ChessLibrary
             CurrentTile = tile;
             CurrentValidMoves = new List<Tile>();
             this.Image = null;
-            pieceList.Add(this);
+            Pieces.Add(this);
         }
         #endregion
         #region Methods
@@ -43,7 +43,19 @@ namespace ChessLibrary
             //    if (validMoves[i].CurrentPiece is King)
             //        validMoves.RemoveAt(i);
         }
-        
+        protected void IgnoreFriendlies(List<Tile> moveList, Player currPlayer)
+        {
+            
+            // remove move if it contains a king or friendly player
+            foreach (Tile move in moveList.ToList())
+                if (move.CurrentPiece != null)
+                    if (move.CurrentPiece is King || (int)move.CurrentPiece.CurrentPlayer == (int)currPlayer)
+                    {
+                        moveList.Remove(move);
+                        //MessageBox.Show($"ignored {move}");
+                    }
+        }
+
         public override string ToString() => $"{CurrentPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";
         #endregion
     }

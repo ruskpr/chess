@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Media;
 using ChessLibrary;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace ChessGame
 {
@@ -42,15 +41,11 @@ namespace ChessGame
         private void Tile_SendCoordinate(Tile tile) => lbTest1.Text = tile.ToString();
         private void MyBoard_PieceMoved(Tile tileStart, Tile tileEnd)
         {
-            GameManager.SwapTurns();
-
-            lbTest2.Text = GameManager.Turn == GameManager.PlayerTurn.p1 ?
-                $"TURN: Player 1" : $"TURN: Player 2";
+            lbTest2.Text = (int)GameManager.Turn == 1 ? "TURN: Player 1" : "TURN: Player 2";
 
             // display latest move
-            var movedpeice = tileEnd.CurrentPiece;
-            lbTest4.Text = $"{movedpeice} moved from" + " " +
-                $"{tileStart.CoordinateX}, {tileStart.CoordinateY}" + " " +
+            lbTest4.Text = $"{tileEnd.CurrentPiece} moved from " +
+                $"{tileStart.CoordinateX}, {tileStart.CoordinateY} " +
                 $"to {tileEnd.CoordinateX}, {tileEnd.CoordinateY}";
 
         }

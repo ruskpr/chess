@@ -54,9 +54,8 @@ namespace ChessLibrary
             this.ParentForm.Controls.Add(this);
 
             // store all the moves of each piece when board is created
-            foreach (Tile tile in Tiles)
-                if (tile.CurrentPiece != null)
-                    tile.CurrentPiece.GetValidMoves(this, tile);
+            foreach(Piece p in Piece.Pieces)
+                p.GetValidMoves(this, p.CurrentTile);
         }
 
         
@@ -87,8 +86,11 @@ namespace ChessLibrary
             {
                 if ((int)SelectedTile.CurrentPiece.CurrentPlayer == (int)GameManager.Turn)
                 {
+                    //set selected tiles to have the newly moved piece
                     newTile.CurrentPiece = oldTile.CurrentPiece;
-                    newTile.CurrentPiece.CurrentTile = oldTile.CurrentPiece.CurrentTile;
+
+                    //MessageBox.Show(newTile.CurrentPiece.CurrentTile.ToString());
+                    newTile.CurrentPiece.CurrentTile = newTile;
                     //update new tile
                     newTile.BackgroundImage = oldTile.BackgroundImage;
                     oldTile.BackgroundImage = null;
@@ -99,9 +101,8 @@ namespace ChessLibrary
                     // set bool
                     newTile.CurrentPiece.CompletedFirstMove = true;
 
-
-                    //store new set of moves
-                    newTile.CurrentPiece.GetValidMoves(this, newTile);
+                    //store new set of moves after being moved
+                    //newTile.CurrentPiece.GetValidMoves(this, newTile);
 
                     //check if recently moved piece is checking a king
                     CheckIfInCheck(newTile);
@@ -109,22 +110,27 @@ namespace ChessLibrary
                     // hide indicators
                     foreach (Tile tile in Tiles)
                     {
-                        // generate opposing pieces' moves to see if the recent move is a valid kill for the enemy
-                        if (tile.CurrentPiece != null)
-                            if (tile.CurrentPiece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
-                                tile.CurrentPiece.GetValidMoves(this, tile);
-
                         tile.IsAValidSpace = false;
                         tile.Image = null;
                     }
 
-                    //send delegate 
+                    foreach (Piece piece in Piece.Pieces)
+                    {
+                        // generate opposing pieces' moves to see if the recent move is a valid kill for the enemy
+                        if (newTile.CurrentPiece != null)
+                            piece.GetValidMoves(this, piece.CurrentTile);
+
+                        //if (piece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
+                    }
+
+                    GameManager.SwapTurns();
                     PieceMoved.Invoke(oldTile, newTile);
+                    //send delegate to form
                 }
             }       
         }
         #endregion
-        #region Get moves method
+        #region show moves method
         public void ShowMovesOfSelectedTile(Tile selTile)
         {
             if (selTile.CurrentPiece != null)

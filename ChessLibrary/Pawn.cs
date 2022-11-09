@@ -17,13 +17,15 @@ namespace ChessLibrary
         }
         #endregion
         #region Public Methods
-        public override void GetValidMoves(Board board, Tile selectedTile)
+        public override void GetValidMoves(Board board, Tile selTile)
         {
             CurrentValidMoves.Clear();
 
-            CurrentValidMoves.AddRange(GetForwardMovement(board, selectedTile));
-            CurrentValidMoves.AddRange(GetDiagnalMovement(board, selectedTile));
+            CurrentValidMoves.AddRange(GetForwardMovement(board, selTile));
+            CurrentValidMoves.AddRange(GetDiagnalMovement(board, selTile));
+
             IgnoreKing(CurrentValidMoves);
+            //IgnoreFriendlies(CurrentValidMoves, (int)selTile.CurrentPiece.CurrentPlayer);
         }
         #endregion
         #region Private Methods
@@ -66,9 +68,6 @@ namespace ChessLibrary
                     b.Tiles[t.CoordinateY + 1, t.CoordinateX].CurrentPiece == null // condition: tile 1 step ahead isnt taken
                     )
                     validMoves.Add(b.Tiles[t.CoordinateY + 2, t.CoordinateX]);
-
-                
-                
             }
 
             return validMoves;
