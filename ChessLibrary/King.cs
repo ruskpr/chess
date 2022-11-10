@@ -10,39 +10,75 @@ namespace ChessLibrary
     public class King : Piece
     {
         public bool InCheck { get; set; }
+        bool[] spacesOccupied = new bool[9];
+        private Tile[] allSpaces = new Tile[9];
         public King(Player player, Tile tile) : base(player, tile)
         {
             this.Image = player == Player.Player_One ? Assets.W_KingImg : Assets.B_KingImg;
             InCheck = false;
             CurrentTile.ParentBoard.OnKingChecked += ParentBoard_OnKingChecked;
+            CurrentTile.ParentBoard.PieceMoved += ParentBoard_PieceMoved;
+        }
+        private void UpdateSpaces(Board b, Tile t)
+        {
+            int currentX = t.CoordinateX; // added for readability
+            int currentY = t.CoordinateY;
+
+            // all spaces
+            try { allSpaces[0] = b.Tiles[currentY - 1, currentX - 1]; } catch { }
+            try { allSpaces[1] = b.Tiles[currentY - 1, currentX]; } catch { }
+            try { allSpaces[2] = b.Tiles[currentY - 1, currentX + 1]; } catch { }
+            try { allSpaces[3] = b.Tiles[currentY, currentX + 1]; } catch { }
+            try { allSpaces[4] = b.Tiles[currentY + 1, currentX + 1]; } catch { }
+            try { allSpaces[5] = b.Tiles[currentY + 1, currentX]; } catch { }
+            try { allSpaces[6] = b.Tiles[currentY + 1, currentX - 1]; } catch { }
+            try { allSpaces[7] = b.Tiles[currentY, currentX - 1]; } catch { }
+            try { allSpaces[8] = b.Tiles[currentY, currentX]; } catch { }
+        }
+        private void CheckForOccupiedSpaces()
+        {
+            for (int i = 0; i < allSpaces.Length; i++)
+            {
+                if (allSpaces[i].CoordinateX == )
+                    for (int j = 0; j < length; j++)
+                    {
+                        // left off here
+                    }
+            }
+        }
+        private void ParentBoard_PieceMoved(Tile tileStart, Tile tileEnd)
+        {
+            UpdateSpaces(this.CurrentTile.ParentBoard, this.CurrentTile);
         }
         #region Delegate
         private void ParentBoard_OnKingChecked(King kingThatIsChecked)
         {
             // when king is check put that king in a state
             // where they can only make moves to escape from check
+            ExecuteCheckedState();
 
             InCheck = true;
-            //kingThatIsChecked.CurrentTile.BackColor = Color.Red;
+
             // Check spaces that are occupied by enemy players
             List<Tile> tilesOccupiedByOpponent = new List<Tile>();
-            foreach (Tile tile in CurrentTile.ParentBoard.Tiles)
+            foreach (Piece piece in Piece.Pieces)
             {
-                // if the tiles pieces on the team opposite from the checked king...
-                if (tile.CurrentPiece != null &&
-                    tile.CurrentPiece.CurrentPlayer != kingThatIsChecked.CurrentPlayer)
-                {
-                    //tile.BackColor = Color.LightGoldenrodYellow;
-                    // add all the moves of enemy tiles to one list
-                    //tilesOccupiedByOpponent.AddRange(
-                    //    tile.CurrentPiece.GetValidMoves(tile.ParentBoard, tile));
-                }
+                // if the tiles are occupied add to list
+                if (piece.CurrentPlayer != this.CurrentPlayer)
+                    foreach (Tile move in piece.CurrentValidMoves)
+                    {
+                        
+                    }
             }
 
             if (true) // if king is checked and all spaces are occupied by opponent...
             {
                 // MessageBox.Show("Checkmate!");
             }
+        }
+        private void ExecuteCheckedState()
+        {
+
         }
         #endregion
         #region Public methods
@@ -68,7 +104,8 @@ namespace ChessLibrary
 
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
-            var player = t.CurrentPiece.CurrentPlayer;
+
+            UpdateSpaces(b, t);
 
             // all moves (1 in each direction)
             try { validMoves.Add(b.Tiles[currentY - 1, currentX - 1]); } catch { }

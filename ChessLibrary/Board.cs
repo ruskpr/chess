@@ -123,7 +123,6 @@ namespace ChessLibrary
                     // check if recently moved piece is checking a king
                     newTile.CurrentPiece.GetValidMoves(this, newTile);
                     CheckIfInCheck(newTile);
-                    
 
                     // hide indicators
                     foreach (Tile tile in Tiles)
@@ -132,11 +131,10 @@ namespace ChessLibrary
                         tile.Image = null;
                     }
 
-                    // update opposing pieces' moves to see if the recent move is a valid kill for the enemy
-                    foreach (Piece piece in Piece.Pieces)
-                        if (piece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
-                            piece.GetValidMoves(this, piece.CurrentTile);
-
+                    // update opposing pieces' moves to see if the recent move is a valid move for the enemy
+                    //foreach (Piece piece in Piece.Pieces)
+                    //    if (piece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
+                    //        piece.GetValidMoves(this, piece.CurrentTile);
 
                     // switch turn after a move
                     GameManager.SwapTurns();
@@ -153,6 +151,7 @@ namespace ChessLibrary
         {
             if (selTile.CurrentPiece != null)
             {
+                selTile.CurrentPiece.GetValidMoves(this, selTile);
                 //only show moves if it is the players turn
                 if ((int)SelectedTile.CurrentPiece.CurrentPlayer == (int)GameManager.Turn)
                 {
@@ -180,13 +179,10 @@ namespace ChessLibrary
         #endregion
         public void CheckIfInCheck(Tile mostRecentTile)
         {
-            //var turn = GameManager.Turn; // current turn
-
-            //mostRecentTile.CurrentPiece.GetValidMoves(this, mostRecentTile);
-
             foreach (Tile move in mostRecentTile.CurrentPiece.CurrentValidMoves)
             {
-                if (move.CurrentPiece is King)
+                if (move.CurrentPiece is King && move.CurrentPiece.CurrentPlayer !=
+                    mostRecentTile.CurrentPiece.CurrentPlayer)
                 {
                     move.BackColor = Color.Red;
                     King kingThatIsChecked = (King)move.CurrentPiece; // type cast to king

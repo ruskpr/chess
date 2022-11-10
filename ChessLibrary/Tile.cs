@@ -78,6 +78,16 @@ namespace ChessLibrary
         {
             Selected = false;
             BackColor = originalColor;
+
+            Piece piece = this.CurrentPiece;
+            if (piece is King)
+            {
+                King king = (King)piece;
+                if (king.InCheck)
+                    BackColor = Color.Red;
+            }
+
+
             Image = null;
         }
         #endregion
