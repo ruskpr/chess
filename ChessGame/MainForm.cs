@@ -23,10 +23,7 @@ namespace ChessGame
             this.SizeChanged += MainForm_SizeChanged;
             this.Resize += MainForm_Resize;
 
-            lbTest2.Text = GameManager.Turn == GameManager.PlayerTurn.p1 ?
-                $"TURN: Player 1" : $"TURN: Player 2";
-
-            Tile.SendSelectedTile += Tile_SendCoordinate;
+            Tile.OnSelected += Tile_OnSelected;
 
             int monitorHeight = Screen.PrimaryScreen.Bounds.Height;
 
@@ -34,26 +31,29 @@ namespace ChessGame
             
             myBoard.PieceMoved += MyBoard_PieceMoved;
 
+            UpdateText(null);
             ResponsiveFormat();
         }
         #endregion
         #region Delegate methods
-        private void Tile_SendCoordinate(Tile tile) => lbTest1.Text = tile.ToString();
-        private void MyBoard_PieceMoved(Tile tileStart, Tile tileEnd)
+        private void Tile_OnSelected(Tile tile) => UpdateText(tile);
+        private void MyBoard_PieceMoved() => UpdateText(null);
+        private void UpdateText(Tile? tile)
         {
-            lbTest2.Text = (int)GameManager.Turn == 1 ? "TURN: Player 1" : "TURN: Player 2";
+            lbTest1.Text = $"Selected: {tile}";
+
+            lbTest2.Text = "Turn:" + " " + myBoard.Turn;
 
             // display latest move
-            lbTest4.Text = $"{tileEnd.CurrentPiece} moved from " +
-                $"{tileStart.CoordinateX}, {tileStart.CoordinateY} " +
-                $"to {tileEnd.CoordinateX}, {tileEnd.CoordinateY}";
+            lbTest4.Text = myBoard.LatestMove;
 
+
+            // display history of all moves
             lstMoves.Items.Clear();
 
             foreach (Tuple<Piece, Tile, Tile> move in myBoard.MoveStack)
                 lstMoves.Items.Add($"{move.Item1}: x{move.Item2.CoordinateX}, y{move.Item2.CoordinateY} -> " +
                     $"x{move.Item3.CoordinateX}, y{move.Item3.CoordinateY}");
-
         }
         #endregion
         #region Responsive operations

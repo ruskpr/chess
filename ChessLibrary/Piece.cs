@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ChessLibrary
 {
-    public abstract class Piece
+    public abstract class Piece : IDisposable
     {
         #region Fields
         public static List<Piece> Pieces = new List<Piece>();
@@ -52,6 +52,11 @@ namespace ChessLibrary
                         moveList.Remove(move);
                         //MessageBox.Show($"ignored {move}");
                     }
+        }
+
+        public void Dispose()
+        {
+
         }
 
         public override string ToString() => $"{CurrentPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";

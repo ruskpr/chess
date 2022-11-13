@@ -10,7 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 namespace ChessLibrary
 {
 
-    public delegate void PieceMovedDelegate(Tile tileStart, Tile tileEnd);
+    public delegate void PieceMovedDelegate();
 
 
     public class Board : Panel
@@ -30,11 +30,15 @@ namespace ChessLibrary
         //size of the tiles (initialized in Board class constructor
         // used in AddTiles() method
         Size tileSize;
+
+        private string latestMove = "";
         #endregion
         #region Properties
         public Tile SelectedTile { get; set; }
         public Form ParentForm { get; set; }
         public int ColorPack { get; set; }
+        public string Turn { get { return (int)GameManager.Turn == 1 ? "Player 1" : "Player 2"; } }
+        public string LatestMove { get { return latestMove; } }
         #endregion
         #region Constructor
         public Board(Form pntr, int size)
@@ -48,7 +52,7 @@ namespace ChessLibrary
             ParentForm.Controls.Add(new LeftPanel(this));
 
             SelectedTile = null;
-            Tile.SendSelectedTile += Tile_SendSelectedTile;
+            Tile.OnSelected += Tile_OnSelected;
             Tile.SendTargetTile += Tile_SendTargetTile;
 
             ConstructBoard();
@@ -69,7 +73,7 @@ namespace ChessLibrary
         }
         #endregion
         #region Delegate to send and recieve tiles
-        private void Tile_SendSelectedTile(Tile tile) //recieve selected tile
+        private void Tile_OnSelected(Tile tile) //recieve selected tile
         {
             SelectedTile = tile;
             //display valid moves for selected tile
@@ -136,12 +140,17 @@ namespace ChessLibrary
                     //    if (piece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
                     //        piece.GetValidMoves(this, piece.CurrentTile);
 
+                    // store latest move as string 
+                    latestMove = $"{newTile.CurrentPiece} moved from " +
+                                $"{oldTile.CoordinateX}, {oldTile.CoordinateY} " +
+                                $"to {newTile.CoordinateX}, {newTile.CoordinateY}";
+
                     // switch turn after a move
                     GameManager.SwapTurns();
 
                     //send delegate to form
-                    PieceMoved.Invoke(oldTile, newTile);
-
+                    PieceMoved.Invoke();
+                    
                 }
             }       
         }
@@ -272,7 +281,16 @@ namespace ChessLibrary
                 }
             }
         }
-        #endregion  
+        #endregion
+        #region Reset board
+        public void Reset()
+        {
+            foreach (Piece piece in Piece.Pieces)
+                piece.
+
+            ConstructBoard();
+        }
+        #endregion
         #region Overrided ToString() method
         public override string ToString() => "Chessboard";
         #endregion

@@ -11,7 +11,7 @@ namespace ChessLibrary
     public class Tile : PictureBox
     {
         #region Delegate Events
-        public static event SendTileDelegate SendSelectedTile;
+        public static event SendTileDelegate OnSelected;
         public static event SendTileDelegate SendTargetTile;
         #endregion
         #region Properties
@@ -70,8 +70,8 @@ namespace ChessLibrary
         #region Select / Unselect methods
         public void SelectTile()
         {
-            SendSelectedTile?.Invoke(this);
             Selected = true;
+            OnSelected?.Invoke(this);
             BackColor = GameManager.ColorPackages[ParentBoard.ColorPack].Item3;
         }
         public void UnSelectTile()

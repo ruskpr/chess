@@ -39,14 +39,14 @@ namespace ChessLibrary
         {
             for (int i = 0; i < allSpaces.Length; i++)
             {
-                if (allSpaces[i].CoordinateX == )
-                    for (int j = 0; j < length; j++)
-                    {
-                        // left off here
-                    }
+                //if (allSpaces[i].CoordinateX == )
+                //    for (int j = 0; j < length; j++)
+                //    {
+                //        // left off here
+                //    }
             }
         }
-        private void ParentBoard_PieceMoved(Tile tileStart, Tile tileEnd)
+        private void ParentBoard_PieceMoved()
         {
             UpdateSpaces(this.CurrentTile.ParentBoard, this.CurrentTile);
         }
