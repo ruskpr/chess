@@ -15,13 +15,13 @@ namespace ChessLibrary
 
     public class Board : Panel
     {
-        #region Delegate definition
+        #region Delegate definitions
         //event is called on main form constructor
         public event PieceMovedDelegate PieceMoved;
 
 
         public delegate void OnKingCheckedDelegate(King kingThatIsChecked);
-        public event OnKingCheckedDelegate OnKingChecked;
+        public static event OnKingCheckedDelegate OnKingChecked;
         #endregion
         #region Fields
         // 2d array of tiles
@@ -42,9 +42,9 @@ namespace ChessLibrary
         public string LatestMove { get { return latestMove; } }
         #endregion
         #region Constructor
-        public Board(Form pntr, int size)
+        public Board(Form form, int size)
         {
-            this.ParentForm = pntr;
+            this.ParentForm = form;
             this.Size = new Size(size, size);
             this.BackColor = Color.White;
             tileSize = new Size(Width / 8, Width / 8);
@@ -54,6 +54,7 @@ namespace ChessLibrary
             Tile.OnSelected += Tile_OnSelected;
             Tile.SendTargetTile += Tile_SendTargetTile;
 
+            // construct board and place on form
             ConstructBoard();
             this.ParentForm.Controls.Add(this);
 
@@ -63,7 +64,6 @@ namespace ChessLibrary
             foreach(Piece p in Piece.Pieces)
                 p.GetValidMoves(this, p.CurrentTile);
         }
-        
         #endregion
         #region Construct Board method
         public void ConstructBoard()
@@ -134,6 +134,8 @@ namespace ChessLibrary
 
                     // check if recently moved piece is checking a king
                     newTile.CurrentPiece.GetValidMoves(this, newTile);
+
+                    // check if moved piece is checking the opposite king
                     CheckIfInCheck(newTile);
 
                     // hide indicators
@@ -156,7 +158,7 @@ namespace ChessLibrary
                     // switch turn after a move
                     GameManager.SwapTurns();
 
-                    //send delegate to form
+                    //send delegate to side panel
                     PieceMoved.Invoke();
                     
                 }
@@ -168,8 +170,11 @@ namespace ChessLibrary
         {
             if (selTile.CurrentPiece != null)
             {
+                // generate moves on click
                 selTile.CurrentPiece.GetValidMoves(this, selTile);
+
                 //only show moves if it is the players turn
+
                 if ((int)SelectedTile.CurrentPiece.CurrentPlayer == (int)GameManager.Turn)
                 {
                     // get list of moves for selected tile
@@ -194,19 +199,21 @@ namespace ChessLibrary
             }
         }
         #endregion
+        #region Check if in king is in check method
         public void CheckIfInCheck(Tile mostRecentTile)
         {
             foreach (Tile move in mostRecentTile.CurrentPiece.CurrentValidMoves)
             {
                 if (move.CurrentPiece is King && move.CurrentPiece.CurrentPlayer !=
-                    mostRecentTile.CurrentPiece.CurrentPlayer)
+                    mostRecentTile.CurrentPiece.CurrentPlayer )
                 {
-                    move.BackColor = Color.Red;
-                    King kingThatIsChecked = (King)move.CurrentPiece; // type cast to king
-                    OnKingChecked.Invoke(kingThatIsChecked);
+                    King checkedKing = (King)move.CurrentPiece; // type cast to king
+                    OnKingChecked.Invoke(checkedKing);
+                    break;
                 }
             }
         }
+        #endregion
         #region Add tiles to board method
         public void AddTiles()
         {

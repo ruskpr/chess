@@ -9,16 +9,23 @@ namespace ChessLibrary
 {
     public class King : Piece
     {
-        public bool InCheck { get; set; }
-        bool[] spacesOccupied = new bool[9];
+        #region Fields
+        private bool inCheckedState = false;
+        private bool[] spacesOccupied = new bool[9];
         private Tile[] allSpaces = new Tile[9];
+        #endregion
+        #region Properties
+        public bool InCheckedState { get { return InCheckedState; } }
+        #endregion
+        #region Constructor
         public King(Player player, Tile tile) : base(player, tile)
         {
             this.Image = player == Player.Player_One ? Assets.W_KingImg : Assets.B_KingImg;
-            InCheck = false;
-            CurrentTile.ParentBoard.OnKingChecked += ParentBoard_OnKingChecked;
+
+            Board.OnKingChecked += ParentBoard_OnKingChecked;
             CurrentTile.ParentBoard.PieceMoved += ParentBoard_PieceMoved;
         }
+        #endregion
         private void UpdateSpaces(Board b, Tile t)
         {
             int currentX = t.CoordinateX; // added for readability
@@ -37,51 +44,58 @@ namespace ChessLibrary
         }
         private void CheckForOccupiedSpaces()
         {
-            for (int i = 0; i < allSpaces.Length; i++)
-            {
-                //if (allSpaces[i].CoordinateX == )
-                //    for (int j = 0; j < length; j++)
-                //    {
-                //        // left off here
-                //    }
-            }
+            //for (int i = 0; i < allSpaces.Length; i++)
+            //{
+            //    if (allSpaces[i].CoordinateX == )
+            //        for (int j = 0; j < length; j++)
+            //        {
+            //            // left off here
+            //        }
+            //}
         }
         private void ParentBoard_PieceMoved()
         {
+            // update kings open spaces on every move
             UpdateSpaces(this.CurrentTile.ParentBoard, this.CurrentTile);
         }
-        #region Delegate
-        private void ParentBoard_OnKingChecked(King kingThatIsChecked)
+        #region onKingChecked
+        private void ParentBoard_OnKingChecked(King checkedKing)
         {
             // when king is check put that king in a state
             // where they can only make moves to escape from check
-            ExecuteCheckedState();
+            if (checkedKing.inCheckedState == false)
+                ExecuteCheckedState(checkedKing);
 
-            InCheck = true;
 
             // Check spaces that are occupied by enemy players
             List<Tile> tilesOccupiedByOpponent = new List<Tile>();
-            foreach (Piece piece in Piece.Pieces)
-            {
-                // if the tiles are occupied add to list
-                if (piece.CurrentPlayer != this.CurrentPlayer)
-                    foreach (Tile move in piece.CurrentValidMoves)
-                    {
+            //foreach (Piece piece in Piece.Pieces)
+            //{
+            //    // if the tiles are occupied add to list
+            //    if (piece.CurrentPlayer != this.CurrentPlayer)
+            //        foreach (Tile move in piece.CurrentValidMoves)
+            //        {
                         
-                    }
-            }
+            //        }
+            //}
 
             if (true) // if king is checked and all spaces are occupied by opponent...
             {
-                // MessageBox.Show("Checkmate!");
-            }
+                
+            } 
         }
-        private void ExecuteCheckedState()
+        private void ExecuteCheckedState(King checkedKing)
         {
+            checkedKing.inCheckedState = true;
+            checkedKing.CurrentTile.BackColor = Color.Red;
+            MessageBox.Show("Checked!");
+
+
+            //show possible moves of the checked king
 
         }
         #endregion
-        #region Public methods
+        #region Get Moves
         public override void GetValidMoves(Board board, Tile selectedTile)
         {
             CurrentValidMoves.Clear();
@@ -91,13 +105,7 @@ namespace ChessLibrary
 
             IgnoreOccupiedSpaces(CurrentValidMoves); // ignore all spaces where a piece sits
             IgnoreEnemyMoves(CurrentValidMoves);
-        }
-        #endregion
-        #region Private methods
-        private void Checkmate()
-        {
-            MessageBox.Show("Checkmate!");
-        }
+        }   
         private List<Tile> OneInEachDirection(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -119,7 +127,6 @@ namespace ChessLibrary
 
             return validMoves;
         }
-
         private void IgnoreOccupiedSpaces(List<Tile> validMoves)
         {
             foreach (Tile move in validMoves.ToList())
@@ -135,5 +142,9 @@ namespace ChessLibrary
 
         }
         #endregion
+        private void Checkmate()
+        {
+            MessageBox.Show("Checkmate!");
+        }
     }
 }

@@ -20,7 +20,6 @@ namespace ChessLibrary
 
         #endregion 
 
-        public static void SwapTurns() => 
-            Turn = Turn == PlayerTurn.p1 ? PlayerTurn.p2 : PlayerTurn.p1;
+        public static void SwapTurns() => Turn = Turn == PlayerTurn.p1 ? PlayerTurn.p2 : PlayerTurn.p1;
     }
 }

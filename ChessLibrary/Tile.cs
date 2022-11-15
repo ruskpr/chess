@@ -83,8 +83,8 @@ namespace ChessLibrary
             if (piece is King)
             {
                 King king = (King)piece;
-                if (king.InCheck)
-                    BackColor = Color.Red;
+                //if (king.inCheck)
+                //    BackColor = Color.Red;
             }
 
 
