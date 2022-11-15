@@ -36,6 +36,7 @@ namespace ChessLibrary
         #region Properties
         public Tile SelectedTile { get; set; }
         public Form ParentForm { get; set; }
+        public LeftPanel SidePanel { get; set; }
         public int ColorPack { get; set; }
         public string Turn { get { return (int)GameManager.Turn == 1 ? "Player 1" : "Player 2"; } }
         public string LatestMove { get { return latestMove; } }
@@ -48,8 +49,6 @@ namespace ChessLibrary
             this.BackColor = Color.White;
             tileSize = new Size(Width / 8, Width / 8);
             ColorPack = 0;
-            // add side panels
-            ParentForm.Controls.Add(new LeftPanel(this));
 
             SelectedTile = null;
             Tile.OnSelected += Tile_OnSelected;
@@ -58,11 +57,12 @@ namespace ChessLibrary
             ConstructBoard();
             this.ParentForm.Controls.Add(this);
 
+            ResponsiveLayout();
+
             // store all the moves of each piece when board is created
             foreach(Piece p in Piece.Pieces)
                 p.GetValidMoves(this, p.CurrentTile);
         }
-
         
         #endregion
         #region Construct Board method
@@ -70,6 +70,14 @@ namespace ChessLibrary
         {
             AddTiles();
             AddPieces();
+
+            // add side panels
+            SidePanel = new LeftPanel(this);
+        }
+        public void ResponsiveLayout()
+        {
+            Format.Center(this);
+            SidePanel.ResponsiveLayout();
         }
         #endregion
         #region Delegate to send and recieve tiles
@@ -285,10 +293,10 @@ namespace ChessLibrary
         #region Reset board
         public void Reset()
         {
-            foreach (Piece piece in Piece.Pieces)
-                piece.
+            //foreach (Piece piece in Piece.Pieces)
+            //    piece.
 
-            ConstructBoard();
+            //ConstructBoard();
         }
         #endregion
         #region Overrided ToString() method
