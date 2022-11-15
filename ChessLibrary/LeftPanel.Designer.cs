@@ -31,6 +31,7 @@
             this.lstMoves = new System.Windows.Forms.ListBox();
             this.lbSelected = new System.Windows.Forms.Label();
             this.lbTurn = new System.Windows.Forms.Label();
+            this.btnReset = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lstMoves
@@ -38,7 +39,7 @@
             this.lstMoves.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstMoves.FormattingEnabled = true;
             this.lstMoves.ItemHeight = 25;
-            this.lstMoves.Location = new System.Drawing.Point(0, 375);
+            this.lstMoves.Location = new System.Drawing.Point(0, 308);
             this.lstMoves.Name = "lstMoves";
             this.lstMoves.Size = new System.Drawing.Size(391, 254);
             this.lstMoves.TabIndex = 0;
@@ -65,11 +66,27 @@
             this.lbTurn.TabIndex = 4;
             this.lbTurn.Text = "Turn:";
             // 
+            // btnReset
+            // 
+            this.btnReset.BackColor = System.Drawing.Color.Black;
+            this.btnReset.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnReset.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnReset.ForeColor = System.Drawing.Color.White;
+            this.btnReset.Location = new System.Drawing.Point(17, 591);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(109, 31);
+            this.btnReset.TabIndex = 5;
+            this.btnReset.Text = "Reset";
+            this.btnReset.UseVisualStyleBackColor = false;
+            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
+            // 
             // LeftPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Wheat;
+            this.Controls.Add(this.btnReset);
             this.Controls.Add(this.lbTurn);
             this.Controls.Add(this.lbSelected);
             this.Controls.Add(this.lstMoves);
@@ -85,5 +102,6 @@
         private ListBox lstMoves;
         private Label lbSelected;
         private Label lbTurn;
+        private Button btnReset;
     }
 }

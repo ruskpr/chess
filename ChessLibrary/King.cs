@@ -69,15 +69,15 @@ namespace ChessLibrary
 
             // Check spaces that are occupied by enemy players
             List<Tile> tilesOccupiedByOpponent = new List<Tile>();
-            //foreach (Piece piece in Piece.Pieces)
-            //{
-            //    // if the tiles are occupied add to list
-            //    if (piece.CurrentPlayer != this.CurrentPlayer)
-            //        foreach (Tile move in piece.CurrentValidMoves)
-            //        {
-                        
-            //        }
-            //}
+            foreach (Piece piece in Piece.Pieces)
+            {
+                // if the tiles are occupied add to list
+                if (piece.CurrentPlayer != this.CurrentPlayer)
+                    foreach (Tile move in piece.CurrentValidMoves)
+                    {
+
+                    }
+            }
 
             if (true) // if king is checked and all spaces are occupied by opponent...
             {
@@ -89,6 +89,7 @@ namespace ChessLibrary
             checkedKing.inCheckedState = true;
             checkedKing.CurrentTile.BackColor = Color.Red;
             MessageBox.Show("Checked!");
+            CurrentTile.ParentBoard.ResetBoard();
 
 
             //show possible moves of the checked king

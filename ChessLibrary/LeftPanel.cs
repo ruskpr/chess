@@ -40,7 +40,7 @@ namespace ChessLibrary
             this.Height = ParentBoard.Height;
             this.Width = ParentBoard.Width / 2;
 
-            //lstMoves.Width = this.Width;
+            lstMoves.Width = this.Width;
             //lstMoves.Height = this.Height / 3;
             lstMoves.BackColor = Color.Black;
             lstMoves.ForeColor = Color.White;
@@ -60,5 +60,11 @@ namespace ChessLibrary
                 lstMoves.Items.Add($"{move.Item1}: x{move.Item2.CoordinateX}, y{move.Item2.CoordinateY} -> " +
                     $"x{move.Item3.CoordinateX}, y{move.Item3.CoordinateY}");
         }
+        #region Button click events
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            ParentBoard.ResetBoard();
+        }
+        #endregion
     }
 }

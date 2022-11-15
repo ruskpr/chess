@@ -298,12 +298,19 @@ namespace ChessLibrary
         }
         #endregion
         #region Reset board
-        public void Reset()
+        public void ResetBoard()
         {
-            //foreach (Piece piece in Piece.Pieces)
-            //    piece.
+            foreach (Piece p in Piece.Pieces)
+            {
+                p.Dispose();
+            }
+            foreach (Tile t in Tiles)
+            {
+                t.Dispose();
+            }
 
-            //ConstructBoard();
+
+            ConstructBoard();
         }
         #endregion
         #region Overrided ToString() method

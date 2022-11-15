@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ChessLibrary.Piece;
 //using static ChessGame.Piece;
 
 namespace ChessLibrary
@@ -13,6 +14,7 @@ namespace ChessLibrary
         public static List<Piece> Pieces = new List<Piece>();
         public static List<Piece> PlayerOne_CapturedPieces = new List<Piece>();
         public static List<Piece> PlayerTwo_CapturedPieces = new List<Piece>();
+        private bool disposed;
 
         public enum Player { Player_One = 1, Player_Two = 2 }
         #endregion
@@ -23,7 +25,7 @@ namespace ChessLibrary
         public Tile CurrentTile { get; set; }
         public List<Tile> CurrentValidMoves { get; set; }
         #endregion
-        #region Constructor
+        #region Constructor / Finalizer
         public Piece(Player player, Tile tile)
         {
             CurrentPlayer = player;
@@ -32,6 +34,7 @@ namespace ChessLibrary
             this.Image = null;
             Pieces.Add(this);
         }
+        ~Piece() => this.Dispose(false);
         #endregion
         #region Methods
         public abstract void GetValidMoves(Board board, Tile selTile);
@@ -53,12 +56,31 @@ namespace ChessLibrary
                         //MessageBox.Show($"ignored {move}");
                     }
         }
-
+        #region Handle disposal
         public void Dispose()
         {
-
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    // CurrentPlayer = null;
+                    CurrentTile = null;
+                    CurrentValidMoves = null;
+                    this.Image = null;
+                    Pieces = null;
+                }
 
+                // Dispose unmanaged resources here.
+            }
+
+            disposed = true;
+        }
+        #endregion
         public override string ToString() => $"{CurrentPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";
         #endregion
     }

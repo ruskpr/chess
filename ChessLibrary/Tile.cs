@@ -8,7 +8,7 @@ namespace ChessLibrary
 {
     public delegate void SendTileDelegate(Tile tile);
 
-    public class Tile : PictureBox
+    public class Tile : PictureBox, IDisposable
     {
         #region Delegate Events
         public static event SendTileDelegate OnSelected;
@@ -135,5 +135,12 @@ namespace ChessLibrary
             $"Empty tile at x{CoordinateX}, y{CoordinateY}" :
             $"{CurrentPiece} at x{CoordinateX}, y{CoordinateY}";
         #endregion
+        
+        public void Dispose()
+        {
+            GC.Collect();
+            GC.SuppressFinalize(this);
+
+        }
     }
 }
