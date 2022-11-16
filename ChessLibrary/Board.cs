@@ -36,7 +36,7 @@ namespace ChessLibrary
         #region Properties
         public Tile SelectedTile { get; set; }
         public Form ParentForm { get; set; }
-        public LeftPanel SidePanel { get; set; }
+        public SidePanel SidePanel { get; set; }
         public int ColorPack { get; set; }
         public string Turn { get { return (int)GameManager.Turn == 1 ? "Player 1" : "Player 2"; } }
         public string LatestMove { get { return latestMove; } }
@@ -71,8 +71,8 @@ namespace ChessLibrary
             AddTiles();
             AddPieces();
 
-            // add side panels
-            SidePanel = new LeftPanel(this);
+            // add side panel
+            SidePanel = new SidePanel(this);
         }
         public void ResponsiveLayout()
         {

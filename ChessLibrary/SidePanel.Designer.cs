@@ -1,6 +1,6 @@
 ﻿namespace ChessLibrary
 {
-    partial class LeftPanel
+    partial class SidePanel
     {
         /// <summary> 
         /// Required designer variable.
@@ -39,7 +39,7 @@
             this.lstMoves.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstMoves.FormattingEnabled = true;
             this.lstMoves.ItemHeight = 25;
-            this.lstMoves.Location = new System.Drawing.Point(0, 308);
+            this.lstMoves.Location = new System.Drawing.Point(1, 379);
             this.lstMoves.Name = "lstMoves";
             this.lstMoves.Size = new System.Drawing.Size(391, 254);
             this.lstMoves.TabIndex = 0;
@@ -48,7 +48,7 @@
             // 
             this.lbSelected.AutoSize = true;
             this.lbSelected.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lbSelected.ForeColor = System.Drawing.Color.Black;
+            this.lbSelected.ForeColor = System.Drawing.Color.White;
             this.lbSelected.Location = new System.Drawing.Point(17, 40);
             this.lbSelected.Name = "lbSelected";
             this.lbSelected.Size = new System.Drawing.Size(96, 30);
@@ -59,7 +59,7 @@
             // 
             this.lbTurn.AutoSize = true;
             this.lbTurn.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lbTurn.ForeColor = System.Drawing.Color.Black;
+            this.lbTurn.ForeColor = System.Drawing.Color.White;
             this.lbTurn.Location = new System.Drawing.Point(17, 82);
             this.lbTurn.Name = "lbTurn";
             this.lbTurn.Size = new System.Drawing.Size(60, 30);
@@ -73,7 +73,7 @@
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReset.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnReset.ForeColor = System.Drawing.Color.White;
-            this.btnReset.Location = new System.Drawing.Point(17, 591);
+            this.btnReset.Location = new System.Drawing.Point(282, 3);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(109, 31);
             this.btnReset.TabIndex = 5;
@@ -81,16 +81,16 @@
             this.btnReset.UseVisualStyleBackColor = false;
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
-            // LeftPanel
+            // SidePanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Wheat;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.lbTurn);
             this.Controls.Add(this.lbSelected);
             this.Controls.Add(this.lstMoves);
-            this.Name = "LeftPanel";
+            this.Name = "SidePanel";
             this.Size = new System.Drawing.Size(394, 635);
             this.ResumeLayout(false);
             this.PerformLayout();
