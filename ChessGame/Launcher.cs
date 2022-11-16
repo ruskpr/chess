@@ -48,12 +48,22 @@ namespace ChessGame
 
             if (success)
             {
-                MainForm mainForm = new MainForm();
-                mainForm.Show();
+                Matchmaking mm = new Matchmaking(tbLoginUsername.Text);
+                mm.Show();
             }
             else
                 MessageBox.Show("Username and/or password is incorrect.", "Failed to login");
         }
         #endregion
+
+        private void btnPlayOffline_Click(object sender, EventArgs e)
+        {
+            //create a room with 2 default users
+            Room room = new Room(new User(), new User());
+
+            //
+            Game game = new Game(room);
+            game.Show();
+        }
     }
 }

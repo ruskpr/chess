@@ -36,12 +36,13 @@
             this.tbLoginPassword = new System.Windows.Forms.TextBox();
             this.btnRegister = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
+            this.btnPlayOffline = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(172, 65);
+            this.label1.Location = new System.Drawing.Point(120, 61);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 15);
             this.label1.TabIndex = 0;
@@ -50,7 +51,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(568, 65);
+            this.label2.Location = new System.Drawing.Point(326, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(37, 15);
             this.label2.TabIndex = 0;
@@ -58,7 +59,7 @@
             // 
             // tbRegUsername
             // 
-            this.tbRegUsername.Location = new System.Drawing.Point(114, 110);
+            this.tbRegUsername.Location = new System.Drawing.Point(62, 106);
             this.tbRegUsername.Name = "tbRegUsername";
             this.tbRegUsername.PlaceholderText = "username";
             this.tbRegUsername.Size = new System.Drawing.Size(158, 23);
@@ -66,7 +67,7 @@
             // 
             // tbRegPassword
             // 
-            this.tbRegPassword.Location = new System.Drawing.Point(114, 152);
+            this.tbRegPassword.Location = new System.Drawing.Point(62, 148);
             this.tbRegPassword.Name = "tbRegPassword";
             this.tbRegPassword.PlaceholderText = "password";
             this.tbRegPassword.Size = new System.Drawing.Size(158, 23);
@@ -75,7 +76,7 @@
             // 
             // tbLoginUsername
             // 
-            this.tbLoginUsername.Location = new System.Drawing.Point(507, 110);
+            this.tbLoginUsername.Location = new System.Drawing.Point(265, 106);
             this.tbLoginUsername.Name = "tbLoginUsername";
             this.tbLoginUsername.PlaceholderText = "username";
             this.tbLoginUsername.Size = new System.Drawing.Size(158, 23);
@@ -83,7 +84,7 @@
             // 
             // tbLoginPassword
             // 
-            this.tbLoginPassword.Location = new System.Drawing.Point(507, 152);
+            this.tbLoginPassword.Location = new System.Drawing.Point(265, 148);
             this.tbLoginPassword.Name = "tbLoginPassword";
             this.tbLoginPassword.PlaceholderText = "password";
             this.tbLoginPassword.Size = new System.Drawing.Size(158, 23);
@@ -92,7 +93,7 @@
             // 
             // btnRegister
             // 
-            this.btnRegister.Location = new System.Drawing.Point(153, 193);
+            this.btnRegister.Location = new System.Drawing.Point(101, 189);
             this.btnRegister.Name = "btnRegister";
             this.btnRegister.Size = new System.Drawing.Size(75, 23);
             this.btnRegister.TabIndex = 2;
@@ -102,7 +103,7 @@
             // 
             // btnLogin
             // 
-            this.btnLogin.Location = new System.Drawing.Point(550, 193);
+            this.btnLogin.Location = new System.Drawing.Point(308, 189);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(75, 23);
             this.btnLogin.TabIndex = 2;
@@ -110,11 +111,22 @@
             this.btnLogin.UseVisualStyleBackColor = true;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
+            // btnPlayOffline
+            // 
+            this.btnPlayOffline.Location = new System.Drawing.Point(198, 257);
+            this.btnPlayOffline.Name = "btnPlayOffline";
+            this.btnPlayOffline.Size = new System.Drawing.Size(96, 23);
+            this.btnPlayOffline.TabIndex = 3;
+            this.btnPlayOffline.Text = "Play offline";
+            this.btnPlayOffline.UseVisualStyleBackColor = true;
+            this.btnPlayOffline.Click += new System.EventHandler(this.btnPlayOffline_Click);
+            // 
             // Launcher
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 266);
+            this.ClientSize = new System.Drawing.Size(488, 302);
+            this.Controls.Add(this.btnPlayOffline);
             this.Controls.Add(this.btnLogin);
             this.Controls.Add(this.btnRegister);
             this.Controls.Add(this.tbLoginPassword);
@@ -141,5 +153,6 @@
         private TextBox tbLoginPassword;
         private Button btnRegister;
         private Button btnLogin;
+        private Button btnPlayOffline;
     }
 }

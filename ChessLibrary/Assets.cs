@@ -39,5 +39,8 @@ namespace ChessLibrary
         //sounds
         public static SoundPlayer moveSound = new SoundPlayer("assets/sounds/levelup2.wav");
 
+        //profilepic
+        public static Bitmap DefaultProfilePic = new Bitmap("assets/profilepics/default.jpg");
+
     }
 }

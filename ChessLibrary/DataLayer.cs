@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 
 namespace ChessLibrary
 {
@@ -20,30 +13,78 @@ namespace ChessLibrary
             connString = "server=tcp:russ-server.database.windows.net,1433;database=ChessDB;user id=russ;password=P@ssword!;encrypt=false;";
             //connString = ConfigurationManager.ConnectionStrings["remoteconnection"].ConnectionString;
         }
-        #region Get user info
-        public int GetChessRating(string username)
+        #region Image conversions
+        private byte[] ConvertToByteArray(Bitmap bitmap)
         {
+            byte[] imageBytes;
 
-            return 0;
-        }
-        public Bitmap GetProfilePic(string username)
-        {
-            return null;
-        }
-        public Bitmap ChangeProfilePic()
-        {
-            return null;
-        }
-        public void GetUserInfo()
-        {
-            string username = "";
-            int chessRating = 0;
-            Bitmap profilePic = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                //convert the image to the bytes
+                imageBytes = ms.ToArray();
+            }
 
-            PassUserInfo.Invoke(username, chessRating, profilePic);
+            return imageBytes;
+        }
+        private Bitmap ConvertToBitmap(byte[] img)
+        {
+            Bitmap ret = null;
+
+            using (MemoryStream ms = new MemoryStream(img))
+            {
+                ret = new Bitmap(ms);
+            }
+
+            return ret;
         }
         #endregion
+        #region Get user info
+        public void GetUserInfo(string username)
+        {
+            int chessRating = 0;
+            Bitmap profilePic = null;
+            byte[] profilePicAsByteArray;
 
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                conn.Open();
+
+                string qry = @"SELECT * FROM Users WHERE [username] = @username";
+                SqlCommand cmd = new SqlCommand(qry, conn);
+                cmd.Parameters.Add(new SqlParameter("@username", username));
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    // apply chess rating
+                    chessRating = (int)reader[2];
+                    MessageBox.Show(reader[3].ToString());
+
+                    // get image as byte array user has a stored image
+                    if (reader[3].GetType() != typeof(System.DBNull))
+                    {
+                        profilePicAsByteArray = (byte[])reader[3];
+                        profilePic = ConvertToBitmap(profilePicAsByteArray);
+                    }
+                }
+
+                PassUserInfo.Invoke(username, chessRating, profilePic);
+            }
+
+
+        }
+        #endregion
+        #region Change user info
+        public bool ChangeProfilePic(string username)
+        {
+            return false;
+        }
+        public bool ChangeUsername(string username)
+        {
+            return false;
+        }
+        #endregion
         #region Register/login user method
         public bool RegisterUser(string username, string password)
         {
