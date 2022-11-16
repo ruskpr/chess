@@ -9,7 +9,7 @@ using Microsoft.Data.SqlClient;
 
 namespace ChessLibrary
 {
-    public class DataLayer : IDisposable
+    public class DataLayer
     {
         private string connString;
         public DataLayer()
@@ -20,11 +20,11 @@ namespace ChessLibrary
         #region Register/login user method
         public bool RegisterUser(string username, string password)
         {
-            string qry = @"INSERT INTO Users (username, password, chess_rating, profile_pic, account_created)" +
-                         @"VALUES (@username, @password, @date)";
+            string qry = @"INSERT INTO Users VALUES (" +
+                         @"@username, @password, '800', null, GETDATE())";
 
             // add parameters
-            SqlParameter[] parameters = new SqlParameter[3];
+            SqlParameter[] parameters = new SqlParameter[2];
             parameters[0] = new SqlParameter("@username", username);
             parameters[1] = new SqlParameter("@password", password);
 
@@ -90,15 +90,6 @@ namespace ChessLibrary
             finally { conn.Close(); }
 
             return ret;
-        }
-        #endregion
-
-        #region IDisposable method
-        public void Dispose()
-        {
-            GC.Collect();
-            GC.SuppressFinalize(this);
-            Console.WriteLine(this.GetType().Name + " was disposed successfully. | " + DateTime.Now);
         }
         #endregion
     }
