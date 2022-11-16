@@ -11,12 +11,39 @@ namespace ChessLibrary
 {
     public class DataLayer
     {
+        public delegate void PassUserInfoDelegate(string username, int chessRating, Bitmap profilePic);
+        public event PassUserInfoDelegate PassUserInfo;
+
         private string connString;
         public DataLayer()
         {
             connString = "server=tcp:russ-server.database.windows.net,1433;database=ChessDB;user id=russ;password=P@ssword!;encrypt=false;";
             //connString = ConfigurationManager.ConnectionStrings["remoteconnection"].ConnectionString;
         }
+        #region Get user info
+        public int GetChessRating(string username)
+        {
+
+            return 0;
+        }
+        public Bitmap GetProfilePic(string username)
+        {
+            return null;
+        }
+        public Bitmap ChangeProfilePic()
+        {
+            return null;
+        }
+        public void GetUserInfo()
+        {
+            string username = "";
+            int chessRating = 0;
+            Bitmap profilePic = null;
+
+            PassUserInfo.Invoke(username, chessRating, profilePic);
+        }
+        #endregion
+
         #region Register/login user method
         public bool RegisterUser(string username, string password)
         {
