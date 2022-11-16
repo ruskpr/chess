@@ -34,7 +34,6 @@ namespace ChessLibrary
             this.Image = null;
             Pieces.Add(this);
         }
-        ~Piece() => this.Dispose(false);
         #endregion
         #region Methods
         public abstract void GetValidMoves(Board board, Tile selTile);
@@ -46,7 +45,6 @@ namespace ChessLibrary
         }
         protected void IgnoreFriendlies(List<Tile> moveList, Player currPlayer)
         {
-            
             // remove move if it contains a king or friendly player
             foreach (Tile move in moveList.ToList())
                 if (move.CurrentPiece != null)
@@ -56,10 +54,12 @@ namespace ChessLibrary
                         //MessageBox.Show($"ignored {move}");
                     }
         }
-        #region Handle disposal
+        #endregion
+        #region Handle dispose
         public void Dispose()
         {
             this.Dispose(true);
+            GC.Collect();
             GC.SuppressFinalize(this);
         }
         protected virtual void Dispose(bool disposing)
@@ -81,6 +81,7 @@ namespace ChessLibrary
             disposed = true;
         }
         #endregion
+        #region Override tostring
         public override string ToString() => $"{CurrentPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";
         #endregion
     }
