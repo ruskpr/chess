@@ -65,7 +65,7 @@ namespace ChessLibrary
         }
         private void InitUserProfiles()
         {
-
+            ParentBoard.Room
         }
         #endregion
         #region Button click events
