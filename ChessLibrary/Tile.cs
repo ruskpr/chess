@@ -136,7 +136,7 @@ namespace ChessLibrary
             $"{CurrentPiece} at x{CoordinateX}, y{CoordinateY}";
         #endregion
         
-        public void Dispose()
+        public new void Dispose()
         {
             GC.Collect();
             GC.SuppressFinalize(this);
