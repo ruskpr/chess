@@ -19,7 +19,7 @@ namespace ChessLibrary
         public User(string username)
         {
             DataLayer dl = new DataLayer();
-            var info = dl.GetUserInfo(username); // 
+            var info = dl.GetUserInfo(username); // get user info from database
             Username = info.Item1;
             ChessRating = info.Item2;
             Wins = info.Item3;
@@ -27,7 +27,7 @@ namespace ChessLibrary
             GamesPlayed = info.Item5;
             ProfilePic = info.Item6;
             
-            MessageBox.Show($"{Username}, {ChessRating}, {ProfilePic}");
+            //MessageBox.Show($"{Username}, {ChessRating}, {ProfilePic}");
         }
         public User() // for offline user
         {
