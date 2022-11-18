@@ -12,25 +12,23 @@ namespace ChessGame
         public string Username { get; set; }
         public int ChessRating { get; set; }
         public Bitmap? ProfilePic { get; set; }
+        #region Constructors
         public User(string username)
         {
             DataLayer dl = new DataLayer();
-            dl.PassUserInfo += Dl_PassUserInfo;
-            dl.GetUserInfo(username);
+            var info = dl.GetUserInfo(username); // 
+            Username = info.Item1;
+            ChessRating = info.Item2;
+            ProfilePic = info.Item3;
+            
             MessageBox.Show($"{Username}, {ChessRating}, {ProfilePic}");
         }
-        public User()
+        public User() // for offline user
         {
             Username = "Offline User";
             ChessRating = 0;
             ProfilePic = Assets.DefaultProfilePic;
         }
-
-        private void Dl_PassUserInfo(string username, int chessRating, Bitmap profilePic)
-        {
-            Username = username;
-            ChessRating = chessRating;
-            ProfilePic = profilePic; 
-        }
+        #endregion
     }
 }

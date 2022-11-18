@@ -4,8 +4,8 @@ namespace ChessLibrary
 {
     public class DataLayer
     {
-        public delegate void PassUserInfoDelegate(string username, int chessRating, Bitmap profilePic);
-        public event PassUserInfoDelegate PassUserInfo;
+        //public delegate void PassUserInfoDelegate(string username, int chessRating, Bitmap profilePic);
+        //public event PassUserInfoDelegate PassUserInfo;
 
         private string connString;
         public DataLayer()
@@ -40,10 +40,10 @@ namespace ChessLibrary
         }
         #endregion
         #region Get user info
-        public void GetUserInfo(string username)
+        public Tuple<string, int, Bitmap?> GetUserInfo(string username)
         {
             int chessRating = 0;
-            Bitmap profilePic = null;
+            Bitmap? profilePic = null;
             byte[] profilePicAsByteArray;
 
             using (SqlConnection conn = new SqlConnection(connString))
@@ -69,10 +69,11 @@ namespace ChessLibrary
                     }
                 }
 
-                PassUserInfo.Invoke(username, chessRating, profilePic);
+                return new Tuple<string, int, Bitmap?>(
+                username,
+                chessRating,
+                profilePic);
             }
-
-
         }
         #endregion
         #region Change user info
