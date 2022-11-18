@@ -9,7 +9,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ChessLibrary
 {
-
     public delegate void PieceMovedDelegate();
 
 

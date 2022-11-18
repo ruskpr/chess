@@ -14,7 +14,7 @@ namespace ChessLibrary
     public partial class SidePanel : UserControl
     {
         public Board ParentBoard { get; set; }
-        public string Side { get; set; }
+        public string Side { get; }
         #region Constructor
         public SidePanel(Board board, string side = "right")
         {
@@ -65,7 +65,7 @@ namespace ChessLibrary
         }
         private void InitUserProfiles()
         {
-            ParentBoard.Room
+            ParentBoard.ParentForm
         }
         #endregion
         #region Button click events
