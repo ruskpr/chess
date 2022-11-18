@@ -95,6 +95,7 @@
             this.pbP2Pic.Location = new System.Drawing.Point(36, 43);
             this.pbP2Pic.Name = "pbP2Pic";
             this.pbP2Pic.Size = new System.Drawing.Size(50, 50);
+            this.pbP2Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbP2Pic.TabIndex = 6;
             this.pbP2Pic.TabStop = false;
             // 
@@ -148,6 +149,7 @@
             this.pbP1Pic.Location = new System.Drawing.Point(36, 131);
             this.pbP1Pic.Name = "pbP1Pic";
             this.pbP1Pic.Size = new System.Drawing.Size(50, 50);
+            this.pbP1Pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbP1Pic.TabIndex = 6;
             this.pbP1Pic.TabStop = false;
             // 

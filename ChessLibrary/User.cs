@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessGame
+namespace ChessLibrary
 {
     public class User
     {
         public string Username { get; set; }
         public int ChessRating { get; set; }
+        public int Wins { get; set; }
+        public int Losses { get; set; }
+        public int GamesPlayed { get; set; }
         public Bitmap? ProfilePic { get; set; }
         #region Constructors
         public User(string username)
@@ -19,7 +22,10 @@ namespace ChessGame
             var info = dl.GetUserInfo(username); // 
             Username = info.Item1;
             ChessRating = info.Item2;
-            ProfilePic = info.Item3;
+            Wins = info.Item3;
+            Losses = info.Item4;
+            GamesPlayed = info.Item5;
+            ProfilePic = info.Item6;
             
             MessageBox.Show($"{Username}, {ChessRating}, {ProfilePic}");
         }

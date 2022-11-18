@@ -65,13 +65,27 @@ namespace ChessLibrary
         }
         private void InitUserProfiles()
         {
-            ParentBoard.ParentForm
+            User pOne = ParentBoard.CurrentRoom.PlayerOne;
+            User pTwo = ParentBoard.CurrentRoom.PlayerTwo;
+
+            // profile pics
+            pbP1Pic.Image = pOne.ProfilePic;
+            pbP2Pic.Image = pTwo.ProfilePic;
+            // usernames
+            lbP1Username.Text = pOne.Username;
+            lbP2Username.Text = pTwo.Username;
+            // ratings
+            lbP1Rating.Text = Convert.ToString(pOne.ChessRating);
+            lbP2Rating.Text = Convert.ToString(pTwo.ChessRating);  
         }
         #endregion
         #region Button click events
         private void btnReset_Click(object sender, EventArgs e)
         {
-            ParentBoard.ResetBoard();
+            ParentBoard.DeleteBoard();
+            if (ParentBoard.IsDisposed)
+                GC.Collect();
+            GC.SuppressFinalize(ParentBoard);
         }
         #endregion
         #region Responsive operations

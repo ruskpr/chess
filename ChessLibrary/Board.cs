@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -39,11 +40,13 @@ namespace ChessLibrary
         public int ColorPack { get; set; }
         public string Turn { get { return (int)GameManager.Turn == 1 ? "Player 1" : "Player 2"; } }
         public string LatestMove { get { return latestMove; } }
+        public Room CurrentRoom { get; set; }
         #endregion
-        #region Constructor
-        public Board(Form form, int size)
+        #region Constructor / Finalizer
+        public Board(Form form, Room room, int size)
         {
             this.ParentForm = form;
+            this.CurrentRoom = room;
             this.Size = new Size(size, size);
             this.BackColor = Color.White;
             tileSize = new Size(Width / 8, Width / 8);
@@ -60,9 +63,10 @@ namespace ChessLibrary
             ResponsiveLayout();
 
             // store all the moves of each piece when board is created
-            foreach(Piece p in Piece.Pieces)
+            foreach (Piece p in Piece.Pieces)
                 p.GetValidMoves(this, p.CurrentTile);
         }
+        ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
         #endregion
         #region Construct Board method
         public void ConstructBoard()
@@ -296,20 +300,17 @@ namespace ChessLibrary
             }
         }
         #endregion
-        #region Reset board
-        public void ResetBoard()
+        #region Dispose Handler
+        public void DeleteBoard()
         {
             foreach (Piece p in Piece.Pieces)
-            {
                 p.Dispose();
-            }
+
             foreach (Tile t in Tiles)
-            {
                 t.Dispose();
-            }
 
-
-            ConstructBoard();
+            SidePanel.Dispose();
+            this.Dispose();
         }
         #endregion
         #region Overrided ToString() method

@@ -26,7 +26,7 @@ namespace ChessGame
             int monitorHeight = Screen.PrimaryScreen.Bounds.Height;
             int formHeight = this.ClientSize.Height;
 
-            myBoard = new Board(this, (int)Math.Round(monitorHeight * 0.8));
+            //myBoard = new Board(this, (int)Math.Round(monitorHeight * 0.8));
             //myBoard = new Board(this, formHeight);
 
             ResponsiveLayout();

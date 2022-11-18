@@ -40,9 +40,12 @@ namespace ChessLibrary
         }
         #endregion
         #region Get user info
-        public Tuple<string, int, Bitmap?> GetUserInfo(string username)
+        public Tuple<string, int, int, int, int, Bitmap?> GetUserInfo(string username)
         {
             int chessRating = 0;
+            int wins = 0;
+            int losses = 0;
+            int games_played = 0;
             Bitmap? profilePic = null;
             byte[] profilePicAsByteArray;
 
@@ -59,22 +62,30 @@ namespace ChessLibrary
                 {
                     // apply chess rating
                     chessRating = (int)reader[2];
-                    MessageBox.Show(reader[3].ToString());
-
+                    wins = (int)reader[3];
+                    losses = (int)reader[4];
+                    games_played = (int)reader[5];
                     // get image as byte array user has a stored image
-                    if (reader[3].GetType() != typeof(System.DBNull))
+                    if (reader[6].GetType() != typeof(System.DBNull))
                     {
-                        profilePicAsByteArray = (byte[])reader[3];
+                        profilePicAsByteArray = (byte[])reader[6];
                         profilePic = ConvertToBitmap(profilePicAsByteArray);
                     }
                 }
 
-                return new Tuple<string, int, Bitmap?>(
+                return new Tuple<string, int, int, int, int, Bitmap?>(
                 username,
                 chessRating,
+                wins,
+                losses,
+                games_played,
                 profilePic);
             }
         }
+        //public User GetUser(string username)
+        //{
+
+        //}
         #endregion
         #region Change user info
         public bool ChangeProfilePic(string username)
@@ -90,7 +101,7 @@ namespace ChessLibrary
         public bool RegisterUser(string username, string password)
         {
             string qry = @"INSERT INTO Users VALUES (" +
-                         @"@username, @password, '800', null, GETDATE())";
+                         @"@username, @password, '800', '0', '0', '0', null, GETDATE())";
 
             // add parameters
             SqlParameter[] parameters = new SqlParameter[2];
