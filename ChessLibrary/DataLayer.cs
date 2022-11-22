@@ -40,14 +40,9 @@ namespace ChessLibrary
         }
         #endregion
         #region Get user info
-        public Tuple<string, int, int, int, int, Bitmap?> GetUserInfo(string username)
+        public User CreateUserObject(string username)
         {
-            int chessRating = 0;
-            int wins = 0;
-            int losses = 0;
-            int games_played = 0;
-            Bitmap? profilePic = null;
-            byte[] profilePicAsByteArray;
+            User tmpUser = null;
 
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -60,32 +55,28 @@ namespace ChessLibrary
 
                 while (reader.Read())
                 {
-                    // apply chess rating
-                    chessRating = (int)reader[2];
-                    wins = (int)reader[3];
-                    losses = (int)reader[4];
-                    games_played = (int)reader[5];
-                    // get image as byte array user has a stored image
+                    tmpUser = new User()
+                    {
+                        username = (string)reader[0], // skip reader[1] (password)
+                        chess_rating = (int)reader[2],
+                        wins = (int)reader[3],
+                        losses = (int)reader[4],
+                        games_played = (int)reader[5],
+                    };
+
+                    //get profile pic
                     if (reader[6].GetType() != typeof(System.DBNull))
                     {
-                        profilePicAsByteArray = (byte[])reader[6];
-                        profilePic = ConvertToBitmap(profilePicAsByteArray);
+                        tmpUser.profile_pic = ConvertToBitmap((byte[])reader[6]);
                     }
+                    else
+                        tmpUser.profile_pic = Assets.DefaultProfilePic;
+
+                    return tmpUser;
                 }
-
-                return new Tuple<string, int, int, int, int, Bitmap?>(
-                username,
-                chessRating,
-                wins,
-                losses,
-                games_played,
-                profilePic);
             }
+            return tmpUser;
         }
-        //public User GetUser(string username)
-        //{
-
-        //}
         #endregion
         #region Change user info
         public bool ChangeProfilePic(string username)

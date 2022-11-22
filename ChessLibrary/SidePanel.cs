@@ -69,14 +69,14 @@ namespace ChessLibrary
             User pTwo = ParentBoard.CurrentRoom.PlayerTwo;
 
             // profile pics
-            pbP1Pic.Image = pOne.ProfilePic;
-            pbP2Pic.Image = pTwo.ProfilePic;
+            pbP1Pic.Image = pOne.profile_pic;
+            pbP2Pic.Image = pTwo.profile_pic;
             // usernames
-            lbP1Username.Text = pOne.Username;
-            lbP2Username.Text = pTwo.Username;
+            lbP1Username.Text = pOne.username;
+            lbP2Username.Text = pTwo.username;
             // ratings
-            lbP1Rating.Text = Convert.ToString(pOne.ChessRating);
-            lbP2Rating.Text = Convert.ToString(pTwo.ChessRating);  
+            lbP1Rating.Text = Convert.ToString(pOne.chess_rating);
+            lbP2Rating.Text = Convert.ToString(pTwo.chess_rating);  
         }
         #endregion
         #region Button click events

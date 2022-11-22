@@ -32,6 +32,9 @@
             this.btnCreateNewRoom = new System.Windows.Forms.Button();
             this.btnJoinRoom = new System.Windows.Forms.Button();
             this.lbUsername = new System.Windows.Forms.Label();
+            this.lbMyIP = new System.Windows.Forms.Label();
+            this.lbNumUsers = new System.Windows.Forms.Label();
+            this.lbPort = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lstRooms
@@ -42,6 +45,7 @@
             this.lstRooms.Name = "lstRooms";
             this.lstRooms.Size = new System.Drawing.Size(283, 244);
             this.lstRooms.TabIndex = 0;
+            this.lstRooms.SelectedIndexChanged += new System.EventHandler(this.lstRooms_SelectedIndexChanged);
             // 
             // btnCreateNewRoom
             // 
@@ -72,11 +76,41 @@
             this.lbUsername.TabIndex = 2;
             this.lbUsername.Text = "Logged in as:";
             // 
+            // lbMyIP
+            // 
+            this.lbMyIP.AutoSize = true;
+            this.lbMyIP.Location = new System.Drawing.Point(60, 331);
+            this.lbMyIP.Name = "lbMyIP";
+            this.lbMyIP.Size = new System.Drawing.Size(38, 15);
+            this.lbMyIP.TabIndex = 3;
+            this.lbMyIP.Text = "label1";
+            // 
+            // lbNumUsers
+            // 
+            this.lbNumUsers.AutoSize = true;
+            this.lbNumUsers.Location = new System.Drawing.Point(60, 373);
+            this.lbNumUsers.Name = "lbNumUsers";
+            this.lbNumUsers.Size = new System.Drawing.Size(38, 15);
+            this.lbNumUsers.TabIndex = 3;
+            this.lbNumUsers.Text = "label1";
+            // 
+            // lbPort
+            // 
+            this.lbPort.AutoSize = true;
+            this.lbPort.Location = new System.Drawing.Point(60, 352);
+            this.lbPort.Name = "lbPort";
+            this.lbPort.Size = new System.Drawing.Size(38, 15);
+            this.lbPort.TabIndex = 3;
+            this.lbPort.Text = "label1";
+            // 
             // Matchmaking
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(617, 400);
+            this.Controls.Add(this.lbNumUsers);
+            this.Controls.Add(this.lbPort);
+            this.Controls.Add(this.lbMyIP);
             this.Controls.Add(this.lbUsername);
             this.Controls.Add(this.btnJoinRoom);
             this.Controls.Add(this.btnCreateNewRoom);
@@ -84,6 +118,7 @@
             this.Name = "Matchmaking";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Matchmaking";
+            this.Load += new System.EventHandler(this.Matchmaking_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -95,5 +130,8 @@
         private Button btnCreateNewRoom;
         private Button btnJoinRoom;
         private Label lbUsername;
+        private Label lbMyIP;
+        private Label lbNumUsers;
+        private Label lbPort;
     }
 }

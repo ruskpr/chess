@@ -48,7 +48,8 @@ namespace ChessGame
 
             if (success)
             {
-                Matchmaking mm = new Matchmaking(tbLoginUsername.Text);
+                User user = dl.CreateUserObject(tbLoginUsername.Text);
+                Matchmaking mm = new Matchmaking(user);
                 mm.Show();
             }
             else
@@ -62,7 +63,7 @@ namespace ChessGame
             Room room = new Room(new User(), new User());
 
             //
-            Game game = new Game(room);
+            Game game = new Game(room, Game.ConnectionType.Offline);
             game.Show();
         }
     }

@@ -9,8 +9,8 @@ namespace ChessLibrary
     public class Room
     {
         public User PlayerOne { get; set; }
-        public User PlayerTwo { get; set; }
-        public Room(User pOne, User pTwo)
+        public User? PlayerTwo { get; set; }
+        public Room(User pOne, User? pTwo)
         {
             PlayerOne = pOne;
             PlayerTwo = pTwo;
