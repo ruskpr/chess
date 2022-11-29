@@ -9,8 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-//using System.Text.Json;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
@@ -95,7 +93,6 @@ namespace ChessGame
             tcpListener = new TcpListener(IPAddress.Any, 11000);
             tcpListener.Start();
             timerConnChecker.Enabled = true;
-
         }
 
         #endregion
@@ -104,7 +101,5 @@ namespace ChessGame
         private void Game_Resize(object? sender, EventArgs e) => board.ResponsiveLayout();
         private void Game_LocationChanged(object? sender, EventArgs e) => board.ResponsiveLayout();
         #endregion
-
-
     }
 }

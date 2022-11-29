@@ -53,8 +53,6 @@ namespace ChessLibrary
         }
         #endregion
 
-        
-
         // get connections
         public List<string> GetConnections()
         {
@@ -92,7 +90,7 @@ namespace ChessLibrary
 
         }
 
-        void StartServer()
+        public  void StartServer()
         {
             tcpListener = new TcpListener(IPAddress.Any, LISTENING_PORT);
             tcpListener.Start();
