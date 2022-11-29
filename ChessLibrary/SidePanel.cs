@@ -37,7 +37,6 @@ namespace ChessLibrary
         private void UpdateText(Tile? tile)
         {
             lbSelected.Text = $"Selected: {tile}";
-            //lbSelected.ForeColor = Color.White;
 
             lbTurn.Text = "Turn:" + " " + ParentBoard.Turn;
 
@@ -82,10 +81,7 @@ namespace ChessLibrary
         #region Button click events
         private void btnReset_Click(object sender, EventArgs e)
         {
-            ParentBoard.DeleteBoard();
-            if (ParentBoard.IsDisposed)
-                GC.Collect();
-            GC.SuppressFinalize(ParentBoard);
+            ParentBoard.ResetBoard();
         }
         #endregion
         #region Responsive operations

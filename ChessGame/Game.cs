@@ -18,19 +18,20 @@ namespace ChessGame
     public partial class Game : Form
     {
         #region Fields
-        //private Board? chessboard;
         public enum ConnectionType { Client, Server, Offline }
         public ConnectionType ConnType;
 
-
         TcpListener tcpListener;
         TcpClient tcpClient;
+
         private Timer timerConnChecker = new Timer();
+        private Board board;
+        private int monitorHeight = Screen.PrimaryScreen.Bounds.Height;
+
+        private int boardSize;
 
         #endregion
         #region Properties
-        //public Room CurrentRoom { get; set; }
-        public Board? ChessBoard { get; set; }
         public Room CurrentRoom { get; set; }
         #endregion
         #region Constructors
@@ -40,23 +41,24 @@ namespace ChessGame
 
             // init connection
             ConnType = connType;
+            CurrentRoom = currRoom;
             InitializeConnection();
 
-            CurrentRoom = currRoom;
-            this.MinimumSize = new Size(1100, 800);
-            this.SizeChanged += MainForm_SizeChanged;
-            this.Resize += MainForm_Resize;
+            // form event handlers
+            //this.MinimumSize = new Size(100, 100);
+            this.SizeChanged += Game_SizeChanged;
+            this.Resize += Game_Resize;
+            this.LocationChanged += Game_LocationChanged;
 
-            int monitorHeight = Screen.PrimaryScreen.Bounds.Height;
+            // init board
+            boardSize = (int)Math.Round(this.Height * 0.75);
+            board = new Board(this, CurrentRoom, boardSize);
+            Board.OnReset += board_OnReset;
 
-            ChessBoard = new Board(this, CurrentRoom, (int)Math.Round(monitorHeight * 0.8));
-            //myBoard = new Board(this, formHeight);
-
-            ResponsiveLayout();
+            board.ResponsiveLayout();
         }
 
         #endregion
-
         #region Init Connection
         private void InitializeConnection()
         {
@@ -90,15 +92,17 @@ namespace ChessGame
         }
 
         #endregion
-        #region Responsive operations
-        private void ResponsiveLayout() => ChessBoard.ResponsiveLayout();
-        private void MainForm_SizeChanged(object? sender, EventArgs e) => ResponsiveLayout();
-        private void MainForm_Resize(object? sender, EventArgs e) => ResponsiveLayout();
-        #endregion
-
-        private void Game_Load(object sender, EventArgs e)
+        #region OnReset Event
+        private void board_OnReset()
         {
-           
+            board = new Board(this, CurrentRoom, boardSize);
+            board.ResponsiveLayout();
         }
+        #endregion
+        #region Responsive operations
+        private void Game_SizeChanged(object? sender, EventArgs e) => board.ResponsiveLayout();
+        private void Game_Resize(object? sender, EventArgs e) => board.ResponsiveLayout();
+        private void Game_LocationChanged(object? sender, EventArgs e) => board.ResponsiveLayout();
+        #endregion
     }
 }

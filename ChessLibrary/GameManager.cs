@@ -16,7 +16,7 @@ namespace ChessLibrary
             new List<Tuple<Color, Color, Color>>()
         {
             new Tuple<Color, Color, Color>(
-                Color.LightSlateGray, 
+                Color.DarkOliveGreen, 
                 Color.White, 
                 Color.Pink),
 

@@ -32,7 +32,7 @@ namespace ChessLibrary
         public static Bitmap W_QueenImg = new Bitmap("assets/pieces/pack1/WhiteQueen.png");
         public static Bitmap W_KingImg = new Bitmap("assets/pieces/pack1/WhiteKing.png");
 
-        //valid space indicator
+        //indicators
         public static Bitmap ValidMoveImg = new Bitmap("assets/ValidSpace.png");
         public static Bitmap ValidKillImg = new Bitmap("assets/ValidKill.png");
 

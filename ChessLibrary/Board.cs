@@ -10,15 +10,17 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ChessLibrary
 {
-    public delegate void PieceMovedDelegate();
-
+    
 
     public class Board : Panel
     {
         #region Delegate definitions
         //event is called on main form constructor
+        public delegate void PieceMovedDelegate();
         public event PieceMovedDelegate PieceMoved;
 
+        public delegate void OnGameReset();
+        public static event OnGameReset OnReset;
 
         public delegate void OnKingCheckedDelegate(King kingThatIsChecked);
         public static event OnKingCheckedDelegate OnKingChecked;
@@ -48,7 +50,7 @@ namespace ChessLibrary
             this.ParentForm = form;
             this.CurrentRoom = room;
             this.Size = new Size(size, size);
-            this.BackColor = Color.White;
+            this.BackColor = Color.Transparent;
             tileSize = new Size(Width / 8, Width / 8);
             ColorPack = 0;
 
@@ -79,7 +81,34 @@ namespace ChessLibrary
         }
         public void ResponsiveLayout()
         {
-            Format.Center(this);
+            Format.CenterBoard(this);
+
+            this.Size = new Size(this.Height, (int)Math.Round(ParentForm.Height * 0.75));
+
+            tileSize = new Size(Width / 8, Width / 8);
+
+            foreach (Tile t in Tiles)
+            {
+                t.Size = tileSize;
+            }
+
+            int x = 0;
+            int y = 0;
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Tiles[i, j].Location = new Point(x, y);
+                    x += tileSize.Width;
+                }
+                x = 0;
+                y += tileSize.Height;
+            }
+
+            if (ParentForm.Height < 200 && ParentForm.Width < 200)
+                this.Location = new Point(0, 0);
+
             SidePanel.ResponsiveLayout();
         }
         #endregion
@@ -148,11 +177,6 @@ namespace ChessLibrary
                         tile.Image = null;
                     }
 
-                    // update opposing pieces' moves to see if the recent move is a valid move for the enemy
-                    //foreach (Piece piece in Piece.Pieces)
-                    //    if (piece.CurrentPlayer != newTile.CurrentPiece.CurrentPlayer)
-                    //        piece.GetValidMoves(this, piece.CurrentTile);
-
                     // store latest move as string 
                     latestMove = $"{newTile.CurrentPiece} moved from " +
                                 $"{oldTile.CoordinateX}, {oldTile.CoordinateY} " +
@@ -163,7 +187,6 @@ namespace ChessLibrary
 
                     //send delegate to side panel
                     PieceMoved.Invoke();
-                    
                 }
             }       
         }
@@ -225,7 +248,6 @@ namespace ChessLibrary
             Color tileColor;
             bool colorToggle = true;
 
-
             for (int i = 0; i < 8; i++) // column Y
             {
                 colorToggle = !colorToggle;
@@ -243,9 +265,8 @@ namespace ChessLibrary
                     colorToggle = !colorToggle;
                     this.Controls.Add(tile);
                 }
-                locX = 0;
-                locY += tileSize.Height;
-                BackColor = Color.White;
+                locX = 0; // go to left side of board to iterate next row
+                locY += tileSize.Height; // move one row down 
             }
         }
         #endregion
@@ -292,25 +313,18 @@ namespace ChessLibrary
                         if (j == 4)
                             Tiles[i, j].CreatePiece("king", 2); // add player 2's king
                     }
-
-                    //test
-                    //if (i == 5 || i == 6)
-                        //Tiles[i, j].Image = MyAssets.ValidSpaceImg;
                 }
             }
         }
         #endregion
-        #region Dispose Handler
-        public void DeleteBoard()
+        #region ResetBoard
+        public void ResetBoard()
         {
-            foreach (Piece p in Piece.Pieces)
-                p.Dispose();
-
-            foreach (Tile t in Tiles)
-                t.Dispose();
-
+            MoveStack.Clear();
             SidePanel.Dispose();
             this.Dispose();
+
+            OnReset.Invoke(); // tell the game form that the game needs to be reset
         }
         #endregion
         #region Overrided ToString() method

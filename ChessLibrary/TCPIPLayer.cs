@@ -132,7 +132,7 @@ namespace ChessLibrary
                 byte[] checkConn = new byte[1];
                 if (tcpClient.Client.Receive(checkConn, SocketFlags.Peek) == 0)
                 {
-                    lbMessage.BackColor = Color.Red;
+                    //lbMessage.BackColor = Color.Red;
                 }
             }
 
@@ -141,7 +141,7 @@ namespace ChessLibrary
                 Byte[] InComing = new Byte[tcpClient.ReceiveBufferSize];
                 tcpClient.GetStream().Read(InComing, 0, InComing.Length);
                 string InComingString = Encoding.ASCII.GetString(InComing);
-                lstRooms.Items.Add(InComingString);
+                //lstRooms.Items.Add(InComingString);
                 // txtIncoming.SelectionStart = txtIncoming.Text.Length;  // scroll to end of text
                 //txtIncoming.ScrollToCaret();
             }

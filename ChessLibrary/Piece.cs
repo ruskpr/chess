@@ -72,7 +72,7 @@ namespace ChessLibrary
                     CurrentTile = null;
                     CurrentValidMoves = null;
                     this.Image = null;
-                    Pieces = null;
+                    Pieces.Clear();
                 }
 
                 // Dispose unmanaged resources here.

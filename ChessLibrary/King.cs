@@ -90,7 +90,7 @@ namespace ChessLibrary
             checkedKing.inCheckedState = true;
             checkedKing.CurrentTile.BackColor = Color.Red;
             MessageBox.Show("Checked!");
-            CurrentTile.ParentBoard.DeleteBoard();
+            //CurrentTile.ParentBoard.DeleteBoard();
 
 
             //show possible moves of the checked king

@@ -38,18 +38,21 @@
             this.lbP1Username = new System.Windows.Forms.Label();
             this.lbP1Rating = new System.Windows.Forms.Label();
             this.pbP1Pic = new System.Windows.Forms.PictureBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.pbP2Pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbP1Pic)).BeginInit();
             this.SuspendLayout();
             // 
             // lstMoves
             // 
+            this.lstMoves.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lstMoves.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lstMoves.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lstMoves.FormattingEnabled = true;
             this.lstMoves.ItemHeight = 20;
-            this.lstMoves.Location = new System.Drawing.Point(1, 489);
+            this.lstMoves.Location = new System.Drawing.Point(0, 495);
             this.lstMoves.Name = "lstMoves";
-            this.lstMoves.Size = new System.Drawing.Size(391, 144);
+            this.lstMoves.Size = new System.Drawing.Size(394, 140);
             this.lstMoves.TabIndex = 0;
             // 
             // lbSelected
@@ -76,12 +79,14 @@
             // 
             // btnReset
             // 
-            this.btnReset.BackColor = System.Drawing.Color.Black;
+            this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReset.BackColor = System.Drawing.Color.Coral;
             this.btnReset.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReset.FlatAppearance.BorderSize = 0;
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReset.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnReset.ForeColor = System.Drawing.Color.White;
-            this.btnReset.Location = new System.Drawing.Point(282, 3);
+            this.btnReset.Location = new System.Drawing.Point(285, 0);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(109, 31);
             this.btnReset.TabIndex = 5;
@@ -189,5 +194,6 @@
         private Label lbP1Username;
         private Label lbP1Rating;
         private PictureBox pbP1Pic;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
