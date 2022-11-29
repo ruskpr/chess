@@ -10,8 +10,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ChessLibrary
 {
-    
-
+    [Serializable]
     public class Board : Panel
     {
         #region Delegate definitions

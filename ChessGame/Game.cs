@@ -9,9 +9,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+//using System.Text.Json;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
+using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ChessGame
 {
@@ -26,8 +30,6 @@ namespace ChessGame
 
         private Timer timerConnChecker = new Timer();
         private Board board;
-        private int monitorHeight = Screen.PrimaryScreen.Bounds.Height;
-
         private int boardSize;
 
         #endregion
@@ -50,14 +52,19 @@ namespace ChessGame
             this.Resize += Game_Resize;
             this.LocationChanged += Game_LocationChanged;
 
-            // init board
+            //create board
             boardSize = (int)Math.Round(this.Height * 0.75);
             board = new Board(this, CurrentRoom, boardSize);
             Board.OnReset += board_OnReset;
-
             board.ResponsiveLayout();
         }
-
+        #endregion
+        #region Reset delegate event
+        private void board_OnReset()
+        {
+            board = new Board(this, CurrentRoom, boardSize);
+            board.ResponsiveLayout();
+        }
         #endregion
         #region Init Connection
         private void InitializeConnection()
@@ -92,17 +99,12 @@ namespace ChessGame
         }
 
         #endregion
-        #region OnReset Event
-        private void board_OnReset()
-        {
-            board = new Board(this, CurrentRoom, boardSize);
-            board.ResponsiveLayout();
-        }
-        #endregion
-        #region Responsive operations
+        #region Form events
         private void Game_SizeChanged(object? sender, EventArgs e) => board.ResponsiveLayout();
         private void Game_Resize(object? sender, EventArgs e) => board.ResponsiveLayout();
         private void Game_LocationChanged(object? sender, EventArgs e) => board.ResponsiveLayout();
         #endregion
+
+
     }
 }

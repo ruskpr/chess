@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ChessLibrary
 {
-    public delegate void SendTileDelegate(Tile tile);
-
+    [Serializable]
     public class Tile : PictureBox, IDisposable
     {
         #region Delegate Events
+        public delegate void SendTileDelegate(Tile tile);
         public static event SendTileDelegate OnSelected;
         public static event SendTileDelegate SendTargetTile;
         #endregion

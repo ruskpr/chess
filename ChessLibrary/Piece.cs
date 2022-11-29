@@ -8,6 +8,7 @@ using static ChessLibrary.Piece;
 
 namespace ChessLibrary
 {
+    [Serializable]
     public abstract class Piece : IDisposable
     {
         #region Fields
