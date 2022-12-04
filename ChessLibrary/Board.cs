@@ -80,8 +80,6 @@ namespace ChessLibrary
             AddTiles();
             AddPieces();
 
-            
-
             // store all the moves of each piece when board is created
             foreach (Piece p in Piece.Pieces)
                 p.GetValidMoves(this, p.CurrentTile);
@@ -327,12 +325,26 @@ namespace ChessLibrary
         #endregion
         #region Responsive layout
         public void ResponsiveLayout()
-        { 
-            this.Left = (ParentForm.Width / 2 - (this.Width / 2)) ;
-            this.Top = ParentForm.Height / 2 - (this.Height / 2);
-            this.Left -= this.Width / 4;
+        {   
+            if (ParentForm.Width < 500 )
+            {
+                SidePanel.Visible = false;
+                this.Left = ParentForm.Width / 2 - (this.Width / 2) - 10;
+                this.Size = new Size((int)Math.Round(ParentForm.Height * 0.85), (int)Math.Round(ParentForm.Height * 0.85));
+                this.Top = 15;
 
-            this.Size = new Size(this.Height, (int)Math.Round(ParentForm.Height * 0.75));
+            }
+            else
+            {
+                this.Size = new Size(this.Height, (int)Math.Round(ParentForm.Height * 0.75));
+                SidePanel.Visible = true;
+                this.Left = ParentForm.Width / 2 - (this.Width / 2);
+                this.Left -= this.Width / 4;
+                this.Top = ParentForm.Height / 2 - (this.Height / 2);
+
+            }
+
+
 
             tileSize = new Size(Width / 8, Width / 8);
 
