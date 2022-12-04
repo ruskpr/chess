@@ -25,7 +25,7 @@ namespace ChessLibrary
             InitSidePanel();
             InitUserProfiles();
             UpdateText(null);
-
+            
             // events 
             parentBoard.OnPieceMoved += ParentBoard_PieceMoved;
             Tile.OnSelected += Tile_OnSelected;

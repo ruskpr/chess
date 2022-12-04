@@ -1,11 +1,13 @@
-﻿namespace ChessGame
+﻿using ChessLibrary;
+
+namespace ChessGame
 {
     public partial class Game : Form
     {
         public Game()
         {
             InitializeComponent();
-            Board board = new Board(this);
+            Board chessBoard = new Board(this);
         } 
     }
 }

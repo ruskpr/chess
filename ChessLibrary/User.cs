@@ -20,12 +20,8 @@ namespace ChessLibrary
         #region Constructors
         public User(string username)
         {
-
-        }
-        public User() // for offline user
-        {
-            username = "Offline User";
-            chess_rating = 400;
+            this.username = username;
+            chess_rating = 0;
             profile_pic = Assets.DefaultProfilePic;
         }
         #endregion
