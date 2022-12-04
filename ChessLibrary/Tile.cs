@@ -18,7 +18,7 @@ namespace ChessLibrary
         public Board ParentBoard { get; set; }
         public int CoordinateX { get; set; }
         public int CoordinateY { get; set; }
-        public Piece? CurrentPiece { get; set; }
+        public Piece? CurrPiece { get; set; }
         public bool Selected { get; set; }
         public bool IsAValidSpace { get; set; }
         #endregion
@@ -41,7 +41,7 @@ namespace ChessLibrary
             CoordinateY = arrY;
             Selected = false;
             IsAValidSpace = false;
-            CurrentPiece = null;
+            CurrPiece = null;
 
             this.MouseDown += Tile_MouseDown;
 
@@ -79,7 +79,7 @@ namespace ChessLibrary
             Selected = false;
             BackColor = originalColor;
 
-            Piece piece = this.CurrentPiece;
+            Piece piece = this.CurrPiece;
             if (piece is King)
             {
                 King king = (King)piece;
@@ -97,25 +97,25 @@ namespace ChessLibrary
             Piece.Player selectedPlayer = player == 1 ? Piece.Player.Player_One : Piece.Player.Player_Two;
 
             //only add piece if tile is empty
-            if (CurrentPiece == null)
+            if (CurrPiece == null)
             {
                 switch (piecename)
                 {
                     case "pawn":
-                        CurrentPiece = new Pawn(selectedPlayer, this); break;
+                        CurrPiece = new Pawn(selectedPlayer, this); break;
                     case "rook":
-                        CurrentPiece = new Rook(selectedPlayer, this); break;
+                        CurrPiece = new Rook(selectedPlayer, this); break;
                     case "knight":
-                        CurrentPiece = new Knight(selectedPlayer, this); break;
+                        CurrPiece = new Knight(selectedPlayer, this); break;
                     case "bishop":
-                        CurrentPiece = new Bishop(selectedPlayer, this); break;
+                        CurrPiece = new Bishop(selectedPlayer, this); break;
                     case "queen":
-                        CurrentPiece = new Queen(selectedPlayer, this); break;
+                        CurrPiece = new Queen(selectedPlayer, this); break;
                     case "king":
-                        CurrentPiece = new King(selectedPlayer, this); break;
+                        CurrPiece = new King(selectedPlayer, this); break;
                 }
 
-                this.BackgroundImage = CurrentPiece?.Image;
+                this.BackgroundImage = CurrPiece?.Image;
 
             }
 
@@ -124,16 +124,16 @@ namespace ChessLibrary
         #region Remove piece
         public void DiscardPosition()
         {
-            CurrentPiece = null;
+            CurrPiece = null;
             Image = null;
             BackgroundImage = null;
         }
         #endregion
         #region Tostring override
         public override string ToString() =>
-            CurrentPiece == null ? 
+            CurrPiece == null ? 
             $"Empty tile at x{CoordinateX}, y{CoordinateY}" :
-            $"{CurrentPiece} at x{CoordinateX}, y{CoordinateY}";
+            $"{CurrPiece} at x{CoordinateX}, y{CoordinateY}";
         #endregion
         
         public new void Dispose()

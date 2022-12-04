@@ -25,7 +25,7 @@ namespace ChessLibrary
         public User() // for offline user
         {
             username = "Offline User";
-            chess_rating = 0;
+            chess_rating = 400;
             profile_pic = Assets.DefaultProfilePic;
         }
         #endregion

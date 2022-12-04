@@ -16,14 +16,15 @@ namespace ChessLibrary
         #region Delegate definitions
         //event is called on main form constructor
         public delegate void PieceMovedDelegate();
-        public event PieceMovedDelegate PieceMoved;
+        public event PieceMovedDelegate OnPieceMoved;
 
         public delegate void OnGameReset();
-        public static event OnGameReset OnReset;
+        public event OnGameReset OnReset;
 
         public delegate void OnKingCheckedDelegate(King kingThatIsChecked);
         public static event OnKingCheckedDelegate OnKingChecked;
         #endregion
+
         #region Fields
         // 2d array of tiles
         public Tile[,] Tiles = new Tile[8, 8];
@@ -34,8 +35,8 @@ namespace ChessLibrary
 
         private string latestMove = "";
         #endregion
-        #region Properties
-        public Tile SelectedTile { get; set; }
+        #region Props
+        public Tile SelTile { get; set; }
         public Form ParentForm { get; set; }
         public SidePanel SidePanel { get; set; }
         public int ColorPack { get; set; }
@@ -44,28 +45,23 @@ namespace ChessLibrary
         public Room CurrentRoom { get; set; }
         #endregion
         #region Constructor / Finalizer
-        public Board(Form form, Room room, int size)
+        public Board(Form form, Room? room = null)
         {
             this.ParentForm = form;
-            this.CurrentRoom = room;
-            this.Size = new Size(size, size);
+            this.CurrentRoom = room != null ? room : new Room(new User(), new User());
+            //this.Size = new Size(size, size);
             this.BackColor = Color.Transparent;
-            tileSize = new Size(Width / 8, Width / 8);
+            //tileSize = new Size(Width / 8, Width / 8);
             ColorPack = 0;
 
-            SelectedTile = null;
+            SelTile = null;
             Tile.OnSelected += Tile_OnSelected;
             Tile.SendTargetTile += Tile_SendTargetTile;
 
             // construct board and place on form
             ConstructBoard();
-            this.ParentForm.Controls.Add(this);
 
-            ResponsiveLayout();
-
-            // store all the moves of each piece when board is created
-            foreach (Piece p in Piece.Pieces)
-                p.GetValidMoves(this, p.CurrentTile);
+            ResponsiveLayout();           
         }
         ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
         #endregion
@@ -77,199 +73,17 @@ namespace ChessLibrary
 
             // add side panel
             SidePanel = new SidePanel(this);
+
+            // store all the moves of each piece when board is created
+            foreach (Piece p in Piece.Pieces)
+                p.GetValidMoves(this, p.CurrentTile);
+
+            // set up event handlers and add board to parent form
+            ParentForm.SizeChanged += ParentForm_SizeChanged;
+            ParentForm.Resize += ParentForm_Resize;
+            ParentForm.LocationChanged += ParentForm_LocationChanged;
+            ParentForm.Controls.Add(this);
         }
-        public void ResponsiveLayout()
-        {
-            Format.CenterBoard(this);
-
-            this.Size = new Size(this.Height, (int)Math.Round(ParentForm.Height * 0.75));
-
-            tileSize = new Size(Width / 8, Width / 8);
-
-            foreach (Tile t in Tiles)
-            {
-                t.Size = tileSize;
-            }
-
-            int x = 0;
-            int y = 0;
-
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    Tiles[i, j].Location = new Point(x, y);
-                    x += tileSize.Width;
-                }
-                x = 0;
-                y += tileSize.Height;
-            }
-
-            if (ParentForm.Height < 200 && ParentForm.Width < 200)
-                this.Location = new Point(0, 0);
-
-            SidePanel.ResponsiveLayout();
-        }
-        #endregion
-        #region Delegate to send and recieve tiles
-        private void Tile_OnSelected(Tile tile) //recieve selected tile
-        {
-            SelectedTile = tile;
-            //display valid moves for selected tile
-            //GetValidMoves(SelectedTile);
-        }
-        private void Tile_SendTargetTile(Tile tile) // recieve target tile (the tiles new position)
-        {  
-            MovePiece(SelectedTile, tile);
-        }
-        #endregion
-        #region Move Piece method
-        public void MovePiece(Tile oldTile, Tile newTile)
-        {
-            if (oldTile.CurrentPiece != null)
-            {
-                if ((int)SelectedTile.CurrentPiece.CurrentPlayer == (int)GameManager.Turn)
-                {
-                    //check if opponent piece was captured
-                    if (newTile.CurrentPiece != null)
-                    {
-                        Piece capturedPiece = newTile.CurrentPiece;
-
-                        // remove from main list
-                        Piece.Pieces.Remove(capturedPiece);
-
-                        // if piece is captured place it in capturedPiece list
-                        if ((int)capturedPiece.CurrentPlayer == 1)
-                            Piece.PlayerOne_CapturedPieces.Add(capturedPiece);
-                        else
-                            Piece.PlayerTwo_CapturedPieces.Add(capturedPiece);   
-                    }
-
-                    //set selected tiles to have the newly moved piece
-                    newTile.CurrentPiece = oldTile.CurrentPiece;
-
-                    //MessageBox.Show(newTile.CurrentPiece.CurrentTile.ToString());
-                    newTile.CurrentPiece.CurrentTile = newTile;
-                    //update new tile
-                    newTile.BackgroundImage = oldTile.BackgroundImage;
-                    oldTile.BackgroundImage = null;
-
-                    // push move into stack
-                    MoveStack.Push(new Tuple<Piece, Tile, Tile>(newTile.CurrentPiece, oldTile, newTile));
-
-                    //remove oldtile (set images and child piece of tile to null)
-                    oldTile.DiscardPosition();
-
-                    // set bool
-                    newTile.CurrentPiece.CompletedFirstMove = true;
-
-                    // check if recently moved piece is checking a king
-                    newTile.CurrentPiece.GetValidMoves(this, newTile);
-
-                    // check if moved piece is checking the opposite king
-                    CheckIfInCheck(newTile);
-
-                    // hide indicators
-                    foreach (Tile tile in Tiles)
-                    {
-                        tile.IsAValidSpace = false;
-                        tile.Image = null;
-                    }
-
-                    // store latest move as string 
-                    latestMove = $"{newTile.CurrentPiece} moved from " +
-                                $"{oldTile.CoordinateX}, {oldTile.CoordinateY} " +
-                                $"to {newTile.CoordinateX}, {newTile.CoordinateY}";
-
-                    // switch turn after a move
-                    GameManager.SwapTurns();
-
-                    //send delegate to side panel
-                    PieceMoved.Invoke();
-                }
-            }       
-        }
-        #endregion
-        #region show moves method
-        public void ShowMovesOfSelectedTile(Tile selTile)
-        {
-            if (selTile.CurrentPiece != null)
-            {
-                // generate moves on click
-                selTile.CurrentPiece.GetValidMoves(this, selTile);
-
-                //only show moves if it is the players turn
-
-                if ((int)SelectedTile.CurrentPiece.CurrentPlayer == (int)GameManager.Turn)
-                {
-                    // get list of moves for selected tile
-                    List<Tile> currentTilesMoves = selTile.CurrentPiece != null ?
-                    selTile.CurrentPiece.CurrentValidMoves : new List<Tile>();
-
-                    //clear valid move indicators on all tiles
-                    foreach (Tile tile in Tiles)
-                    {
-                        tile.IsAValidSpace = false;
-                        tile.Image = null;
-                    }
-
-                    foreach (Tile tile in currentTilesMoves)
-                    {
-                        tile.IsAValidSpace = true;
-
-                        tile.Image = tile.CurrentPiece != null ?
-                            Assets.ValidKillImg : Assets.ValidMoveImg;
-                    }
-                }
-            }
-        }
-        #endregion
-        #region Check if in king is in check method
-        public void CheckIfInCheck(Tile mostRecentTile)
-        {
-            foreach (Tile move in mostRecentTile.CurrentPiece.CurrentValidMoves)
-            {
-                if (move.CurrentPiece is King && move.CurrentPiece.CurrentPlayer !=
-                    mostRecentTile.CurrentPiece.CurrentPlayer )
-                {
-                    King checkedKing = (King)move.CurrentPiece; // type cast to king
-                    OnKingChecked.Invoke(checkedKing);
-                    break;
-                }
-            }
-        }
-        #endregion
-        #region Add tiles to board method
-        public void AddTiles()
-        {
-            int locX = 0;
-            int locY = 0;
-            Color tileColor;
-            bool colorToggle = true;
-
-            for (int i = 0; i < 8; i++) // column Y
-            {
-                colorToggle = !colorToggle;
-                for (int j = 0; j < 8; j++) // row X
-                {
-                    tileColor = colorToggle ?
-                        GameManager.ColorPackages[ColorPack].Item1 :
-                        GameManager.ColorPackages[ColorPack].Item2;
-
-                    Tile tile = new Tile(this, tileSize, new Point(locX, locY), j, i, tileColor);
-
-                    Tiles[i, j] = tile;
-
-                    locX += tileSize.Width;
-                    colorToggle = !colorToggle;
-                    this.Controls.Add(tile);
-                }
-                locX = 0; // go to left side of board to iterate next row
-                locY += tileSize.Height; // move one row down 
-            }
-        }
-        #endregion
-        #region Add game pieces to board method
         public void AddPieces()
         {
             //loop through each tile in 2d array (player 1 is white, player 2 is black)
@@ -316,18 +130,224 @@ namespace ChessLibrary
             }
         }
         #endregion
+        #region Delegate to send and recieve tiles
+        private void Tile_OnSelected(Tile tile) //recieve selected tile
+        {
+            SelTile = tile;
+            //display valid moves for selected tile
+            //GetValidMoves(SelectedTile);
+        }
+        private void Tile_SendTargetTile(Tile targetTile) // recieve target tile (the tiles new position)
+        {  
+            MovePiece(SelTile, targetTile);
+        }
+        #endregion
+        #region Move Piece operations
+        public void MovePiece(Tile oldTile, Tile newTile)
+        {
+            if (oldTile.CurrPiece != null)
+            {
+                if ((int)SelTile.CurrPiece.CurrPlayer == (int)GameManager.Turn)
+                {
+                    //check if opponent piece was captured
+                    if (newTile.CurrPiece != null)
+                    {
+                        Piece capturedPiece = newTile.CurrPiece;
+
+                        // remove from main list
+                        Piece.Pieces.Remove(capturedPiece);
+
+                        // if piece is captured place it in capturedPiece list
+                        if ((int)capturedPiece.CurrPlayer == 1)
+                            Piece.PlayerOne_CapturedPieces.Add(capturedPiece);
+                        else
+                            Piece.PlayerTwo_CapturedPieces.Add(capturedPiece);   
+                    }
+
+                    //set selected tiles to have the newly moved piece
+                    newTile.CurrPiece = oldTile.CurrPiece;
+
+                    //MessageBox.Show(newTile.CurrentPiece.CurrentTile.ToString());
+                    newTile.CurrPiece.CurrentTile = newTile;
+                    //update new tile
+                    newTile.BackgroundImage = oldTile.BackgroundImage;
+                    oldTile.BackgroundImage = null;
+
+                    // push move into stack
+                    MoveStack.Push(new Tuple<Piece, Tile, Tile>(newTile.CurrPiece, oldTile, newTile));
+
+                    //remove oldtile (set images and child piece of tile to null)
+                    oldTile.DiscardPosition();
+
+                    // set bool
+                    newTile.CurrPiece.CompletedFirstMove = true;
+
+                    // check if recently moved piece is checking a king
+                    newTile.CurrPiece.GetValidMoves(this, newTile);
+
+                    // check if moved piece is checking the opposite king
+                    CheckIfInCheck(newTile);
+
+                    // hide indicators
+                    foreach (Tile tile in Tiles)
+                    {
+                        tile.IsAValidSpace = false;
+                        tile.Image = null;
+                    }
+
+                    // store latest move as string 
+                    latestMove = $"{newTile.CurrPiece} moved from " +
+                                $"{oldTile.CoordinateX}, {oldTile.CoordinateY} " +
+                                $"to {newTile.CoordinateX}, {newTile.CoordinateY}";
+
+                    // switch turn after a move
+                    GameManager.SwapTurn();
+
+                    //send delegate to side panel
+                    OnPieceMoved.Invoke();
+                }
+            }       
+        }
+        #endregion
+        #region show moves method
+        public void ShowMovesOfSelectedTile(Tile selTile)
+        {
+            if (selTile.CurrPiece != null)
+            {
+                // generate moves on click
+                selTile.CurrPiece.GetValidMoves(this, selTile);
+
+                //only show moves if it is the players turn
+
+                if ((int)SelTile.CurrPiece.CurrPlayer == (int)GameManager.Turn)
+                {
+                    // get list of moves for selected tile
+                    List<Tile> currentTilesMoves = selTile.CurrPiece != null ?
+                    selTile.CurrPiece.CurrentValidMoves : new List<Tile>();
+
+                    //clear valid move indicators on all tiles
+                    foreach (Tile tile in Tiles)
+                    {
+                        tile.IsAValidSpace = false;
+                        tile.Image = null;
+                    }
+
+                    foreach (Tile tile in currentTilesMoves)
+                    {
+                        tile.IsAValidSpace = true;
+
+                        tile.Image = tile.CurrPiece != null ?
+                            Assets.ValidKillImg : Assets.ValidMoveImg;
+                    }
+                }
+            }
+        }
+        #endregion
+        #region Check if in king is in check method
+        public void CheckIfInCheck(Tile mostRecentTile)
+        {
+            foreach (Tile move in mostRecentTile.CurrPiece.CurrentValidMoves)
+            {
+                if (move.CurrPiece is King && move.CurrPiece.CurrPlayer !=
+                    mostRecentTile.CurrPiece.CurrPlayer )
+                {
+                    King checkedKing = (King)move.CurrPiece; // type cast to king
+                    OnKingChecked.Invoke(checkedKing);
+                    break;
+                }
+            }
+        }
+        #endregion
+        #region Add tiles to board method
+        public void AddTiles()
+        {
+            int locX = 0;
+            int locY = 0;
+            Color tileColor;
+            bool colorToggle = true;
+
+            for (int i = 0; i < 8; i++) // column Y
+            {
+                colorToggle = !colorToggle;
+                for (int j = 0; j < 8; j++) // row X
+                {
+                    tileColor = colorToggle ?
+                        GameManager.ColorPackages[ColorPack].Item1 :
+                        GameManager.ColorPackages[ColorPack].Item2;
+
+                    Tile tile = new Tile(this, tileSize, new Point(locX, locY), j, i, tileColor);
+
+                    Tiles[i, j] = tile;
+
+                    locX += tileSize.Width;
+                    colorToggle = !colorToggle;
+                    this.Controls.Add(tile);
+                }
+                locX = 0; // go to left side of board to iterate next row
+                locY += tileSize.Height; // move one row down 
+            }
+        }
+        #endregion
         #region ResetBoard
         public void ResetBoard()
         {
             MoveStack.Clear();
             SidePanel.Dispose();
-            this.Dispose();
+            Piece.Pieces.Clear();
 
-            OnReset.Invoke(); // tell the game form that the game needs to be reset
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Tiles[i, j].Location = new Point(-300, -300);
+                    Tiles[i, j] = null;
+                }
+            }
+
+            //Contruct new board after everything is reset
+            ConstructBoard();
+            GC.Collect();
         }
         #endregion
-        #region Overrided ToString() method
-        public override string ToString() => "Chessboard";
+        #region Responsive layout
+        public void ResponsiveLayout()
+        { 
+            this.Left = (ParentForm.Width / 2 - (this.Width / 2)) ;
+            this.Top = ParentForm.Height / 2 - (this.Height / 2);
+            this.Left -= this.Width / 4;
+
+            this.Size = new Size(this.Height, (int)Math.Round(ParentForm.Height * 0.75));
+
+            tileSize = new Size(Width / 8, Width / 8);
+
+            foreach (Tile t in Tiles)
+                t.Size = tileSize;
+
+            int x = 0;
+            int y = 0;
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Tiles[i, j].Location = new Point(x, y);
+                    x += tileSize.Width;
+                }
+                x = 0;
+                y += tileSize.Height;
+            }
+
+            if (ParentForm.Height < 200 && ParentForm.Width < 200)
+                this.Location = new Point(0, 0);
+
+            SidePanel.ResponsiveLayout();
+        }
         #endregion
+        #region Parent board events for responsive layout
+        private void ParentForm_LocationChanged(object? sender, EventArgs e) => ResponsiveLayout();
+        private void ParentForm_Resize(object? sender, EventArgs e) => ResponsiveLayout();
+        private void ParentForm_SizeChanged(object? sender, EventArgs e) => ResponsiveLayout();
+
+        #endregion        
     }
 }

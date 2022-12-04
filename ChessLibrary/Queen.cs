@@ -40,32 +40,32 @@ namespace ChessLibrary
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
                     {
-                        if (b.Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a piece on same team stop casting direction
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a piece on same team stop casting direction
                                 break;
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a piece on other team cast valid space on it and stop
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a piece on other team cast valid space on it and stop
                                 validMoves.Add(b.Tiles[i, currentX]); break;
                         }
 
                         validMoves.Add(b.Tiles[i, currentX]); // add valid move if space is empty
                     }
             }
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
                     {
-                        if (b.Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a piece on same team stop casting direction
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a piece on same team stop casting direction
                                 break;
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a piece on other team cast valid space on it and stop
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a piece on other team cast valid space on it and stop
                                 validMoves.Add(b.Tiles[i, currentX]); break;
                         }
 
@@ -82,19 +82,19 @@ namespace ChessLibrary
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
                     if (t.CoordinateY != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[i, currentX]); // mark tile as valid
                                 break; // break out of loop
@@ -106,19 +106,19 @@ namespace ChessLibrary
 
                 }
             }
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
                     if (t.CoordinateY != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[i, currentX]); // mark tile as valid
                                 break; // break out of loop
@@ -139,19 +139,19 @@ namespace ChessLibrary
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
                     if (t.CoordinateX != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -162,19 +162,19 @@ namespace ChessLibrary
                     }
                 }
             }
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
                     if (t.CoordinateX != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -195,19 +195,19 @@ namespace ChessLibrary
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
                     if (t.CoordinateX != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -218,19 +218,19 @@ namespace ChessLibrary
                     }
                 }
             }
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
                     if (t.CoordinateX != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -255,7 +255,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = 1; i < 7; i++) // cast to the right end of the board
                     try
@@ -263,16 +263,16 @@ namespace ChessLibrary
                         var location = b.Tiles[currentY - i, currentX + i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_Two)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Player.Player_Two)
                         {
                             validMoves.Add(location); break;
                         }
 
 
                         // stop loop if there is friendly piece blocking the way
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Piece.Player.Player_One)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -280,7 +280,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -288,15 +288,15 @@ namespace ChessLibrary
                         var location = b.Tiles[currentY + i, currentX - i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_One)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Player.Player_One)
                         {
                             validMoves.Add(location); break;
                         }
 
                         //stop loop if there is friendly piece blocking the way
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Piece.Player.Player_Two)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -314,7 +314,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {  //int i = 1; i < 7; i++
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -322,15 +322,15 @@ namespace ChessLibrary
                         var location = b.Tiles[currentY - i, currentX - i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_Two)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Player.Player_Two)
                         {
                             validMoves.Add(location); break;
                         }
 
                         //stop loop if there is friendly piece blocking the way
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Piece.Player.Player_One)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -338,7 +338,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -346,16 +346,16 @@ namespace ChessLibrary
                         var location = b.Tiles[currentY + i, currentX + i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_One)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Player.Player_One)
                         {
                             validMoves.Add(location);
                             break;
                         }
 
                         //stop loop if there is friendly piece blocking the way
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Piece.Player.Player_Two)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -373,7 +373,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = 1; i < 7; i++)
                     try
@@ -381,16 +381,16 @@ namespace ChessLibrary
                         var location = b.Tiles[currentY + i, currentX + i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_Two)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Player.Player_Two)
                         {
                             validMoves.Add(location); break;
                         }
 
 
                         // stop loop if there is friendly piece blocking the way
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Piece.Player.Player_One)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -398,7 +398,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -406,15 +406,15 @@ namespace ChessLibrary
                         var location = b.Tiles[currentY - i, currentX - i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_One)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Player.Player_One)
                         {
                             validMoves.Add(location); break;
                         }
 
                         //stop loop if there is friendly piece blocking the way
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Piece.Player.Player_Two)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -432,7 +432,7 @@ namespace ChessLibrary
             int currentY = t.CoordinateY;
 
             //player 1
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = 1; i < 7; i++)
                     try
@@ -440,15 +440,15 @@ namespace ChessLibrary
                         var location = b.Tiles[currentY + i, currentX - i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_Two)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Player.Player_Two)
                         {
                             validMoves.Add(location); break;
                         }
 
                         // stop loop if there is friendly piece blocking the way
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_One)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Piece.Player.Player_One)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -456,7 +456,7 @@ namespace ChessLibrary
                     catch { }
             }
             //player 2
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -464,15 +464,15 @@ namespace ChessLibrary
                         var location = b.Tiles[currentY - i, currentX + i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Player.Player_One)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Player.Player_One)
                         {
                             validMoves.Add(location); break;
                         }
 
                         //stop loop if there is friendly piece blocking the way
-                        if (location.CurrentPiece != null &&
-                            location.CurrentPiece.CurrentPlayer == Piece.Player.Player_Two)
+                        if (location.CurrPiece != null &&
+                            location.CurrPiece.CurrPlayer == Piece.Player.Player_Two)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of

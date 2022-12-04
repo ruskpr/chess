@@ -59,11 +59,7 @@ namespace ChessGame
 
         private void btnPlayOffline_Click(object sender, EventArgs e)
         {
-            //create a room with 2 default users
-            Room room = new Room(new User(), new User());
-
-            //
-            Game game = new Game(room, Game.ConnectionType.Offline);
+            Game game = new Game();
             game.Show();
         }
     }

@@ -12,6 +12,9 @@ namespace ChessLibrary
 {
     public class TCPIPLayer
     {
+        public enum ConnectionType { Client, Server, Offline }
+        public ConnectionType ConnType;
+
         TcpClient tcpClient;
         TcpListener tcpListener;
 

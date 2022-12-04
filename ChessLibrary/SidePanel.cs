@@ -13,21 +13,21 @@ namespace ChessLibrary
 {
     public partial class SidePanel : UserControl
     {
-        public Board ParentBoard { get; set; }
-        public string Side { get; }
+        #region Fields
+        private Board parentBoard;
+        #endregion
         #region Constructor
-        public SidePanel(Board board, string side = "right")
+        public SidePanel(Board board)
         {
             InitializeComponent();
-            ParentBoard = board;
-            Side = side;
+            this.parentBoard = board;
 
             InitSidePanel();
             InitUserProfiles();
             UpdateText(null);
 
-            // delegate events
-            ParentBoard.PieceMoved += ParentBoard_PieceMoved;
+            // events 
+            parentBoard.OnPieceMoved += ParentBoard_PieceMoved;
             Tile.OnSelected += Tile_OnSelected;
         }
         #endregion
@@ -38,12 +38,12 @@ namespace ChessLibrary
         {
             lbSelected.Text = $"Selected: {tile}";
 
-            lbTurn.Text = "Turn:" + " " + ParentBoard.Turn;
+            lbTurn.Text = "Turn:" + " " + parentBoard.Turn;
 
             // display history of all moves
             lstMoves.Items.Clear();
 
-            foreach (Tuple<Piece, Tile, Tile> move in ParentBoard.MoveStack)
+            foreach (Tuple<Piece, Tile, Tile> move in parentBoard.MoveStack)
                 lstMoves.Items.Add($"{move.Item1}: x{move.Item2.CoordinateX}, y{move.Item2.CoordinateY} -> " +
                     $"x{move.Item3.CoordinateX}, y{move.Item3.CoordinateY}");
         }
@@ -52,20 +52,19 @@ namespace ChessLibrary
         private void InitSidePanel()
         {
             // set location to left or right
-            this.Location = Side == "left" ? 
-                new Point(ParentBoard.Left - this.Width, ParentBoard.Top) : 
-                new Point(ParentBoard.Right, ParentBoard.Top);
+            this.Location = new Point(parentBoard.Right, parentBoard.Top);
 
-            this.Width = ParentBoard.Width / 2;
-            this.Height = ParentBoard.Height;
+
+            this.Width = parentBoard.Width / 2;
+            this.Height = parentBoard.Height;
             this.BackColor = Color.FromArgb(80, 80, 80);
 
-            ParentBoard.ParentForm.Controls.Add(this);
+            parentBoard.ParentForm.Controls.Add(this);
         }
         private void InitUserProfiles()
         {
-            User pOne = ParentBoard.CurrentRoom.PlayerOne;
-            User pTwo = ParentBoard.CurrentRoom.PlayerTwo;
+            User pOne = parentBoard.CurrentRoom.PlayerOne;
+            User pTwo = parentBoard.CurrentRoom.PlayerTwo;
 
             // profile pics
             pbP1Pic.Image = pOne.profile_pic;
@@ -79,20 +78,14 @@ namespace ChessLibrary
         }
         #endregion
         #region Button click events
-        private void btnReset_Click(object sender, EventArgs e)
-        {
-            ParentBoard.ResetBoard();
-        }
+        private void btnReset_Click(object sender, EventArgs e) => parentBoard.ResetBoard();
         #endregion
         #region Responsive operations
         public void ResponsiveLayout()
         {
             // set location to left or right
-            this.Location = Side == "left" ?
-                new Point(ParentBoard.Left - this.Width, ParentBoard.Top) :
-                new Point(ParentBoard.Right, ParentBoard.Top); this.Height = ParentBoard.Height;
-
-            this.Width = ParentBoard.Width / 2;
+            this.Location = new Point(parentBoard.Right, parentBoard.Top); this.Height = parentBoard.Height;
+            this.Width = parentBoard.Width / 2;
 
             lstMoves.Width = this.Width;
             lstMoves.Height = this.Height / 3;

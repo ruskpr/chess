@@ -23,7 +23,7 @@ namespace ChessLibrary
             this.Image = player == Player.Player_One ? Assets.W_KingImg : Assets.B_KingImg;
 
             Board.OnKingChecked += ParentBoard_OnKingChecked;
-            CurrentTile.ParentBoard.PieceMoved += ParentBoard_PieceMoved;
+            CurrentTile.ParentBoard.OnPieceMoved += ParentBoard_PieceMoved;
         }
         #endregion
         private void UpdateSpaces(Board b, Tile t)
@@ -134,8 +134,8 @@ namespace ChessLibrary
             foreach (Tile move in validMoves.ToList())
             {
                 // remove moves where there are friendly pieces
-                if (move.CurrentPiece != null)
-                    if (move.CurrentPiece.CurrentPlayer == this.CurrentPlayer)
+                if (move.CurrPiece != null)
+                    if (move.CurrPiece.CurrPlayer == this.CurrPlayer)
                         validMoves.Remove(move);
             }
         }

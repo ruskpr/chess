@@ -22,7 +22,7 @@ namespace ChessLibrary
             //IgnoreKing(CurrentValidMoves);
             try
             {
-                IgnoreFriendlies(CurrentValidMoves, CurrentPlayer);
+                IgnoreFriendlies(CurrentValidMoves, CurrPlayer);
             }
             catch { }
         }

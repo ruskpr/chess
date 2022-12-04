@@ -33,39 +33,39 @@ namespace ChessLibrary
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 // allow 1 space forward if the tile is empty
                 try
                 {
-                    if (b.Tiles[t.CoordinateY - 1, t.CoordinateX].CurrentPiece == null)
+                    if (b.Tiles[t.CoordinateY - 1, t.CoordinateX].CurrPiece == null)
                         validMoves.Add(b.Tiles[t.CoordinateY - 1, t.CoordinateX]);
                 }
                 catch { }
 
                 // allow pawn to move 2 spaces on its first move
-                if (t.CurrentPiece.CompletedFirstMove == false && // condition: first move has not been completed
-                    b.Tiles[t.CoordinateY - 2, t.CoordinateX].CurrentPiece == null && // condition: tile 2 steps ahead is empty
-                    b.Tiles[t.CoordinateY - 1, t.CoordinateX].CurrentPiece == null // condition: tile 1 step ahead isnt taken
+                if (t.CurrPiece.CompletedFirstMove == false && // condition: first move has not been completed
+                    b.Tiles[t.CoordinateY - 2, t.CoordinateX].CurrPiece == null && // condition: tile 2 steps ahead is empty
+                    b.Tiles[t.CoordinateY - 1, t.CoordinateX].CurrPiece == null // condition: tile 1 step ahead isnt taken
                     )
                     validMoves.Add(b.Tiles[t.CoordinateY - 2, t.CoordinateX]);
                         
                 
             }
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 // allow 1 space forward if the tile is empty
                 try
                 {
-                    if (b.Tiles[t.CoordinateY + 1, t.CoordinateX].CurrentPiece == null)
+                    if (b.Tiles[t.CoordinateY + 1, t.CoordinateX].CurrPiece == null)
                         validMoves.Add(b.Tiles[t.CoordinateY + 1, t.CoordinateX]);
                 }
                 catch { }
 
                 // allow pawn to move 2 spaces on its first move
-                if (t.CurrentPiece.CompletedFirstMove == false && // condition: first move has not been completed
-                    b.Tiles[t.CoordinateY + 2, t.CoordinateX].CurrentPiece == null && // condition: tile 2 steps ahead is empty
-                    b.Tiles[t.CoordinateY + 1, t.CoordinateX].CurrentPiece == null // condition: tile 1 step ahead isnt taken
+                if (t.CurrPiece.CompletedFirstMove == false && // condition: first move has not been completed
+                    b.Tiles[t.CoordinateY + 2, t.CoordinateX].CurrPiece == null && // condition: tile 2 steps ahead is empty
+                    b.Tiles[t.CoordinateY + 1, t.CoordinateX].CurrPiece == null // condition: tile 1 step ahead isnt taken
                     )
                     validMoves.Add(b.Tiles[t.CoordinateY + 2, t.CoordinateX]);
             }
@@ -77,15 +77,15 @@ namespace ChessLibrary
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
             // player 1
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 if (t.CoordinateY > 0)
                 {
                     try // try catch to ignore out of board index
                     {
                         // if there is a enemy piece AND they are left diagnal of pawn, allow them to kill
-                        if (b.Tiles[t.CoordinateY - 1, t.CoordinateX - 1].CurrentPiece is Piece &&
-                        (int)b.Tiles[t.CoordinateY - 1, t.CoordinateX - 1].CurrentPiece.CurrentPlayer == 2)
+                        if (b.Tiles[t.CoordinateY - 1, t.CoordinateX - 1].CurrPiece is Piece &&
+                        (int)b.Tiles[t.CoordinateY - 1, t.CoordinateX - 1].CurrPiece.CurrPlayer == 2)
                             validMoves.Add(b.Tiles[t.CoordinateY - 1, t.CoordinateX - 1]);
                     }
                     catch { } // ignore exception 
@@ -93,23 +93,23 @@ namespace ChessLibrary
                     try // try catch to ignore out of board index
                     {
                         // enemy at right diagnal -> valid kill
-                        if (b.Tiles[t.CoordinateY - 1, t.CoordinateX + 1].CurrentPiece is Piece &&
-                        (int)b.Tiles[t.CoordinateY - 1, t.CoordinateX + 1].CurrentPiece.CurrentPlayer == 2)
+                        if (b.Tiles[t.CoordinateY - 1, t.CoordinateX + 1].CurrPiece is Piece &&
+                        (int)b.Tiles[t.CoordinateY - 1, t.CoordinateX + 1].CurrPiece.CurrPlayer == 2)
                             validMoves.Add(b.Tiles[t.CoordinateY - 1, t.CoordinateX + 1]);
                     }
                     catch { } // ignore exception 
                 }
             }
             //player 2
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 if (t.CoordinateY < 7)
                 {
                     try // try catch to ignore out of board index
                     {
                         // if there is a enemy piece AND they are left diagnal of pawn, allow them to kill
-                        if (b.Tiles[t.CoordinateY + 1, t.CoordinateX + 1].CurrentPiece is Piece &&
-                        (int)b.Tiles[t.CoordinateY + 1, t.CoordinateX + 1].CurrentPiece.CurrentPlayer == 1)
+                        if (b.Tiles[t.CoordinateY + 1, t.CoordinateX + 1].CurrPiece is Piece &&
+                        (int)b.Tiles[t.CoordinateY + 1, t.CoordinateX + 1].CurrPiece.CurrPlayer == 1)
                             validMoves.Add(b.Tiles[t.CoordinateY + 1, t.CoordinateX + 1]);
                     }
                     catch { } // ignore exception 
@@ -117,8 +117,8 @@ namespace ChessLibrary
                     try // try catch to ignore out of board index
                     {
                         // if there is a enemy piece AND they are right diagnal of pawn, allow them to kill
-                        if (b.Tiles[t.CoordinateY + 1, t.CoordinateX - 1].CurrentPiece is Piece &&
-                            (int)b.Tiles[t.CoordinateY + 1, t.CoordinateX - 1].CurrentPiece.CurrentPlayer == 1)
+                        if (b.Tiles[t.CoordinateY + 1, t.CoordinateX - 1].CurrPiece is Piece &&
+                            (int)b.Tiles[t.CoordinateY + 1, t.CoordinateX - 1].CurrPiece.CurrPlayer == 1)
                             validMoves.Add(b.Tiles[t.CoordinateY + 1, t.CoordinateX - 1]);
                     }
                     catch { } // ignore exception 

@@ -22,14 +22,14 @@ namespace ChessLibrary
         #region Properties
         public bool CompletedFirstMove { get; set; }
         public Bitmap Image { get; set; }
-        public Player CurrentPlayer { get; set; }
+        public Player CurrPlayer { get; set; }
         public Tile CurrentTile { get; set; }
         public List<Tile> CurrentValidMoves { get; set; }
         #endregion
         #region Constructor / Finalizer
         public Piece(Player player, Tile tile)
         {
-            CurrentPlayer = player;
+            CurrPlayer = player;
             CurrentTile = tile;
             CurrentValidMoves = new List<Tile>();
             this.Image = null;
@@ -48,8 +48,8 @@ namespace ChessLibrary
         {
             // remove move if it contains a king or friendly player
             foreach (Tile move in moveList.ToList())
-                if (move.CurrentPiece != null)
-                    if (move.CurrentPiece is King || (int)move.CurrentPiece.CurrentPlayer == (int)currPlayer)
+                if (move.CurrPiece != null)
+                    if (move.CurrPiece is King || (int)move.CurrPiece.CurrPlayer == (int)currPlayer)
                     {
                         moveList.Remove(move);
                         //MessageBox.Show($"ignored {move}");
@@ -60,6 +60,7 @@ namespace ChessLibrary
         public void Dispose()
         {
             this.Dispose(true);
+            Image?.Dispose();
             GC.Collect();
             GC.SuppressFinalize(this);
         }
@@ -83,7 +84,7 @@ namespace ChessLibrary
         }
         #endregion
         #region Override tostring
-        public override string ToString() => $"{CurrentPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";
+        public override string ToString() => $"{CurrPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";
         #endregion
     }
 }

@@ -26,32 +26,32 @@
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
                     {
-                        if (b.Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a piece on same team stop casting direction
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a piece on same team stop casting direction
                                 break;
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a piece on other team cast valid space on it and stop
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a piece on other team cast valid space on it and stop
                                 validMoves.Add(b.Tiles[i, currentX]); break;
                         }
 
                         validMoves.Add(b.Tiles[i, currentX]); // add valid move if space is empty
                     }
             }
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
                     {
-                        if (b.Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a piece on same team stop casting direction
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a piece on same team stop casting direction
                                 break;
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a piece on other team cast valid space on it and stop
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a piece on other team cast valid space on it and stop
                                 validMoves.Add(b.Tiles[i, currentX]); break;
                         }
 
@@ -68,19 +68,19 @@
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
                     if (t.CoordinateY != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[i, currentX]); // mark tile as valid
                                 break; // break out of loop
@@ -92,19 +92,19 @@
 
                 }
             }
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
                     if (t.CoordinateY != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[i, currentX].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[i, currentX].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[i, currentX]); // mark tile as valid
                                 break; // break out of loop
@@ -125,19 +125,19 @@
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
                     if (t.CoordinateX != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -148,19 +148,19 @@
                     }
                 }
             }
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
                     if (t.CoordinateX != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -181,19 +181,19 @@
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrentPiece.CurrentPlayer == 1)
+            if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
                     if (t.CoordinateX != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -204,19 +204,19 @@
                     }
                 }
             }
-            else if ((int)t.CurrentPiece.CurrentPlayer == 2)
+            else if ((int)t.CurrPiece.CurrPlayer == 2)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
                     if (t.CoordinateX != i) // skip add the valid location on same position of selected rook
                     {
-                        if (b.Tiles[currentY, i].CurrentPiece != null) // if there is a piece occupying a tile...
+                        if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrentPiece.CurrentPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop

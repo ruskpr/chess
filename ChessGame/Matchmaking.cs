@@ -43,8 +43,8 @@ namespace ChessGame
             //create a room 
             Room room = new Room(loggedInUser, loggedInUser);
 
-            Game game = new Game(room, Game.ConnectionType.Server);
-            game.Show();
+            //Game game = new Game(room, Game.ConnectionType.Server);
+            //game.Show();
             //StartServer();
         }
 
@@ -54,8 +54,8 @@ namespace ChessGame
 
             Room room = new Room(loggedInUser, loggedInUser);
 
-            Game game = new Game(room, Game.ConnectionType.Client);
-            game.Show();
+            //Game game = new Game(room, Game.ConnectionType.Client);
+            //game.Show();
         }
         #endregion
         private void lstRooms_SelectedIndexChanged(object sender, EventArgs e)
