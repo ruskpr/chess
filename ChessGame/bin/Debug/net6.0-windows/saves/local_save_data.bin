@@ -1,14 +1,14 @@
 [
   {
     "username": "White",
-    "chess_rating": 20,
+    "chess_rating": 40,
     "wins": 0,
     "losses": 0,
     "games_played": 0
   },
   {
     "username": "Black",
-    "chess_rating": 10,
+    "chess_rating": 40,
     "wins": 0,
     "losses": 0,
     "games_played": 0

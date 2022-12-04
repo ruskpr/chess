@@ -57,8 +57,6 @@ namespace ChessLibrary
 
             // construct board and place on form
             ConstructBoard();
-
-            ResponsiveLayout();           
         }
         ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
         #endregion
@@ -82,18 +80,21 @@ namespace ChessLibrary
             AddTiles();
             AddPieces();
 
-            // add side panel
-            SidePanel = new SidePanel(this);
+            
 
             // store all the moves of each piece when board is created
             foreach (Piece p in Piece.Pieces)
                 p.GetValidMoves(this, p.CurrentTile);
+
+            // add side panel
+            SidePanel = new SidePanel(this);
 
             // set up event handlers and add board to parent form
             ParentForm.SizeChanged += ParentForm_SizeChanged;
             ParentForm.Resize += ParentForm_Resize;
             ParentForm.LocationChanged += ParentForm_LocationChanged;
             ParentForm.Controls.Add(this);
+            ResponsiveLayout();
         }
         public void AddPieces()
         {
@@ -303,6 +304,7 @@ namespace ChessLibrary
         public void ResetBoard()
         {
             MoveStack.Clear();
+            SidePanel.Visible = false;
             SidePanel.Dispose();
             Piece.Pieces.Clear();
 
@@ -316,7 +318,10 @@ namespace ChessLibrary
             }
 
             //Contruct new board after everything is reset
+            ParentForm.Cursor = Cursors.WaitCursor;
             ConstructBoard();
+            ParentForm.Cursor = Cursors.Default;
+
             GC.Collect();
         }
         #endregion

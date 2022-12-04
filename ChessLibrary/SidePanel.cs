@@ -23,9 +23,7 @@ namespace ChessLibrary
             this.parentBoard = board;
 
             InitSidePanel();
-            InitUserProfiles();
-            UpdateText(null);
-            
+
             // events 
             parentBoard.OnPieceMoved += ParentBoard_PieceMoved;
             Tile.OnSelected += Tile_OnSelected;
@@ -36,9 +34,30 @@ namespace ChessLibrary
         private void ParentBoard_PieceMoved() => UpdateText(null);
         private void UpdateText(Tile? tile)
         {
-            lbSelected.Text = $"Selected: {tile}";
+            if (tile != null)
+            {
+                lbSelected.Text = "Selected:";
+                pbSelected.Image = tile.BackgroundImage;
+                lbSelectedPos.Text = $"at: {tile.CoordinateX}, {tile.CoordinateY}";
+            }
+            else
+            {
+                lbSelected.Text = "";
+                lbSelectedPos.Text = "";
+                pbSelected.Image = null;
+            }
 
-            lbTurn.Text = "Turn:" + " " + parentBoard.Turn;
+
+            if ((int)GameManager.Turn == 1) // player one's turn
+            {
+                lbP1Username.BackColor = Color.SteelBlue;
+                lbP2Username.BackColor = Color.Transparent;
+            }
+            else
+            {
+                lbP2Username.BackColor = Color.SteelBlue;
+                lbP1Username.BackColor = Color.Transparent;
+            }
 
             // display history of all moves
             lstMoves.Items.Clear();
@@ -60,6 +79,9 @@ namespace ChessLibrary
             this.BackColor = Color.FromArgb(80, 80, 80);
 
             parentBoard.ParentForm.Controls.Add(this);
+            ResponsiveLayout();
+            InitUserProfiles();
+            UpdateText(null);
         }
         private void InitUserProfiles()
         {
@@ -95,12 +117,13 @@ namespace ChessLibrary
 
             lstMoves.Width = this.Width;
             lstMoves.Height = this.Height / 3;
-            lstMoves.BackColor = Color.Black;
+            //lstMoves.BackColor = Color.Black;
             lstMoves.ForeColor = Color.White;
             lstMoves.Location = new Point(0, this.Height - lstMoves.Height);
-        }
-        #endregion
 
-        
+            pnlSelected.Location = new Point(0, lstMoves.Top - pnlSelected.Height);
+        }
+
+        #endregion
     }
 }
