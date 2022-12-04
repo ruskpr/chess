@@ -55,7 +55,7 @@ namespace ChessLibrary
 
                 while (reader.Read())
                 {
-                    tmpUser = new User()
+                    tmpUser = new User(username)
                     {
                         username = (string)reader[0], // skip reader[1] (password)
                         chess_rating = (int)reader[2],
@@ -67,10 +67,10 @@ namespace ChessLibrary
                     //get profile pic
                     if (reader[6].GetType() != typeof(System.DBNull))
                     {
-                        tmpUser.profile_pic = ConvertToBitmap((byte[])reader[6]);
+                        tmpUser.ProfilePic = ConvertToBitmap((byte[])reader[6]);
                     }
                     else
-                        tmpUser.profile_pic = Assets.DefaultProfilePic;
+                        tmpUser.ProfilePic = Assets.DefaultProfilePic;
 
                     return tmpUser;
                 }

@@ -18,9 +18,6 @@ namespace ChessLibrary
         public delegate void PieceMovedDelegate();
         public event PieceMovedDelegate OnPieceMoved;
 
-        public delegate void OnGameReset();
-        public event OnGameReset OnReset;
-
         public delegate void OnKingCheckedDelegate(King kingThatIsChecked);
         public static event OnKingCheckedDelegate OnKingChecked;
         #endregion
@@ -48,7 +45,7 @@ namespace ChessLibrary
         public Board(Form form, Room? room = null)
         {
             this.ParentForm = form;
-            this.CurrentRoom = room != null ? room : new Room(new User(), new User());
+            this.CurrentRoom = CreateRoom();
             //this.Size = new Size(size, size);
             this.BackColor = Color.Transparent;
             //tileSize = new Size(Width / 8, Width / 8);
@@ -64,6 +61,20 @@ namespace ChessLibrary
             ResponsiveLayout();           
         }
         ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
+        #endregion
+        #region Create Room
+        private Room CreateRoom()
+        {
+            Room room = new Room();
+
+            LocalDataSaver ds = new();
+
+            List<User> localUsers = ds.LoadPlayerData();
+
+            room.PlayerOne = localUsers[0];
+            room.PlayerTwo = localUsers[1];
+            return room;
+        }
         #endregion
         #region Construct Board method
         public void ConstructBoard()

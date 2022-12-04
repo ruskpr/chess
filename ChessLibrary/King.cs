@@ -89,12 +89,23 @@ namespace ChessLibrary
         {
             checkedKing.inCheckedState = true;
             checkedKing.CurrentTile.BackColor = Color.Red;
-            MessageBox.Show("Checked!");
-            //CurrentTile.ParentBoard.DeleteBoard();
 
+            User playerOne = checkedKing.CurrentTile.ParentBoard.CurrentRoom.PlayerOne;
+            User playerTwo = checkedKing.CurrentTile.ParentBoard.CurrentRoom.PlayerTwo;
 
-            //show possible moves of the checked king
+            Player player = checkedKing.CurrPlayer;
+            string winningPlayer = player == Player.Player_One ? "player two" : "player one";
+            MessageBox.Show($"{checkedKing} is in check!\n +10 for {winningPlayer}");
 
+            if (winningPlayer.Contains("one"))
+                playerOne.chess_rating += 10;
+            else
+                playerTwo.chess_rating += 10;
+
+            LocalDataSaver ds = new();
+            ds.SavePlayerData(playerOne, playerTwo);
+
+            CurrentTile.ParentBoard.ResetBoard();
         }
         #endregion
         #region Get Moves

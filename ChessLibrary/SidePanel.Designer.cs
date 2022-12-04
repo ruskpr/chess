@@ -39,6 +39,7 @@
             this.lbP1Rating = new System.Windows.Forms.Label();
             this.pbP1Pic = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btnDeleteSave = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbP2Pic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbP1Pic)).BeginInit();
             this.SuspendLayout();
@@ -86,9 +87,9 @@
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReset.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnReset.ForeColor = System.Drawing.Color.White;
-            this.btnReset.Location = new System.Drawing.Point(285, 0);
+            this.btnReset.Location = new System.Drawing.Point(274, 0);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(109, 31);
+            this.btnReset.Size = new System.Drawing.Size(120, 31);
             this.btnReset.TabIndex = 5;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = false;
@@ -158,6 +159,23 @@
             this.pbP1Pic.TabIndex = 6;
             this.pbP1Pic.TabStop = false;
             // 
+            // btnDeleteSave
+            // 
+            this.btnDeleteSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDeleteSave.BackColor = System.Drawing.Color.Coral;
+            this.btnDeleteSave.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDeleteSave.FlatAppearance.BorderSize = 0;
+            this.btnDeleteSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeleteSave.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.btnDeleteSave.ForeColor = System.Drawing.Color.White;
+            this.btnDeleteSave.Location = new System.Drawing.Point(274, 37);
+            this.btnDeleteSave.Name = "btnDeleteSave";
+            this.btnDeleteSave.Size = new System.Drawing.Size(120, 56);
+            this.btnDeleteSave.TabIndex = 5;
+            this.btnDeleteSave.Text = "Delete Local Save file";
+            this.btnDeleteSave.UseVisualStyleBackColor = false;
+            this.btnDeleteSave.Click += new System.EventHandler(this.btnDeleteSave_Click);
+            // 
             // SidePanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -165,6 +183,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.Controls.Add(this.pbP1Pic);
             this.Controls.Add(this.pbP2Pic);
+            this.Controls.Add(this.btnDeleteSave);
             this.Controls.Add(this.btnReset);
             this.Controls.Add(this.lbP1Rating);
             this.Controls.Add(this.lbTurn);
@@ -195,5 +214,6 @@
         private Label lbP1Rating;
         private PictureBox pbP1Pic;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private Button btnDeleteSave;
     }
 }

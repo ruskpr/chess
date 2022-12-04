@@ -67,8 +67,8 @@ namespace ChessLibrary
             User pTwo = parentBoard.CurrentRoom.PlayerTwo;
 
             // profile pics
-            pbP1Pic.Image = pOne.profile_pic;
-            pbP2Pic.Image = pTwo.profile_pic;
+            pbP1Pic.Image = pOne.ProfilePic;
+            pbP2Pic.Image = pTwo.ProfilePic;
             // usernames
             lbP1Username.Text = pOne.username;
             lbP2Username.Text = pTwo.username;
@@ -79,6 +79,12 @@ namespace ChessLibrary
         #endregion
         #region Button click events
         private void btnReset_Click(object sender, EventArgs e) => parentBoard.ResetBoard();
+        private void btnDeleteSave_Click(object sender, EventArgs e)
+        {
+            LocalDataSaver ds = new();
+
+            ds.DeleteSave();
+        }
         #endregion
         #region Responsive operations
         public void ResponsiveLayout()
@@ -94,5 +100,7 @@ namespace ChessLibrary
             lstMoves.Location = new Point(0, this.Height - lstMoves.Height);
         }
         #endregion
+
+        
     }
 }
