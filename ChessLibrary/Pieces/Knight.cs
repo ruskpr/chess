@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessLibrary
+namespace ChessLibrary.Pieces
 {
     public class Knight : Piece
     {
         #region Constructor
         public Knight(Player player, Tile tile) : base(player, tile) =>
-            this.Image = player == Player.Player_One ? Assets.W_KnightImg : Assets.B_KnightImg;
+            Image = player == Player.Player_One ? Assets.W_KnightImg : Assets.B_KnightImg;
         #endregion
         #region Public Methods
         public override void GetValidMoves(Board board, Tile selTile)
         {
             CurrentValidMoves.Clear();
-            
+
             CurrentValidMoves.AddRange(GetKnightMoves(board, selTile));
 
             //IgnoreKing(CurrentValidMoves);

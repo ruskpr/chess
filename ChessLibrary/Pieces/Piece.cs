@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ChessLibrary.Piece;
+using static ChessLibrary.Pieces.Piece;
 //using static ChessGame.Piece;
 
-namespace ChessLibrary
+namespace ChessLibrary.Pieces
 {
     [Serializable]
     public abstract class Piece : IDisposable
@@ -32,13 +32,13 @@ namespace ChessLibrary
             CurrPlayer = player;
             CurrentTile = tile;
             CurrentValidMoves = new List<Tile>();
-            this.Image = null;
+            Image = null;
             Pieces.Add(this);
         }
         #endregion
         #region Methods
         public abstract void GetValidMoves(Board board, Tile selTile);
-        protected void IgnoreKing(List<Tile> validMoves) 
+        protected void IgnoreKing(List<Tile> validMoves)
         {
             //for (int i = 0; i < validMoves.Count; i++)
             //    if (validMoves[i].CurrentPiece is King)
@@ -59,7 +59,7 @@ namespace ChessLibrary
         #region Handle dispose
         public void Dispose()
         {
-            this.Dispose(true);
+            Dispose(true);
             Image?.Dispose();
             GC.Collect();
             GC.SuppressFinalize(this);
@@ -73,7 +73,7 @@ namespace ChessLibrary
                     // CurrentPlayer = null;
                     CurrentTile = null;
                     CurrentValidMoves = null;
-                    this.Image = null;
+                    Image = null;
                     Pieces.Clear();
                 }
 

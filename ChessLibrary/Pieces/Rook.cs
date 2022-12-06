@@ -1,17 +1,17 @@
-﻿namespace ChessLibrary
+﻿namespace ChessLibrary.Pieces
 {
     public class Rook : Piece
     {
         #region Constructor
         public Rook(Player player, Tile tile) : base(player, tile) =>
-            this.Image = player == Player.Player_One ? Assets.W_RookImg : Assets.B_RookImg;
+            Image = player == Player.Player_One ? Assets.W_RookImg : Assets.B_RookImg;
         #endregion
         #region Public Methods
         public override void GetValidMoves(Board board, Tile selectedTile)
         {
             CurrentValidMoves.Clear();
 
-            CurrentValidMoves.AddRange(CastForwardMovement(board,selectedTile));
+            CurrentValidMoves.AddRange(CastForwardMovement(board, selectedTile));
             CurrentValidMoves.AddRange(CastBackwardMovement(board, selectedTile));
             CurrentValidMoves.AddRange(CastLeftMovement(board, selectedTile));
             CurrentValidMoves.AddRange(CastRightMovement(board, selectedTile));
@@ -33,9 +33,9 @@
                     {
                         if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a piece on same team stop casting direction
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_One) // if its a piece on same team stop casting direction
                                 break;
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a piece on other team cast valid space on it and stop
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_Two) // if its a piece on other team cast valid space on it and stop
                                 validMoves.Add(b.Tiles[i, currentX]); break;
                         }
 
@@ -49,9 +49,9 @@
                     {
                         if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a piece on same team stop casting direction
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_Two) // if its a piece on same team stop casting direction
                                 break;
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a piece on other team cast valid space on it and stop
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_One) // if its a piece on other team cast valid space on it and stop
                                 validMoves.Add(b.Tiles[i, currentX]); break;
                         }
 
@@ -76,11 +76,11 @@
                     {
                         if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[i, currentX]); // mark tile as valid
                                 break; // break out of loop
@@ -100,11 +100,11 @@
                     {
                         if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[i, currentX]); // mark tile as valid
                                 break; // break out of loop
@@ -133,11 +133,11 @@
                     {
                         if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -156,11 +156,11 @@
                     {
                         if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -189,11 +189,11 @@
                     {
                         if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -212,11 +212,11 @@
                     {
                         if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop

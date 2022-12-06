@@ -5,14 +5,14 @@ using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessLibrary
+namespace ChessLibrary.Pieces
 {
     public class Pawn : Piece
     {
         #region Constructor
         public Pawn(Player player, Tile tile) : base(player, tile)
         {
-            this.Image = player == Player.Player_One ? Assets.W_PawnImg : Assets.B_PawnImg;
+            Image = player == Player.Player_One ? Assets.W_PawnImg : Assets.B_PawnImg;
             CompletedFirstMove = false;
         }
         #endregion
@@ -49,8 +49,8 @@ namespace ChessLibrary
                     b.Tiles[t.CoordinateY - 1, t.CoordinateX].CurrPiece == null // condition: tile 1 step ahead isnt taken
                     )
                     validMoves.Add(b.Tiles[t.CoordinateY - 2, t.CoordinateX]);
-                        
-                
+
+
             }
             else if ((int)t.CurrPiece.CurrPlayer == 2)
             {

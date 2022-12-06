@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessLibrary
+namespace ChessLibrary.Pieces
 {
     public class Queen : Piece
     {
-        public Queen(Player player, Tile tile) : base(player, tile) => 
-            this.Image = player == Player.Player_One ? Assets.W_QueenImg : Assets.B_QueenImg;
+        public Queen(Player player, Tile tile) : base(player, tile) =>
+            Image = player == Player.Player_One ? Assets.W_QueenImg : Assets.B_QueenImg;
 
         #region Public methods
         public override void GetValidMoves(Board board, Tile selectedTile)
@@ -47,9 +47,9 @@ namespace ChessLibrary
                     {
                         if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a piece on same team stop casting direction
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_One) // if its a piece on same team stop casting direction
                                 break;
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a piece on other team cast valid space on it and stop
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_Two) // if its a piece on other team cast valid space on it and stop
                                 validMoves.Add(b.Tiles[i, currentX]); break;
                         }
 
@@ -63,9 +63,9 @@ namespace ChessLibrary
                     {
                         if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a piece on same team stop casting direction
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_Two) // if its a piece on same team stop casting direction
                                 break;
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a piece on other team cast valid space on it and stop
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_One) // if its a piece on other team cast valid space on it and stop
                                 validMoves.Add(b.Tiles[i, currentX]); break;
                         }
 
@@ -90,11 +90,11 @@ namespace ChessLibrary
                     {
                         if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[i, currentX]); // mark tile as valid
                                 break; // break out of loop
@@ -114,11 +114,11 @@ namespace ChessLibrary
                     {
                         if (b.Tiles[i, currentX].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[i, currentX].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[i, currentX]); // mark tile as valid
                                 break; // break out of loop
@@ -147,11 +147,11 @@ namespace ChessLibrary
                     {
                         if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -170,11 +170,11 @@ namespace ChessLibrary
                     {
                         if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -203,11 +203,11 @@ namespace ChessLibrary
                     {
                         if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -226,11 +226,11 @@ namespace ChessLibrary
                     {
                         if (b.Tiles[currentY, i].CurrPiece != null) // if there is a piece occupying a tile...
                         {
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_Two) // if its a player on same team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_Two) // if its a player on same team
                             {
                                 break; // break out of loop
                             }
-                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Piece.Player.Player_One) // if its a player on other team
+                            if (b.Tiles[currentY, i].CurrPiece.CurrPlayer == Player.Player_One) // if its a player on other team
                             {
                                 validMoves.Add(b.Tiles[currentY, i]); // mark tile as valid
                                 break; // break out of loop
@@ -272,7 +272,7 @@ namespace ChessLibrary
 
                         // stop loop if there is friendly piece blocking the way
                         if (location.CurrPiece != null &&
-                            location.CurrPiece.CurrPlayer == Piece.Player.Player_One)
+                            location.CurrPiece.CurrPlayer == Player.Player_One)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -296,7 +296,7 @@ namespace ChessLibrary
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrPiece != null &&
-                            location.CurrPiece.CurrPlayer == Piece.Player.Player_Two)
+                            location.CurrPiece.CurrPlayer == Player.Player_Two)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -330,7 +330,7 @@ namespace ChessLibrary
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrPiece != null &&
-                            location.CurrPiece.CurrPlayer == Piece.Player.Player_One)
+                            location.CurrPiece.CurrPlayer == Player.Player_One)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -355,7 +355,7 @@ namespace ChessLibrary
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrPiece != null &&
-                            location.CurrPiece.CurrPlayer == Piece.Player.Player_Two)
+                            location.CurrPiece.CurrPlayer == Player.Player_Two)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -390,7 +390,7 @@ namespace ChessLibrary
 
                         // stop loop if there is friendly piece blocking the way
                         if (location.CurrPiece != null &&
-                            location.CurrPiece.CurrPlayer == Piece.Player.Player_One)
+                            location.CurrPiece.CurrPlayer == Player.Player_One)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -414,7 +414,7 @@ namespace ChessLibrary
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrPiece != null &&
-                            location.CurrPiece.CurrPlayer == Piece.Player.Player_Two)
+                            location.CurrPiece.CurrPlayer == Player.Player_Two)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -448,7 +448,7 @@ namespace ChessLibrary
 
                         // stop loop if there is friendly piece blocking the way
                         if (location.CurrPiece != null &&
-                            location.CurrPiece.CurrPlayer == Piece.Player.Player_One)
+                            location.CurrPiece.CurrPlayer == Player.Player_One)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
@@ -472,7 +472,7 @@ namespace ChessLibrary
 
                         //stop loop if there is friendly piece blocking the way
                         if (location.CurrPiece != null &&
-                            location.CurrPiece.CurrPlayer == Piece.Player.Player_Two)
+                            location.CurrPiece.CurrPlayer == Player.Player_Two)
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of

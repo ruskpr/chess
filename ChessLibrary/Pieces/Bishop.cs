@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessLibrary
+namespace ChessLibrary.Pieces
 {
     public class Bishop : Piece
     {
         #region Constructor
         public Bishop(Player player, Tile tile) : base(player, tile) =>
-            this.Image = player == Player.Player_One ? Assets.W_BishopImg : Assets.B_BishopImg;
+            Image = player == Player.Player_One ? Assets.W_BishopImg : Assets.B_BishopImg;
         #endregion
         #region Public Methods
         public override void GetValidMoves(Board board, Tile selectedTile)
@@ -36,17 +36,17 @@ namespace ChessLibrary
             if ((int)t.CurrPiece.CurrPlayer == 1)
             {
                 for (int i = 1; i < 7; i++) // cast to the right end of the board
-                    try 
+                    try
                     {
                         var location = b.Tiles[currentY - i, currentX + i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
-                        if (location.CurrPiece != null && 
+                        if (location.CurrPiece != null &&
                             (int)location.CurrPiece.CurrPlayer == 2)
                         {
                             validMoves.Add(location); break;
                         }
-                            
+
 
                         // stop loop if there is friendly piece blocking the way
                         if (location.CurrPiece != null &&
@@ -54,7 +54,7 @@ namespace ChessLibrary
                             break;
 
                         validMoves.Add(location); // add to valid moves if loop in not broken out of
-                    } 
+                    }
                     catch { }
             }
             //player 2
@@ -127,7 +127,7 @@ namespace ChessLibrary
                         if (location.CurrPiece != null &&
                             (int)location.CurrPiece.CurrPlayer == 1)
                         {
-                            validMoves.Add(location); 
+                            validMoves.Add(location);
                             break;
                         }
 
@@ -153,7 +153,7 @@ namespace ChessLibrary
             //player 1
             if ((int)t.CurrPiece.CurrPlayer == 1)
             {
-                for (int i = 1; i < 7; i++) 
+                for (int i = 1; i < 7; i++)
                     try
                     {
                         var location = b.Tiles[currentY + i, currentX + i]; // current location of iteration

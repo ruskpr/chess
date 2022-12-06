@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 //using static ChessGame.Piece;
 
-namespace ChessLibrary
+namespace ChessLibrary.Pieces
 {
     public class King : Piece
     {
@@ -20,7 +20,7 @@ namespace ChessLibrary
         #region Constructor
         public King(Player player, Tile tile) : base(player, tile)
         {
-            this.Image = player == Player.Player_One ? Assets.W_KingImg : Assets.B_KingImg;
+            Image = player == Player.Player_One ? Assets.W_KingImg : Assets.B_KingImg;
 
             Board.OnKingChecked += ParentBoard_OnKingChecked;
             CurrentTile.ParentBoard.OnPieceMoved += ParentBoard_PieceMoved;
@@ -56,7 +56,7 @@ namespace ChessLibrary
         private void ParentBoard_PieceMoved()
         {
             // update kings open spaces on every move
-            UpdateSpaces(this.CurrentTile.ParentBoard, this.CurrentTile);
+            UpdateSpaces(CurrentTile.ParentBoard, CurrentTile);
         }
         #region onKingChecked
         private void ParentBoard_OnKingChecked(King checkedKing)
@@ -82,8 +82,8 @@ namespace ChessLibrary
 
             if (true) // if king is checked and all spaces are occupied by opponent...
             {
-                
-            } 
+
+            }
         }
         private void ExecuteCheckedState(King checkedKing)
         {
@@ -118,7 +118,7 @@ namespace ChessLibrary
 
             IgnoreOccupiedSpaces(CurrentValidMoves); // ignore all spaces where a piece sits
             IgnoreEnemyMoves(CurrentValidMoves);
-        }   
+        }
         private List<Tile> OneInEachDirection(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -146,7 +146,7 @@ namespace ChessLibrary
             {
                 // remove moves where there are friendly pieces
                 if (move.CurrPiece != null)
-                    if (move.CurrPiece.CurrPlayer == this.CurrPlayer)
+                    if (move.CurrPiece.CurrPlayer == CurrPlayer)
                         validMoves.Remove(move);
             }
         }
