@@ -7,8 +7,6 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace ChessLibrary
