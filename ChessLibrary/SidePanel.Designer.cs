@@ -178,7 +178,7 @@
             this.pnlSelected.Controls.Add(this.lbSelected);
             this.pnlSelected.Location = new System.Drawing.Point(3, 343);
             this.pnlSelected.Name = "pnlSelected";
-            this.pnlSelected.Size = new System.Drawing.Size(378, 72);
+            this.pnlSelected.Size = new System.Drawing.Size(378, 68);
             this.pnlSelected.TabIndex = 7;
             // 
             // pbSelected

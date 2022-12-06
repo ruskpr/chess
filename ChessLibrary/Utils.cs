@@ -19,7 +19,7 @@ namespace ChessLibrary
                 g.Clear(Color.Transparent);
 
                 g.SmoothingMode = SmoothingMode.AntiAlias;
-
+                
                 Brush brush = new TextureBrush(img);
                 gp.AddEllipse(0, 0, img.Width, img.Height);
                 g.FillPath(brush, gp);
