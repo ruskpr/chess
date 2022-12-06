@@ -25,7 +25,7 @@ namespace ChessLibrary
         {
             this.username = username;
             chess_rating = 0;
-            ProfilePic = Assets.DefaultProfilePic;
+            ProfilePic = Assets.DefaultPic;
         }
     }
 }

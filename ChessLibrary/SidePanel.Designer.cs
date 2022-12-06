@@ -90,7 +90,7 @@
             // 
             // pbP2Pic
             // 
-            this.pbP2Pic.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.pbP2Pic.BackColor = System.Drawing.Color.Transparent;
             this.pbP2Pic.Location = new System.Drawing.Point(30, 117);
             this.pbP2Pic.Name = "pbP2Pic";
             this.pbP2Pic.Size = new System.Drawing.Size(50, 50);
@@ -146,7 +146,7 @@
             // 
             // pbP1Pic
             // 
-            this.pbP1Pic.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.pbP1Pic.BackColor = System.Drawing.Color.Transparent;
             this.pbP1Pic.Location = new System.Drawing.Point(30, 205);
             this.pbP1Pic.Name = "pbP1Pic";
             this.pbP1Pic.Size = new System.Drawing.Size(50, 50);

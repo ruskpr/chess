@@ -16,12 +16,16 @@ namespace ChessLibrary
     {
         #region Fields
         private Board parentBoard;
+        private User playerOne;
+        private User playerTwo;
         #endregion
         #region Constructor
         public SidePanel(Board board)
         {
             InitializeComponent();
             this.parentBoard = board;
+            this.playerOne = board.CurrentRoom.PlayerOne;
+            this.playerTwo = board.CurrentRoom.PlayerTwo;
 
             InitSidePanel();
 
@@ -30,12 +34,41 @@ namespace ChessLibrary
             Tile.OnSelected += Tile_OnSelected;
         }
         #endregion
-        #region Delegate events and Update text method
+        #region Delegate events to update sidepanel
         private void Tile_OnSelected(Tile tile) => UpdateText(tile);
         private void ParentBoard_PieceMoved() => UpdateText(null);
-        private void UpdateText(Tile? tile)
+        
+        #endregion
+        #region Initialize sidepanel
+        private void InitSidePanel()
         {
-            if (tile != null)
+            // set location to left or right
+            this.Location = new Point(parentBoard.Right, parentBoard.Top);
+
+            this.Width = parentBoard.Width / 2;
+            this.Height = parentBoard.Height;
+            this.BackColor = Color.FromArgb(80, 80, 80);
+
+            parentBoard.ParentForm.Controls.Add(this);
+
+            InitUserProfiles();
+            UpdateText();
+        }
+        private void InitUserProfiles()
+        {
+            // profile pics
+            pbP1Pic.Image = Utils.RoundImage(playerOne.ProfilePic);
+            pbP2Pic.Image = Utils.RoundImage(playerTwo.ProfilePic);
+            // usernames
+            lbP1Username.Text = playerOne.username;
+            lbP2Username.Text = playerTwo.username;
+            // ratings
+            lbP1Rating.Text = Convert.ToString(playerOne.chess_rating);
+            lbP2Rating.Text = Convert.ToString(playerTwo.chess_rating);  
+        }
+        private void UpdateText(Tile? tile = null)
+        {
+            if (tile != null) // execute if tile is passed in parameter
             {
                 lbSelected.Text = "Selected:";
                 pbSelected.Image = tile.BackgroundImage;
@@ -48,8 +81,7 @@ namespace ChessLibrary
                 pbSelected.Image = null;
             }
 
-
-            if ((int)GameManager.Turn == 1) // player one's turn
+            if ((int)GameManager.Turn == 1) // set color indicator of username if it is the user's turn
             {
                 lbP1Username.BackColor = Color.SteelBlue;
                 lbP2Username.BackColor = Color.Transparent;
@@ -64,64 +96,33 @@ namespace ChessLibrary
             lstMoves.Items.Clear();
 
             foreach (Tuple<Piece, Tile, Tile> move in parentBoard.MoveStack)
-                lstMoves.Items.Add($"{move.Item1}: x{move.Item2.CoordinateX}, y{move.Item2.CoordinateY} -> " +
-                    $"x{move.Item3.CoordinateX}, y{move.Item3.CoordinateY}");
-        }
-        #endregion
-        #region Initialize sidepanel
-        private void InitSidePanel()
-        {
-            // set location to left or right
-            this.Location = new Point(parentBoard.Right, parentBoard.Top);
-
-
-            this.Width = parentBoard.Width / 2;
-            this.Height = parentBoard.Height;
-            this.BackColor = Color.FromArgb(80, 80, 80);
-
-            parentBoard.ParentForm.Controls.Add(this);
-            ResponsiveLayout();
-            InitUserProfiles();
-            UpdateText(null);
-        }
-        private void InitUserProfiles()
-        {
-            User pOne = parentBoard.CurrentRoom.PlayerOne;
-            User pTwo = parentBoard.CurrentRoom.PlayerTwo;
-
-            // profile pics
-            pbP1Pic.Image = pOne.ProfilePic;
-            pbP2Pic.Image = pTwo.ProfilePic;
-            // usernames
-            lbP1Username.Text = pOne.username;
-            lbP2Username.Text = pTwo.username;
-            // ratings
-            lbP1Rating.Text = Convert.ToString(pOne.chess_rating);
-            lbP2Rating.Text = Convert.ToString(pTwo.chess_rating);  
+                lstMoves.Items.Add($"{move.Item1}: {move.Item2.CoordinateX},{move.Item2.CoordinateY} to " +
+                    $"{move.Item3.CoordinateX},{move.Item3.CoordinateY}");
         }
         #endregion
         #region Button click events
         private void btnReset_Click(object sender, EventArgs e) => parentBoard.ResetBoard();
         private void btnDeleteSave_Click(object sender, EventArgs e)
         {
-            LocalDataSaver ds = new();
-
-            ds.DeleteSave();
+            LocalDataSaver ds = new(); 
+            ds.DeleteSave();   
         }
         #endregion
         #region Responsive operations
         public void ResponsiveLayout()
         {
-            // set location to left or right
-            this.Location = new Point(parentBoard.Right, parentBoard.Top); this.Height = parentBoard.Height;
+            // set location of side panel
+            this.Location = new Point(parentBoard.Right, parentBoard.Top); 
+            this.Height = parentBoard.Height;
             this.Width = parentBoard.Width / 2;
 
+            // move stack list box
             lstMoves.Width = this.Width;
             lstMoves.Height = this.Height / 3;
-            //lstMoves.BackColor = Color.Black;
             lstMoves.ForeColor = Color.White;
             lstMoves.Location = new Point(0, this.Height - lstMoves.Height);
 
+            // set selected item panel location
             pnlSelected.Location = new Point(0, lstMoves.Top - pnlSelected.Height);
         }
 

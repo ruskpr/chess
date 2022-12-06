@@ -31,4 +31,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="bin\Debug\net6.0-windows\assets\sounds\" />
+  </ItemGroup>
+
 </Project>

@@ -15,6 +15,7 @@ namespace ChessLibrary
     {
 
         // https://www.pinclipart.com/downpngs/hRbwim_file-pieces-sprite-wikimedia-chess-pieces-png-clipart/
+        // assets folder is contained in 'ChessGame' directory
 
         //black pieces
         public static Bitmap B_PawnImg = new Bitmap("assets/pieces/pack1/BlackPawn.png");
@@ -37,10 +38,10 @@ namespace ChessLibrary
         public static Bitmap ValidKillImg = new Bitmap("assets/ValidKill.png");
 
         //sounds
-        public static SoundPlayer moveSound = new SoundPlayer("assets/sounds/levelup2.wav");
+        public static SoundPlayer MoveSound = new SoundPlayer("assets/sounds/move.wav"); // sound file doesn't exist yet
 
         //profilepic
-        public static Bitmap DefaultProfilePic = new Bitmap("assets/profilepics/default.jpg");
+        public static Bitmap DefaultPic = new Bitmap("assets/profilepics/default.jpg");
 
     }
 }

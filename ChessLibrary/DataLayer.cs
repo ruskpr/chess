@@ -70,7 +70,7 @@ namespace ChessLibrary
                         tmpUser.ProfilePic = ConvertToBitmap((byte[])reader[6]);
                     }
                     else
-                        tmpUser.ProfilePic = Assets.DefaultProfilePic;
+                        tmpUser.ProfilePic = Assets.DefaultPic;
 
                     return tmpUser;
                 }
