@@ -17,13 +17,8 @@ namespace Core
         #endregion
 
         #region fields
-        // 2d array of tiles
-        public int[,] _board = new int[8, 8];
+        public Tile[,] _tiles = new Tile[8, 8];
         public Stack<Tuple<Piece, Tile, Tile>> MoveStack = new Stack<Tuple<Piece, Tile, Tile>>();
-        //size of the tiles (initialized in Board class constructor
-        // used in AddTiles() method
-        //Size tileSize;
-
         private string latestMove = "";
         #endregion
         #region props
@@ -45,12 +40,6 @@ namespace Core
         #region Constructor / Finalizer
         public Board()
         {
-            //this.CurrentRoom = CreateRoom();
-            //this.Size = new Size(size, size);
-            //tileSize = new Size(Width / 8, Width / 8);
-
-
-            // construct board and place on form
             InitBoard();
         }
         ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
@@ -75,40 +64,40 @@ namespace Core
             {
                 for (int j = 0; j < 8; j++)
                 {
-
+                    _tiles
                     if (i == 1)
-                        _board[i, j].CreatePiece("pawn", 2); // add player 2's pawns to 2nd row
+                        _tiles[i, j].CreatePiece("pawn", 2); // add player 2's pawns to 2nd row
                     if (i == 6)
-                        _board[i, j].CreatePiece("pawn", 1); // add player 1's pawns to 7th row
+                        _tiles[i, j].CreatePiece("pawn", 1); // add player 1's pawns to 7th row
 
                     // player 1's backrow
                     if (i == 7)
                     {
                         if (j == 0 || j == 7)
-                            _board[i, j].CreatePiece("rook", 1); // add player 1's rooks
+                            _tiles[i, j].CreatePiece("rook", 1); // add player 1's rooks
                         if (j == 1 || j == 6)
-                            _board[i, j].CreatePiece("knight", 1); // add player 1's knights
+                            _tiles[i, j].CreatePiece("knight", 1); // add player 1's knights
                         if (j == 2 || j == 5)
-                            _board[i, j].CreatePiece("bishop", 1); // add player 1's bishops
+                            _tiles[i, j].CreatePiece("bishop", 1); // add player 1's bishops
                         if (j == 3)
-                            _board[i, j].CreatePiece("queen", 1); // add player 1's queen
+                            _tiles[i, j].CreatePiece("queen", 1); // add player 1's queen
                         if (j == 4)
-                            _board[i, j].CreatePiece("king", 1); // add player 1's king
+                            _tiles[i, j].CreatePiece("king", 1); // add player 1's king
                     }
 
                     // player 2's backrow
                     if (i == 0)
                     {
                         if (j == 0 || j == 7)
-                            _board[i, j].CreatePiece("rook", 2); // add player 2's rooks
+                            _tiles[i, j].CreatePiece("rook", 2); // add player 2's rooks
                         if (j == 1 || j == 6)
-                            _board[i, j].CreatePiece("knight", 2); // add player 2's knights
+                            _tiles[i, j].CreatePiece("knight", 2); // add player 2's knights
                         if (j == 2 || j == 5)
-                            _board[i, j].CreatePiece("bishop", 2); // add player 2's bishops
+                            _tiles[i, j].CreatePiece("bishop", 2); // add player 2's bishops
                         if (j == 3)
-                            _board[i, j].CreatePiece("queen", 2); // add player 2's queen
+                            _tiles[i, j].CreatePiece("queen", 2); // add player 2's queen
                         if (j == 4)
-                            _board[i, j].CreatePiece("king", 2); // add player 2's king
+                            _tiles[i, j].CreatePiece("king", 2); // add player 2's king
                     }
                 }
             }
@@ -173,7 +162,7 @@ namespace Core
                     CheckIfInCheck(newTile);
 
                     // hide indicators
-                    foreach (Tile tile in _board)
+                    foreach (Tile tile in _tiles)
                     {
                         tile.IsAValidSpace = false;
                         tile.Image = null;
@@ -181,8 +170,8 @@ namespace Core
 
                     // store latest move as string 
                     latestMove = $"{newTile.CurrPiece} moved from " +
-                                $"{oldTile.CoordinateX}, {oldTile.CoordinateY} " +
-                                $"to {newTile.CoordinateX}, {newTile.CoordinateY}";
+                                $"{oldTile.X}, {oldTile.Y} " +
+                                $"to {newTile.X}, {newTile.Y}";
 
                     // switch turn after a move
                     Game.SwapTurn();
@@ -194,54 +183,38 @@ namespace Core
         }
         #endregion
         #region show moves method
-        public void ShowMovesOfSelectedTile(Tile selTile)
-        {
-            if (selTile.CurrPiece != null)
-            {
-                // generate moves on click
-                selTile.CurrPiece.GetValidMoves(this, selTile);
+        //public void ShowMovesOfSelectedTile(Tile selTile)
+        //{
+        //    if (selTile.CurrPiece != null)
+        //    {
+        //        // generate moves on click
+        //        selTile.CurrPiece.GetValidMoves(this, selTile);
 
-                //only show moves if it is the players turn
+        //        //only show moves if it is the players turn
 
-                if ((int)SelTile.CurrPiece.CurrPlayer == (int)Game.Turn)
-                {
-                    // get list of moves for selected tile
-                    List<Tile> currentTilesMoves = selTile.CurrPiece != null ?
-                    selTile.CurrPiece.CurrentValidMoves : new List<Tile>();
+        //        if ((int)selTile.CurrPiece.CurrPlayer == (int)Game.Turn)
+        //        {
+        //            // get list of moves for selected tile
+        //            List<Tile> currentTilesMoves = selTile.CurrPiece != null ?
+        //            selTile.CurrPiece.CurrentValidMoves : new List<Tile>();
 
-                    //clear valid move indicators on all tiles
-                    foreach (Tile tile in _board)
-                    {
-                        tile.IsAValidSpace = false;
-                        tile.Image = null;
-                    }
+        //            //clear valid move indicators on all tiles
+        //            foreach (Tile tile in _tiles)
+        //            {
+        //                //tile.IsAValidSpace = false;
+        //                //tile.Image = null;
+        //            }
 
-                    foreach (Tile tile in currentTilesMoves)
-                    {
-                        tile.IsAValidSpace = true;
+        //            foreach (Tile tile in currentTilesMoves)
+        //            {
+        //                //tile.IsAValidSpace = true;
 
-                        tile.Image = tile.CurrPiece != null ?
-                            Assets.ValidKillImg : Assets.ValidMoveImg;
-                    }
-                }
-            }
-        }
+        //            }
+        //        }
+        //    }
+        //}
         #endregion
-        #region Check if in king is in check method
-        public void CheckIfInCheck(Tile mostRecentTile)
-        {
-            foreach (Tile move in mostRecentTile.CurrPiece.CurrentValidMoves)
-            {
-                if (move.CurrPiece is King && move.CurrPiece.Player !=
-                    mostRecentTile.CurrPiece.Player)
-                {
-                    King checkedKing = (King)move.CurrPiece; // type cast to king
-                    OnKingChecked.Invoke(checkedKing);
-                    break;
-                }
-            }
-        }
-        #endregion
+        
         #region Add tiles to board method
         public void AddTiles()
         {

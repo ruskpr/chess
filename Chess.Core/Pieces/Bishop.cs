@@ -9,9 +9,9 @@ namespace Core.Pieces
     public class Bishop : Piece
     {
         #region Constructor
-        public Bishop(Player player, Tile tile) : base(player, tile) =>
-            Image = player == Player.Player_One ? Assets.W_BishopImg : Assets.B_BishopImg;
+        public Bishop(char player, Tile tile) : base(player, tile) { }
         #endregion
+
         #region Public Methods
         public override void GetValidMoves(Board board, Tile selectedTile)
         {
@@ -29,8 +29,8 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = t.CoordinateX; // added for readability
-            int currentY = t.CoordinateY;
+            int currentX = t.X; // added for readability
+            int currentY = t.Y;
 
             //player 1
             if ((int)t.CurrPiece.Player == 1)
@@ -38,7 +38,7 @@ namespace Core.Pieces
                 for (int i = 1; i < 7; i++) // cast to the right end of the board
                     try
                     {
-                        var location = b._board[currentY - i, currentX + i]; // current location of iteration
+                        var location = b._tiles[currentY - i, currentX + i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrPiece != null &&
@@ -63,7 +63,7 @@ namespace Core.Pieces
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
                     {
-                        var location = b._board[currentY + i, currentX - i]; // current location of iteration
+                        var location = b._tiles[currentY + i, currentX - i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrPiece != null &&
@@ -88,8 +88,8 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = t.CoordinateX; // added for readability
-            int currentY = t.CoordinateY;
+            int currentX = t.X; // added for readability
+            int currentY = t.Y;
 
             //player 1
             if ((int)t.CurrPiece.Player == 1)
@@ -97,7 +97,7 @@ namespace Core.Pieces
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
                     {
-                        var location = b._board[currentY - i, currentX - i]; // current location of iteration
+                        var location = b._tiles[currentY - i, currentX - i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrPiece != null &&
@@ -121,7 +121,7 @@ namespace Core.Pieces
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
                     {
-                        var location = b._board[currentY + i, currentX + i]; // current location of iteration
+                        var location = b._tiles[currentY + i, currentX + i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrPiece != null &&
@@ -147,8 +147,8 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = t.CoordinateX; // added for readability
-            int currentY = t.CoordinateY;
+            int currentX = t.X; // added for readability
+            int currentY = t.Y;
 
             //player 1
             if ((int)t.CurrPiece.Player == 1)
@@ -156,7 +156,7 @@ namespace Core.Pieces
                 for (int i = 1; i < 7; i++)
                     try
                     {
-                        var location = b._board[currentY + i, currentX + i]; // current location of iteration
+                        var location = b._tiles[currentY + i, currentX + i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrPiece != null &&
@@ -181,7 +181,7 @@ namespace Core.Pieces
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
                     {
-                        var location = b._board[currentY - i, currentX - i]; // current location of iteration
+                        var location = b._tiles[currentY - i, currentX - i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrPiece != null &&
@@ -206,8 +206,8 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = t.CoordinateX; // added for readability
-            int currentY = t.CoordinateY;
+            int currentX = t.X; // added for readability
+            int currentY = t.Y;
 
             //player 1
             if ((int)t.CurrPiece.Player == 1)
@@ -215,7 +215,7 @@ namespace Core.Pieces
                 for (int i = 1; i < 7; i++)
                     try
                     {
-                        var location = b._board[currentY + i, currentX - i]; // current location of iteration
+                        var location = b._tiles[currentY + i, currentX - i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrPiece != null &&
@@ -239,7 +239,7 @@ namespace Core.Pieces
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
                     {
-                        var location = b._board[currentY - i, currentX + i]; // current location of iteration
+                        var location = b._tiles[currentY - i, currentX + i]; // current location of iteration
 
                         // add valid move if there is enemy and stop loop
                         if (location.CurrPiece != null &&

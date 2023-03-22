@@ -18,10 +18,10 @@ namespace Core
         public Board Board { get; set; }
         public Piece? CurrPiece { get; set; }
         public Point Location { get; private set; }
-        public int CoordinateX { get; set; }
-        public int CoordinateY { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
         public bool Selected { get; set; }
-        public bool IsAValidSpace { get; set; }
+        public bool IsAValidSpace { get { return CurrPiece == null; } }
 
         #endregion
 
@@ -30,14 +30,14 @@ namespace Core
         #endregion
 
         #region Constructor
-        public Tile(Board board, Size size, Point boardlocation, int arrX, int arrY, Color color)
+        public Tile(Board board, int x, int y, Piece? piece = null)
         {
             Board = board;
-            CoordinateX = arrX;
-            CoordinateY = arrY;
+            X = x;
+            Y = y;
             Selected = false;
-            IsAValidSpace = false;
-            CurrPiece = null;
+            CurrPiece = piece;
+
 
             //this.MouseDown += Tile_MouseDown;
 
@@ -134,8 +134,8 @@ namespace Core
         public override string ToString()
         {
             return CurrPiece == null ?
-            $"Empty tile at x{CoordinateX}, y{CoordinateY}" :
-            $"{CurrPiece} at x{CoordinateX}, y{CoordinateY}";
+            $"Empty tile at x{X}, y{Y}" :
+            $"{CurrPiece} at x{X}, y{Y}";
         }
 
         #endregion

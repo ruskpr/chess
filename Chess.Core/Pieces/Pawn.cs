@@ -37,17 +37,17 @@ namespace Core.Pieces
                 // allow 1 space forward if the tile is empty
                 try
                 {
-                    if (b._board[t.CoordinateY - 1, t.CoordinateX].CurrPiece == null)
-                        validMoves.Add(b._board[t.CoordinateY - 1, t.CoordinateX]);
+                    if (b._tiles[t.Y - 1, t.X].CurrPiece == null)
+                        validMoves.Add(b._tiles[t.Y - 1, t.X]);
                 }
                 catch { }
 
                 // allow pawn to move 2 spaces on its first move
                 if (t.CurrPiece.CompletedFirstMove == false && // condition: first move has not been completed
-                    b._board[t.CoordinateY - 2, t.CoordinateX].CurrPiece == null && // condition: tile 2 steps ahead is empty
-                    b._board[t.CoordinateY - 1, t.CoordinateX].CurrPiece == null // condition: tile 1 step ahead isnt taken
+                    b._tiles[t.Y - 2, t.X].CurrPiece == null && // condition: tile 2 steps ahead is empty
+                    b._tiles[t.Y - 1, t.X].CurrPiece == null // condition: tile 1 step ahead isnt taken
                     )
-                    validMoves.Add(b._board[t.CoordinateY - 2, t.CoordinateX]);
+                    validMoves.Add(b._tiles[t.Y - 2, t.X]);
 
 
             }
@@ -56,17 +56,17 @@ namespace Core.Pieces
                 // allow 1 space forward if the tile is empty
                 try
                 {
-                    if (b._board[t.CoordinateY + 1, t.CoordinateX].CurrPiece == null)
-                        validMoves.Add(b._board[t.CoordinateY + 1, t.CoordinateX]);
+                    if (b._tiles[t.Y + 1, t.X].CurrPiece == null)
+                        validMoves.Add(b._tiles[t.Y + 1, t.X]);
                 }
                 catch { }
 
                 // allow pawn to move 2 spaces on its first move
                 if (t.CurrPiece.CompletedFirstMove == false && // condition: first move has not been completed
-                    b._board[t.CoordinateY + 2, t.CoordinateX].CurrPiece == null && // condition: tile 2 steps ahead is empty
-                    b._board[t.CoordinateY + 1, t.CoordinateX].CurrPiece == null // condition: tile 1 step ahead isnt taken
+                    b._tiles[t.Y + 2, t.X].CurrPiece == null && // condition: tile 2 steps ahead is empty
+                    b._tiles[t.Y + 1, t.X].CurrPiece == null // condition: tile 1 step ahead isnt taken
                     )
-                    validMoves.Add(b._board[t.CoordinateY + 2, t.CoordinateX]);
+                    validMoves.Add(b._tiles[t.Y + 2, t.X]);
             }
 
             return validMoves;
@@ -78,23 +78,23 @@ namespace Core.Pieces
             // player 1
             if ((int)t.CurrPiece.Player == 1)
             {
-                if (t.CoordinateY > 0)
+                if (t.Y > 0)
                 {
                     try // try catch to ignore out of board index
                     {
                         // if there is a enemy piece AND they are left diagnal of pawn, allow them to kill
-                        if (b._board[t.CoordinateY - 1, t.CoordinateX - 1].CurrPiece is Piece &&
-                        (int)b._board[t.CoordinateY - 1, t.CoordinateX - 1].CurrPiece.CurrPlayer == 2)
-                            validMoves.Add(b._board[t.CoordinateY - 1, t.CoordinateX - 1]);
+                        if (b._tiles[t.Y - 1, t.X - 1].CurrPiece is Piece &&
+                        (int)b._tiles[t.Y - 1, t.X - 1].CurrPiece.CurrPlayer == 2)
+                            validMoves.Add(b._tiles[t.Y - 1, t.X - 1]);
                     }
                     catch { } // ignore exception 
 
                     try // try catch to ignore out of board index
                     {
                         // enemy at right diagnal -> valid kill
-                        if (b._board[t.CoordinateY - 1, t.CoordinateX + 1].CurrPiece is Piece &&
-                        (int)b._board[t.CoordinateY - 1, t.CoordinateX + 1].CurrPiece.CurrPlayer == 2)
-                            validMoves.Add(b._board[t.CoordinateY - 1, t.CoordinateX + 1]);
+                        if (b._tiles[t.Y - 1, t.X + 1].CurrPiece is Piece &&
+                        (int)b._tiles[t.Y - 1, t.X + 1].CurrPiece.CurrPlayer == 2)
+                            validMoves.Add(b._tiles[t.Y - 1, t.X + 1]);
                     }
                     catch { } // ignore exception 
                 }
@@ -102,23 +102,23 @@ namespace Core.Pieces
             //player 2
             else if ((int)t.CurrPiece.Player == 2)
             {
-                if (t.CoordinateY < 7)
+                if (t.Y < 7)
                 {
                     try // try catch to ignore out of board index
                     {
                         // if there is a enemy piece AND they are left diagnal of pawn, allow them to kill
-                        if (b._board[t.CoordinateY + 1, t.CoordinateX + 1].CurrPiece is Piece &&
-                        (int)b._board[t.CoordinateY + 1, t.CoordinateX + 1].CurrPiece.CurrPlayer == 1)
-                            validMoves.Add(b._board[t.CoordinateY + 1, t.CoordinateX + 1]);
+                        if (b._tiles[t.Y + 1, t.X + 1].CurrPiece is Piece &&
+                        (int)b._tiles[t.Y + 1, t.X + 1].CurrPiece.CurrPlayer == 1)
+                            validMoves.Add(b._tiles[t.Y + 1, t.X + 1]);
                     }
                     catch { } // ignore exception 
 
                     try // try catch to ignore out of board index
                     {
                         // if there is a enemy piece AND they are right diagnal of pawn, allow them to kill
-                        if (b._board[t.CoordinateY + 1, t.CoordinateX - 1].CurrPiece is Piece &&
-                            (int)b._board[t.CoordinateY + 1, t.CoordinateX - 1].CurrPiece.CurrPlayer == 1)
-                            validMoves.Add(b._board[t.CoordinateY + 1, t.CoordinateX - 1]);
+                        if (b._tiles[t.Y + 1, t.X - 1].CurrPiece is Piece &&
+                            (int)b._tiles[t.Y + 1, t.X - 1].CurrPiece.CurrPlayer == 1)
+                            validMoves.Add(b._tiles[t.Y + 1, t.X - 1]);
                     }
                     catch { } // ignore exception 
                 }

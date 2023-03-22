@@ -13,7 +13,6 @@ namespace Core
         //public enum Player { Player_One = 1, Player_Two = 2 }
         #endregion
         #region Properties
-        public bool CompletedFirstMove { get; set; }
         public char Player { get; set; }
         public Tile? CurrentTile { get; set; }
         public List<Tile> CurrentValidMoves { get; set; } = new List<Tile>();
