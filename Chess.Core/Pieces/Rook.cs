@@ -3,8 +3,7 @@
     public class Rook : Piece
     {
         #region Constructor
-        public Rook(Player player, Tile tile) : base(player, tile) =>
-            Image = player == Player.Player_One ? Assets.W_RookImg : Assets.B_RookImg;
+        public Rook(char player, Tile tile) : base(player, tile) { }
         #endregion
         #region Public Methods
         public override void GetValidMoves(Board board, Tile selectedTile)

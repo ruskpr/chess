@@ -11,7 +11,6 @@ namespace Core.Pieces
     {
         public bool CompletedFirstMove { get; set; } = false;
 
-
         #region Constructor
         public Pawn(char player, Tile tile) : base(player, tile) { }
         #endregion
