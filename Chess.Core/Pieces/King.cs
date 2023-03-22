@@ -27,19 +27,19 @@ namespace Core.Pieces
         #endregion
         private void UpdateSpaces(Board b, Tile t)
         {
-            int currentX = t.CoordinateX; // added for readability
-            int currentY = t.CoordinateY;
+            int currentX = t.X; // added for readability
+            int currentY = t.Y;
 
             // all spaces
-            try { allSpaces[0] = b._board[currentY - 1, currentX - 1]; } catch { }
-            try { allSpaces[1] = b._board[currentY - 1, currentX]; } catch { }
-            try { allSpaces[2] = b._board[currentY - 1, currentX + 1]; } catch { }
-            try { allSpaces[3] = b._board[currentY, currentX + 1]; } catch { }
-            try { allSpaces[4] = b._board[currentY + 1, currentX + 1]; } catch { }
-            try { allSpaces[5] = b._board[currentY + 1, currentX]; } catch { }
-            try { allSpaces[6] = b._board[currentY + 1, currentX - 1]; } catch { }
-            try { allSpaces[7] = b._board[currentY, currentX - 1]; } catch { }
-            try { allSpaces[8] = b._board[currentY, currentX]; } catch { }
+            try { allSpaces[0] = b._tiles[currentY - 1, currentX - 1]; } catch { }
+            try { allSpaces[1] = b._tiles[currentY - 1, currentX]; } catch { }
+            try { allSpaces[2] = b._tiles[currentY - 1, currentX + 1]; } catch { }
+            try { allSpaces[3] = b._tiles[currentY, currentX + 1]; } catch { }
+            try { allSpaces[4] = b._tiles[currentY + 1, currentX + 1]; } catch { }
+            try { allSpaces[5] = b._tiles[currentY + 1, currentX]; } catch { }
+            try { allSpaces[6] = b._tiles[currentY + 1, currentX - 1]; } catch { }
+            try { allSpaces[7] = b._tiles[currentY, currentX - 1]; } catch { }
+            try { allSpaces[8] = b._tiles[currentY, currentX]; } catch { }
         }
         private void CheckForOccupiedSpaces()
         {
@@ -122,20 +122,20 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = t.CoordinateX; // added for readability
-            int currentY = t.CoordinateY;
+            int currentX = t.X; // added for readability
+            int currentY = t.Y;
 
             UpdateSpaces(b, t);
 
             // all moves (1 in each direction)
-            try { validMoves.Add(b._board[currentY - 1, currentX - 1]); } catch { }
-            try { validMoves.Add(b._board[currentY - 1, currentX]); } catch { }
-            try { validMoves.Add(b._board[currentY - 1, currentX + 1]); } catch { }
-            try { validMoves.Add(b._board[currentY, currentX + 1]); } catch { }
-            try { validMoves.Add(b._board[currentY + 1, currentX + 1]); } catch { }
-            try { validMoves.Add(b._board[currentY + 1, currentX]); } catch { }
-            try { validMoves.Add(b._board[currentY + 1, currentX - 1]); } catch { }
-            try { validMoves.Add(b._board[currentY, currentX - 1]); } catch { }
+            try { validMoves.Add(b._tiles[currentY - 1, currentX - 1]); } catch { }
+            try { validMoves.Add(b._tiles[currentY - 1, currentX]); } catch { }
+            try { validMoves.Add(b._tiles[currentY - 1, currentX + 1]); } catch { }
+            try { validMoves.Add(b._tiles[currentY, currentX + 1]); } catch { }
+            try { validMoves.Add(b._tiles[currentY + 1, currentX + 1]); } catch { }
+            try { validMoves.Add(b._tiles[currentY + 1, currentX]); } catch { }
+            try { validMoves.Add(b._tiles[currentY + 1, currentX - 1]); } catch { }
+            try { validMoves.Add(b._tiles[currentY, currentX - 1]); } catch { }
 
             return validMoves;
         }

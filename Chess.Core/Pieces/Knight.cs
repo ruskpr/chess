@@ -9,8 +9,7 @@ namespace Core.Pieces
     public class Knight : Piece
     {
         #region Constructor
-        public Knight(Player player, Tile tile) : base(player, tile) =>
-            Image = player == Player.Player_One ? Assets.W_KnightImg : Assets.B_KnightImg;
+        public Knight(char player, Tile tile) : base(player, tile) { }
         #endregion
         #region Public Methods
         public override void GetValidMoves(Board board, Tile selTile)
@@ -33,20 +32,20 @@ namespace Core.Pieces
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
             //upper right
-            try { validMoves.Add(b._board[t.CoordinateY - 2, t.CoordinateX + 1]); } catch { }
-            try { validMoves.Add(b._board[t.CoordinateY - 1, t.CoordinateX + 2]); } catch { }
+            try { validMoves.Add(b._tiles[t.Y - 2, t.X + 1]); } catch { }
+            try { validMoves.Add(b._tiles[t.Y - 1, t.X + 2]); } catch { }
 
             //upper left
-            try { validMoves.Add(b._board[t.CoordinateY - 2, t.CoordinateX - 1]); } catch { }
-            try { validMoves.Add(b._board[t.CoordinateY - 1, t.CoordinateX - 2]); } catch { }
+            try { validMoves.Add(b._tiles[t.Y - 2, t.X - 1]); } catch { }
+            try { validMoves.Add(b._tiles[t.Y - 1, t.X - 2]); } catch { }
 
             //lower right
-            try { validMoves.Add(b._board[t.CoordinateY + 2, t.CoordinateX + 1]); } catch { }
-            try { validMoves.Add(b._board[t.CoordinateY + 1, t.CoordinateX + 2]); } catch { }
+            try { validMoves.Add(b._tiles[t.Y + 2, t.X + 1]); } catch { }
+            try { validMoves.Add(b._tiles[t.Y + 1, t.X + 2]); } catch { }
 
             //lower left
-            try { validMoves.Add(b._board[t.CoordinateY + 2, t.CoordinateX - 1]); } catch { }
-            try { validMoves.Add(b._board[t.CoordinateY + 1, t.CoordinateX - 2]); } catch { }
+            try { validMoves.Add(b._tiles[t.Y + 2, t.X - 1]); } catch { }
+            try { validMoves.Add(b._tiles[t.Y + 1, t.X - 2]); } catch { }
 
             return validMoves;
         }
