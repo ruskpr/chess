@@ -40,13 +40,13 @@ namespace Core
         #region Constructor / Finalizer
         public Board()
         {
-            InitBoard();
+            Init();
         }
         ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
         #endregion
 
         #region init board
-        public void InitBoard()
+        public void Init()
         {
             //AddTiles();
             AddPieces();

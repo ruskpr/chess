@@ -5,9 +5,17 @@
 
         public char Color { get; set; }
 
-        public Player(char color)
+        public Player(string name, char color)
         {
             Color = color;
         }
+
+        public void MovePiece(Tile from, Tile to)
+        {
+            to.CurrPiece = from.CurrPiece;
+            from.CurrPiece = null;
+        }
+
+        
     }
 }

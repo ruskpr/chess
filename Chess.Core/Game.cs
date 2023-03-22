@@ -16,14 +16,11 @@ namespace Core
         public delegate void OnGameOver(Player? p);
         public event OnGameOver HandleGameOver;
 
-        public enum PlayerTurn { p1 = 1, p2 = 2};
-        public static PlayerTurn Turn = Game.PlayerTurn.p1;
 
         public Board Board { get; set; }
         public Player White { get; set; }
         public Player Black { get; set; }
-
-
+        public char Turn { get; set; } = 'w';
 
         public Game(Board board, Player w, Player b)
         {
@@ -35,10 +32,9 @@ namespace Core
         #region public
         public void StartGame()
         {
-            //
+            Board.Init();
 
 
-            throw new NotImplementedException();
         }
 
         #region Check if in king is in check method
