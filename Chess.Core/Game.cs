@@ -35,7 +35,6 @@ namespace Core
         public void StartGame()
         {
             Board.Init();
-            Board
             while (!_isGameOver)
             {
 
@@ -65,9 +64,13 @@ namespace Core
 
         #endregion
 
+<<<<<<< HEAD
         public void SwapTurn()
         {
             Turn = Turn == 'w' ? 'b' : 'w'; 
         }
+=======
+        public void SwapTurn() { Turn == 'w' ? 'b': 'w'' )
+>>>>>>> e0048de05e6e63652aff5129a70df4c0ececcff6
     }
 }
