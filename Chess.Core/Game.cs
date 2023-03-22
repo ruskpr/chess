@@ -22,6 +22,8 @@ namespace Core
         public Player Black { get; set; }
         public char Turn { get; set; } = 'w';
 
+        private bool _isGameOver = false;
+
         public Game(Board board, Player w, Player b)
         {
             Board = board;
@@ -33,6 +35,11 @@ namespace Core
         public void StartGame()
         {
             Board.Init();
+            Board
+            while (!_isGameOver)
+            {
+
+            }
 
 
         }
@@ -58,6 +65,9 @@ namespace Core
 
         #endregion
 
-        public static void SwapTurn() => Turn = Turn == PlayerTurn.p1 ? PlayerTurn.p2 : PlayerTurn.p1;
+        public void SwapTurn()
+        {
+            Turn = Turn == 'w' ? 'b' : 'w'; 
+        }
     }
 }
