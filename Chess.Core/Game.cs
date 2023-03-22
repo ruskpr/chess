@@ -35,6 +35,7 @@ namespace Core
         public void StartGame()
         {
             Board.Init();
+
             while (!_isGameOver)
             {
 
