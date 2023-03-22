@@ -22,11 +22,11 @@ namespace ChessLibrary.Pieces
         {
             Image = player == Player.Player_One ? Assets.W_KingImg : Assets.B_KingImg;
 
-            Board.OnKingChecked += ParentBoard_OnKingChecked;
+            Game.OnKingChecked += ParentBoard_OnKingChecked;
             CurrentTile.ParentBoard.OnPieceMoved += ParentBoard_PieceMoved;
         }
         #endregion
-        private void UpdateSpaces(Board b, Tile t)
+        private void UpdateSpaces(Game b, Tile t)
         {
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
@@ -109,7 +109,7 @@ namespace ChessLibrary.Pieces
         }
         #endregion
         #region Get Moves
-        public override void GetValidMoves(Board board, Tile selectedTile)
+        public override void GetValidMoves(Game board, Tile selectedTile)
         {
             CurrentValidMoves.Clear();
 
@@ -119,7 +119,7 @@ namespace ChessLibrary.Pieces
             IgnoreOccupiedSpaces(CurrentValidMoves); // ignore all spaces where a piece sits
             IgnoreEnemyMoves(CurrentValidMoves);
         }
-        private List<Tile> OneInEachDirection(Board b, Tile t)
+        private List<Tile> OneInEachDirection(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 

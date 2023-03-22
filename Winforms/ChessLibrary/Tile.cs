@@ -16,7 +16,7 @@ namespace ChessLibrary
         public static event SendTileDelegate SendTargetTile;
         #endregion
         #region Properties
-        public Board ParentBoard { get; set; }
+        public Game ParentBoard { get; set; }
         public int CoordinateX { get; set; }
         public int CoordinateY { get; set; }
         public Piece? CurrPiece { get; set; }
@@ -27,7 +27,7 @@ namespace ChessLibrary
         private Color originalColor;
         #endregion
         #region Constructor
-        public Tile(Board board, Size size, Point boardlocation, int arrX,int arrY, Color color)
+        public Tile(Game board, Size size, Point boardlocation, int arrX,int arrY, Color color)
         {
             ParentBoard = board;
             BackgroundImageLayout = ImageLayout.Stretch;

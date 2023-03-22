@@ -12,7 +12,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 namespace ChessLibrary
 {
     [Serializable]
-    public class Board : Panel
+    public class Game : Panel
     {
         #region Delegate definitions
         //event is called on main form constructor
@@ -43,7 +43,7 @@ namespace ChessLibrary
         public Room CurrentRoom { get; set; }
         #endregion
         #region Constructor / Finalizer
-        public Board(Form form, Room? room = null)
+        public Game(Form form, Room? room = null)
         {
             this.ParentForm = form;
             this.CurrentRoom = CreateRoom();
@@ -59,7 +59,7 @@ namespace ChessLibrary
             // construct board and place on form
             ConstructBoard();
         }
-        ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
+        ~Game() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
         #endregion
         #region Create Room
         private Room CreateRoom()

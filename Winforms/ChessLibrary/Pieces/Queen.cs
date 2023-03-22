@@ -12,7 +12,7 @@ namespace ChessLibrary.Pieces
             Image = player == Player.Player_One ? Assets.W_QueenImg : Assets.B_QueenImg;
 
         #region Public methods
-        public override void GetValidMoves(Board board, Tile selectedTile)
+        public override void GetValidMoves(Game board, Tile selectedTile)
         {
             CurrentValidMoves.Clear();
 
@@ -33,7 +33,7 @@ namespace ChessLibrary.Pieces
 
         #region Private methods
         #region Straight line movement
-        private List<Tile> CastForwardMovement(Board b, Tile t)
+        private List<Tile> CastForwardMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
@@ -75,7 +75,7 @@ namespace ChessLibrary.Pieces
 
             return validMoves; // return valid forward spaces
         }
-        private List<Tile> CastBackwardMovement(Board b, Tile t)
+        private List<Tile> CastBackwardMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
 
@@ -132,7 +132,7 @@ namespace ChessLibrary.Pieces
 
             return validMoves;
         }
-        private List<Tile> CastLeftMovement(Board b, Tile t)
+        private List<Tile> CastLeftMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
 
@@ -188,7 +188,7 @@ namespace ChessLibrary.Pieces
 
             return validMoves;
         }
-        private List<Tile> CastRightMovement(Board b, Tile t)
+        private List<Tile> CastRightMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
 
@@ -247,7 +247,7 @@ namespace ChessLibrary.Pieces
         #endregion
 
         #region Diagnal movement
-        private List<Tile> CastDiagnalUpperRight(Board b, Tile t)
+        private List<Tile> CastDiagnalUpperRight(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
@@ -306,7 +306,7 @@ namespace ChessLibrary.Pieces
 
             return validMoves; // return valid forward spaces
         }
-        private List<Tile> CastDiagnalUpperLeft(Board b, Tile t)
+        private List<Tile> CastDiagnalUpperLeft(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
@@ -365,7 +365,7 @@ namespace ChessLibrary.Pieces
 
             return validMoves; // return valid forward spaces
         }
-        private List<Tile> CastDiagnaLowerRight(Board b, Tile t)
+        private List<Tile> CastDiagnaLowerRight(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
@@ -424,7 +424,7 @@ namespace ChessLibrary.Pieces
 
             return validMoves; // return valid forward spaces
         }
-        private List<Tile> CastDiagnaLowerLeft(Board b, Tile t)
+        private List<Tile> CastDiagnaLowerLeft(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 

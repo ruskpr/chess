@@ -37,7 +37,7 @@ namespace ChessLibrary.Pieces
         }
         #endregion
         #region Methods
-        public abstract void GetValidMoves(Board board, Tile selTile);
+        public abstract void GetValidMoves(Game board, Tile selTile);
         protected void IgnoreKing(List<Tile> validMoves)
         {
             //for (int i = 0; i < validMoves.Count; i++)

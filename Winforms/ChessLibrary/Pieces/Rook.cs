@@ -7,7 +7,7 @@
             Image = player == Player.Player_One ? Assets.W_RookImg : Assets.B_RookImg;
         #endregion
         #region Public Methods
-        public override void GetValidMoves(Board board, Tile selectedTile)
+        public override void GetValidMoves(Game board, Tile selectedTile)
         {
             CurrentValidMoves.Clear();
 
@@ -19,7 +19,7 @@
         }
         #endregion
         #region Private Methods 
-        private List<Tile> CastForwardMovement(Board b, Tile t)
+        private List<Tile> CastForwardMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
@@ -61,7 +61,7 @@
 
             return validMoves; // return valid forward spaces
         }
-        private List<Tile> CastBackwardMovement(Board b, Tile t)
+        private List<Tile> CastBackwardMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
 
@@ -118,7 +118,7 @@
 
             return validMoves;
         }
-        private List<Tile> CastLeftMovement(Board b, Tile t)
+        private List<Tile> CastLeftMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
 
@@ -174,7 +174,7 @@
 
             return validMoves;
         }
-        private List<Tile> CastRightMovement(Board b, Tile t)
+        private List<Tile> CastRightMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
 

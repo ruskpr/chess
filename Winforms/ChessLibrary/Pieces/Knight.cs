@@ -13,7 +13,7 @@ namespace ChessLibrary.Pieces
             Image = player == Player.Player_One ? Assets.W_KnightImg : Assets.B_KnightImg;
         #endregion
         #region Public Methods
-        public override void GetValidMoves(Board board, Tile selTile)
+        public override void GetValidMoves(Game board, Tile selTile)
         {
             CurrentValidMoves.Clear();
 
@@ -28,7 +28,7 @@ namespace ChessLibrary.Pieces
         }
         #endregion
         #region Private Methods      
-        private List<Tile> GetKnightMoves(Board b, Tile t)
+        private List<Tile> GetKnightMoves(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 

@@ -17,7 +17,7 @@ namespace ChessLibrary.Pieces
         }
         #endregion
         #region Public Methods
-        public override void GetValidMoves(Board board, Tile selTile)
+        public override void GetValidMoves(Game board, Tile selTile)
         {
             CurrentValidMoves.Clear();
 
@@ -29,7 +29,7 @@ namespace ChessLibrary.Pieces
         }
         #endregion
         #region Private Methods
-        private List<Tile> GetForwardMovement(Board b, Tile t)
+        private List<Tile> GetForwardMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
@@ -72,7 +72,7 @@ namespace ChessLibrary.Pieces
 
             return validMoves;
         }
-        private List<Tile> GetDiagnalMovement(Board b, Tile t)
+        private List<Tile> GetDiagnalMovement(Game b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 

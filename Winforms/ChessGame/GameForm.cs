@@ -2,12 +2,12 @@
 
 namespace ChessGame
 {
-    public partial class Game : Form
+    public partial class GameForm : Form
     {
-        public Game()
+        public GameForm()
         {
             InitializeComponent();
-            Board chessBoard = new Board(this);
+            Game chessboard = new Game(this);
         } 
     }
 }

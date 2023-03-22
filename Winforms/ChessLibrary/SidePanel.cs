@@ -15,12 +15,12 @@ namespace ChessLibrary
     public partial class SidePanel : UserControl
     {
         #region Fields
-        private Board parentBoard;
+        private Game parentBoard;
         private User playerOne;
         private User playerTwo;
         #endregion
         #region Constructor
-        public SidePanel(Board board)
+        public SidePanel(Game board)
         {
             InitializeComponent();
             this.parentBoard = board;
