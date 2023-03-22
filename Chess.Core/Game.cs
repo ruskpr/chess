@@ -24,11 +24,11 @@ namespace Core
 
         private bool _isGameOver = false;
 
-        public Game(Board board, Player w, Player b)
+        public Game(Board board, Player white, Player black)
         {
             Board = board;
-            White = w;
-            Black = b;
+            White = white;
+            Black = black;
         }
 
         #region public
@@ -63,21 +63,12 @@ namespace Core
 
         #region private
 
-        #endregion
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 22be03fa860f392607ab738d18f9b94561fa38d2
-        public void SwapTurn()
+        private void SwapTurn()
         {
             Turn = Turn == 'w' ? 'b' : 'w'; 
         }
-<<<<<<< HEAD
-=======
-        public void SwapTurn() { Turn == 'w' ? 'b': 'w'' )
->>>>>>> e0048de05e6e63652aff5129a70df4c0ececcff6
-=======
->>>>>>> 22be03fa860f392607ab738d18f9b94561fa38d2
+
+        #endregion
+
     }
 }
