@@ -28,13 +28,7 @@ namespace Core
 
         //public SidePanel SidePanel { get; set; }
 
-        public int[,] Chessboard { get; }
-
-        public string Turn { get { return (int)Game.Turn == 1 ? "Player 1" : "Player 2"; } }
-
-        public string LatestMove { get { return latestMove; } }
-
-        //public Room CurrentRoom { get; set; }
+        public Tile[,] Tiles { get { return _tiles; } };
 
         #endregion
         #region Constructor / Finalizer
@@ -63,10 +57,9 @@ namespace Core
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
-                {
-                    _tiles
+                {//LEFT OFF HERE
                     if (i == 1)
-                        _tiles[i, j].CreatePiece("pawn", 2); // add player 2's pawns to 2nd row
+                        _tiles[i, j].CurrPiece = new Pawn('p', 2); // add player black pawns to 2nd row
                     if (i == 6)
                         _tiles[i, j].CreatePiece("pawn", 1); // add player 1's pawns to 7th row
 

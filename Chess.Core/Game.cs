@@ -58,6 +58,6 @@ namespace Core
 
         #endregion
 
-        public static void SwapTurn() => Turn = Turn == PlayerTurn.p1 ? PlayerTurn.p2 : PlayerTurn.p1;
+        public void SwapTurn() { Turn == 'w' ? 'b': 'w'' )
     }
 }
