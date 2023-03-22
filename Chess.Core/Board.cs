@@ -142,10 +142,10 @@ namespace Core
                         Piece.Pieces.Remove(capturedPiece);
 
                         // if piece is captured place it in capturedPiece list
-                        if ((int)capturedPiece.CurrPlayer == 1)
-                            Piece.PlayerOne_CapturedPieces.Add(capturedPiece);
+                        if ((int)capturedPiece.Player == 1)
+                            Piece.White_CapturedPieces.Add(capturedPiece);
                         else
-                            Piece.PlayerTwo_CapturedPieces.Add(capturedPiece);
+                            Piece.Black_CapturedPieces.Add(capturedPiece);
                     }
 
                     //set selected tiles to have the newly moved piece
@@ -232,8 +232,8 @@ namespace Core
         {
             foreach (Tile move in mostRecentTile.CurrPiece.CurrentValidMoves)
             {
-                if (move.CurrPiece is King && move.CurrPiece.CurrPlayer !=
-                    mostRecentTile.CurrPiece.CurrPlayer)
+                if (move.CurrPiece is King && move.CurrPiece.Player !=
+                    mostRecentTile.CurrPiece.Player)
                 {
                     King checkedKing = (King)move.CurrPiece; // type cast to king
                     OnKingChecked.Invoke(checkedKing);

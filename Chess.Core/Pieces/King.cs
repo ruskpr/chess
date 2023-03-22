@@ -18,12 +18,11 @@ namespace Core.Pieces
         public bool InCheckedState { get { return InCheckedState; } }
         #endregion
         #region Constructor
-        public King(Player player, Tile tile) : base(player, tile)
+        public King(char player, Tile tile) : base(player, tile)
         {
-            Image = player == Player.Player_One ? Assets.W_KingImg : Assets.B_KingImg;
 
             Board.OnKingChecked += ParentBoard_OnKingChecked;
-            CurrentTile.ParentBoard.OnPieceMoved += ParentBoard_PieceMoved;
+            CurrentTile.Board.OnPieceMoved += ParentBoard_PieceMoved;
         }
         #endregion
         private void UpdateSpaces(Board b, Tile t)
@@ -56,7 +55,7 @@ namespace Core.Pieces
         private void ParentBoard_PieceMoved()
         {
             // update kings open spaces on every move
-            UpdateSpaces(CurrentTile.ParentBoard, CurrentTile);
+            UpdateSpaces(CurrentTile.Board, CurrentTile);
         }
         #region onKingChecked
         private void ParentBoard_OnKingChecked(King checkedKing)
@@ -90,10 +89,10 @@ namespace Core.Pieces
             checkedKing.inCheckedState = true;
             checkedKing.CurrentTile.BackColor = Color.Red;
 
-            User playerOne = checkedKing.CurrentTile.ParentBoard.CurrentRoom.PlayerOne;
-            User playerTwo = checkedKing.CurrentTile.ParentBoard.CurrentRoom.PlayerTwo;
+            User playerOne = checkedKing.CurrentTile.Board.CurrentRoom.PlayerOne;
+            User playerTwo = checkedKing.CurrentTile.Board.CurrentRoom.PlayerTwo;
 
-            Player player = checkedKing.CurrPlayer;
+            Player player = checkedKing.Player;
             string winningPlayer = player == Player.Player_One ? "player two" : "player one";
             MessageBox.Show($"{checkedKing} is in check!\n +10 for {winningPlayer}");
 
@@ -105,7 +104,7 @@ namespace Core.Pieces
             LocalDataSaver ds = new();
             ds.SavePlayerData(playerOne, playerTwo);
 
-            CurrentTile.ParentBoard.ResetBoard();
+            CurrentTile.Board.ResetBoard();
         }
         #endregion
         #region Get Moves
@@ -146,7 +145,7 @@ namespace Core.Pieces
             {
                 // remove moves where there are friendly pieces
                 if (move.CurrPiece != null)
-                    if (move.CurrPiece.CurrPlayer == CurrPlayer)
+                    if (move.CurrPiece.Player == Player)
                         validMoves.Remove(move);
             }
         }

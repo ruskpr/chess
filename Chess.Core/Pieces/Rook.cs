@@ -26,7 +26,7 @@
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
@@ -42,7 +42,7 @@
                         validMoves.Add(b._board[i, currentX]); // add valid move if space is empty
                     }
             }
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
@@ -68,7 +68,7 @@
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
@@ -92,7 +92,7 @@
 
                 }
             }
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
@@ -125,7 +125,7 @@
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
@@ -148,7 +148,7 @@
                     }
                 }
             }
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
@@ -181,7 +181,7 @@
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
@@ -204,7 +204,7 @@
                     }
                 }
             }
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {

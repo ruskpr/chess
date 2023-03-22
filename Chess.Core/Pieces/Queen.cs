@@ -40,7 +40,7 @@ namespace Core.Pieces
             int currentX = t.CoordinateX; // added for readability
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
@@ -56,7 +56,7 @@ namespace Core.Pieces
                         validMoves.Add(b._board[i, currentX]); // add valid move if space is empty
                     }
             }
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
                     if (t.CoordinateY != i)
@@ -82,7 +82,7 @@ namespace Core.Pieces
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
@@ -106,7 +106,7 @@ namespace Core.Pieces
 
                 }
             }
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
@@ -139,7 +139,7 @@ namespace Core.Pieces
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
@@ -162,7 +162,7 @@ namespace Core.Pieces
                     }
                 }
             }
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
@@ -195,7 +195,7 @@ namespace Core.Pieces
             int currentX = t.CoordinateX;
             int currentY = t.CoordinateY;
 
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
@@ -218,7 +218,7 @@ namespace Core.Pieces
                     }
                 }
             }
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
@@ -255,7 +255,7 @@ namespace Core.Pieces
             int currentY = t.CoordinateY;
 
             //player 1
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = 1; i < 7; i++) // cast to the right end of the board
                     try
@@ -280,7 +280,7 @@ namespace Core.Pieces
                     catch { }
             }
             //player 2
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -314,7 +314,7 @@ namespace Core.Pieces
             int currentY = t.CoordinateY;
 
             //player 1
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {  //int i = 1; i < 7; i++
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -338,7 +338,7 @@ namespace Core.Pieces
                     catch { }
             }
             //player 2
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -373,7 +373,7 @@ namespace Core.Pieces
             int currentY = t.CoordinateY;
 
             //player 1
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = 1; i < 7; i++)
                     try
@@ -398,7 +398,7 @@ namespace Core.Pieces
                     catch { }
             }
             //player 2
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try
@@ -432,7 +432,7 @@ namespace Core.Pieces
             int currentY = t.CoordinateY;
 
             //player 1
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 for (int i = 1; i < 7; i++)
                     try
@@ -456,7 +456,7 @@ namespace Core.Pieces
                     catch { }
             }
             //player 2
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 for (int i = 1; i < 7; i++) // cast to the left end of the board
                     try

@@ -22,7 +22,7 @@ namespace Core.Pieces
             //IgnoreKing(CurrentValidMoves);
             try
             {
-                IgnoreFriendlies(CurrentValidMoves, CurrPlayer);
+                IgnoreFriendlies(CurrentValidMoves, Player);
             }
             catch { }
         }

@@ -2,31 +2,27 @@
 
 namespace Core
 {
-    [Serializable]
     public abstract class Piece : IDisposable
     {
         #region Fields
         public static List<Piece> Pieces = new List<Piece>();
-        public static List<Piece> PlayerOne_CapturedPieces = new List<Piece>();
-        public static List<Piece> PlayerTwo_CapturedPieces = new List<Piece>();
+        public static List<Piece> White_CapturedPieces = new List<Piece>();
+        public static List<Piece> Black_CapturedPieces = new List<Piece>();
         private bool disposed;
 
-        public enum Player { Player_One = 1, Player_Two = 2 }
+        //public enum Player { Player_One = 1, Player_Two = 2 }
         #endregion
         #region Properties
         public bool CompletedFirstMove { get; set; }
-        public Bitmap Image { get; set; }
-        public Player CurrPlayer { get; set; }
-        public Tile CurrentTile { get; set; }
-        public List<Tile> CurrentValidMoves { get; set; }
+        public char Player { get; set; }
+        public Tile? CurrentTile { get; set; }
+        public List<Tile> CurrentValidMoves { get; set; } = new List<Tile>();
         #endregion
-        #region Constructor / Finalizer
-        public Piece(Player player, Tile tile)
+        #region constructor
+        public Piece(char player, Tile? tile)
         {
-            CurrPlayer = player;
+            Player = player;
             CurrentTile = tile;
-            CurrentValidMoves = new List<Tile>();
-            Image = null;
             Pieces.Add(this);
         }
         #endregion
@@ -44,7 +40,7 @@ namespace Core
             // remove move if it contains a king or friendly player
             foreach (Tile move in moveList.ToList())
                 if (move.CurrPiece != null)
-                    if (move.CurrPiece is King || (int)move.CurrPiece.CurrPlayer == (int)currPlayer)
+                    if (move.CurrPiece is King || (int)move.CurrPiece.Player == (int)currPlayer)
                     {
                         moveList.Remove(move);
                         //MessageBox.Show($"ignored {move}");
@@ -80,7 +76,7 @@ namespace Core
         }
         #endregion
         #region tostring
-        public override string ToString() => $"{CurrPlayer.ToString().Replace("_", " ")}'s {GetType().Name}";
+        public override string ToString() => $"{Player.ToString().Replace("_", " ")}'s {GetType().Name}";
         #endregion
     }
 }

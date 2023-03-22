@@ -9,13 +9,13 @@ namespace Core.Pieces
 {
     public class Pawn : Piece
     {
+        public bool CompletedFirstMove { get; set; } = false;
+
+
         #region Constructor
-        public Pawn(Player player, Tile tile) : base(player, tile)
-        {
-            Image = player == Player.Player_One ? Assets.W_PawnImg : Assets.B_PawnImg;
-            CompletedFirstMove = false;
-        }
+        public Pawn(char player, Tile tile) : base(player, tile) { }
         #endregion
+
         #region Public Methods
         public override void GetValidMoves(Board board, Tile selTile)
         {
@@ -33,7 +33,7 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 // allow 1 space forward if the tile is empty
                 try
@@ -52,7 +52,7 @@ namespace Core.Pieces
 
 
             }
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 // allow 1 space forward if the tile is empty
                 try
@@ -77,7 +77,7 @@ namespace Core.Pieces
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
             // player 1
-            if ((int)t.CurrPiece.CurrPlayer == 1)
+            if ((int)t.CurrPiece.Player == 1)
             {
                 if (t.CoordinateY > 0)
                 {
@@ -101,7 +101,7 @@ namespace Core.Pieces
                 }
             }
             //player 2
-            else if ((int)t.CurrPiece.CurrPlayer == 2)
+            else if ((int)t.CurrPiece.Player == 2)
             {
                 if (t.CoordinateY < 7)
                 {
