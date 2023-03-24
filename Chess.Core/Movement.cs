@@ -17,21 +17,21 @@ namespace Chess.Core
             return true;
         }
 
-        internal static IList<Tile> GetMoves(Board board, IPiece piece, int range, IEnumerable<int[]> mults)
+        internal static IList<Tile> GetMoves(Board board, IPiece piece, int range, IEnumerable<int[]> templates)
         {
             if (board == null) throw new ArgumentNullException("board");
             if (piece == null) throw new ArgumentNullException("piece");
             if (range < 1) throw new ArgumentOutOfRangeException("range");
-            if (mults == null || !mults.Any()) throw new ArgumentException("mults");
+            if (templates == null || !templates.Any()) throw new ArgumentException("templates");
 
             var ret = new List<Tile>();
 
-            foreach (var mult in mults)
+            foreach (var template in templates)
             {
                 for (var radius = 1; radius <= range; radius++)
                 {
-                    var deltaX = radius * mult[0];
-                    var deltaY = radius * mult[1];
+                    var deltaX = radius * template[0];
+                    var deltaY = radius * template[1];
 
                     if (IsValid(board, piece.CurrentLocation, deltaX, deltaY, out BoardLocation newLocation))
                     {

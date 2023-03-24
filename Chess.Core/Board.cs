@@ -40,10 +40,17 @@ namespace Core
         // default constructor
         public Board()
         {
-            Size = DEFAULT_SIZE;
-            CreateTiles(DEFAULT_SIZE, DEFAULT_SIZE);
-            AddDefaultPieces();            
-        }     
+                      
+        }
+
+        public Board(int size, bool addDefaultPieces)
+        {
+            Size = size;
+            CreateTiles(size, size);
+
+            if (addDefaultPieces)
+                AddDefaultPieces();
+        }
 
         // overload to allow custom board
         public Board(Tile[,] tiles)
@@ -115,7 +122,7 @@ namespace Core
         public bool TryMakeMove(Tile from, Tile to)
         {
             // check if the move is valid
-            if (from.Piece.CurrentValidMoves.Contains(to))
+            if (from.Piece.GetValidMoves(this).Contains(to))
             {
                 // check if the move is a capture
                 if (to.Piece != null)
@@ -162,7 +169,7 @@ namespace Core
             foreach (Tile tile in _tiles)
             {
                 if (tile.Piece != null)
-                tasks.Add(Task.Run(() => tile.Piece.GetValidMoves(this, tile)));
+                tasks.Add(Task.Run(() => tile.Piece.GetValidMoves(this)));
             }
 
             Task.WaitAll(tasks.ToArray());
@@ -178,11 +185,16 @@ namespace Core
         #endregion
 
         // place custom piece on tile
-        public void PlacePiece<T>(int row, int col, char color) where T : Piece, new()
+        public void AddPiece<T>(int row, int col, char color) where T : Piece, new()
         {
             T piece = new T();
             piece.Player = color;
             _tiles[row, col].Piece = piece;
+        }
+
+        public IPiece? GetPiece(int row, int col)
+        {
+            return _tiles[row, col].Piece;
         }
 
         // place custom tile
@@ -190,5 +202,7 @@ namespace Core
         {
             _tiles[row, col] = new Tile(row, col, piece);
         }
+
+        
     }
 }

@@ -22,6 +22,7 @@
             {
                 throw new ArgumentOutOfRangeException("col");
             }
+
             Row = row;
             Column = col;
         }

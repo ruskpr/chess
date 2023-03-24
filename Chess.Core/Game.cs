@@ -48,20 +48,6 @@ namespace Core
             Turn = Turn == 'w' ? 'b' : 'w';
         }
 
-        public void CheckIfInCheck(Tile mostRecentTile)
-        {
-            foreach (Tile move in mostRecentTile.Piece.CurrentValidMoves)
-            {
-                if (move.Piece is King && move.Piece.Player !=
-                    mostRecentTile.Piece.Player)
-                {
-                    King checkedKing = (King)move.Piece; // type cast to king
-                    HandleKingChecked.Invoke(checkedKing);
-                    break;
-                }
-            }
-        }
-
         #endregion
 
         #region private
