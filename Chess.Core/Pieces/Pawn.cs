@@ -11,11 +11,14 @@ namespace Core.Pieces
     {
         public bool CompletedFirstMove { get; set; } = false;
 
-        #region Constructor
-        public Pawn(char player, Tile tile) : base(player, tile) { }
+        #region constructor
+
+        public Pawn(char player) : base(player) { }
+
         #endregion
 
-        #region Public Methods
+        #region public
+
         public override void GetValidMoves(Board board, Tile selTile)
         {
             CurrentValidMoves.Clear();
@@ -26,8 +29,11 @@ namespace Core.Pieces
             IgnoreKing(CurrentValidMoves);
             //IgnoreFriendlies(CurrentValidMoves, (int)selTile.CurrentPiece.CurrentPlayer);
         }
+
         #endregion
-        #region Private Methods
+
+        #region private
+
         private List<Tile> GetForwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -126,6 +132,7 @@ namespace Core.Pieces
 
             return validMoves;
         }
+
         #endregion
     }
 }

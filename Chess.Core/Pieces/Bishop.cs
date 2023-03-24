@@ -9,7 +9,7 @@ namespace Core.Pieces
     public class Bishop : Piece
     {
         #region Constructor
-        public Bishop(char player, Tile tile) : base(player, tile) { }
+        public Bishop(char player) : base(player) { }       
         #endregion
 
         #region Public Methods

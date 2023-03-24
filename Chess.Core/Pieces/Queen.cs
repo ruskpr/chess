@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Core.Pieces
+﻿namespace Core.Pieces
 {
     public class Queen : Piece
     {
-        public Queen(char player, Tile tile) : base(player, tile) { }
+        #region constructor
 
-        #region Public methods
+        public Queen(char player) : base(player) { }
+
+        #endregion
+
+        #region public
+
         public override void GetValidMoves(Board board, Tile selectedTile)
         {
             CurrentValidMoves.Clear();
@@ -28,10 +27,13 @@ namespace Core.Pieces
             CurrentValidMoves.AddRange(CastDiagnaLowerLeft(board, selectedTile));
             //IgnoreKing(validMoves);
         }
+
         #endregion
 
-        #region Private methods
-        #region Straight line movement
+        #region private
+
+        #region straight line movement
+
         private List<Tile> CastForwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -74,6 +76,7 @@ namespace Core.Pieces
 
             return validMoves; // return valid forward spaces
         }
+
         private List<Tile> CastBackwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -131,6 +134,7 @@ namespace Core.Pieces
 
             return validMoves;
         }
+
         private List<Tile> CastLeftMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -187,6 +191,7 @@ namespace Core.Pieces
 
             return validMoves;
         }
+
         private List<Tile> CastRightMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -243,9 +248,11 @@ namespace Core.Pieces
 
             return validMoves;
         }
+
         #endregion
 
-        #region Diagnal movement
+        #region diagnal movement
+
         private List<Tile> CastDiagnalUpperRight(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -305,6 +312,7 @@ namespace Core.Pieces
 
             return validMoves; // return valid forward spaces
         }
+
         private List<Tile> CastDiagnalUpperLeft(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -364,6 +372,7 @@ namespace Core.Pieces
 
             return validMoves; // return valid forward spaces
         }
+
         private List<Tile> CastDiagnaLowerRight(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -423,6 +432,7 @@ namespace Core.Pieces
 
             return validMoves; // return valid forward spaces
         }
+
         private List<Tile> CastDiagnaLowerLeft(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -481,7 +491,10 @@ namespace Core.Pieces
 
             return validMoves; // return valid forward spaces
         }
+
+
         #endregion
+        
         #endregion
     }
 }

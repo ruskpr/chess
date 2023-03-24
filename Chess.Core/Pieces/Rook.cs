@@ -2,10 +2,14 @@
 {
     public class Rook : Piece
     {
-        #region Constructor
-        public Rook(char player, Tile tile) : base(player, tile) { }
+        #region constructor
+
+        public Rook(char player) : base(player) { }
+
         #endregion
-        #region Public Methods
+
+        #region public
+
         public override void GetValidMoves(Board board, Tile selectedTile)
         {
             CurrentValidMoves.Clear();
@@ -16,8 +20,11 @@
             CurrentValidMoves.AddRange(CastRightMovement(board, selectedTile));
             IgnoreKing(CurrentValidMoves);
         }
+
         #endregion
-        #region Private Methods 
+
+        #region private
+
         private List<Tile> CastForwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
@@ -60,6 +67,7 @@
 
             return validMoves; // return valid forward spaces
         }
+
         private List<Tile> CastBackwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -117,6 +125,7 @@
 
             return validMoves;
         }
+
         private List<Tile> CastLeftMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -173,6 +182,7 @@
 
             return validMoves;
         }
+
         private List<Tile> CastRightMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>();
@@ -229,6 +239,7 @@
 
             return validMoves;
         }
+
         #endregion
     }
 }
