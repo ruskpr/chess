@@ -1,4 +1,6 @@
-﻿namespace Core.Pieces
+﻿using Chess.Core;
+
+namespace Core.Pieces
 {
     public class Queen : Piece
     {
@@ -30,13 +32,22 @@
 
         #endregion
 
-        internal override bool IsValidMove(int sourceColumn, int sourceRow, int destColumn, int destRow)
+        private readonly static int[][] MoveTemplates = new int[][]
         {
-            bool isDiagonalMove = this.IsDiagonalMove(sourceColumn, sourceRow, destColumn, destRow);
-            bool isVerticalMove = this.IsVerticalMove(sourceColumn, sourceRow, destColumn, destRow);
-            bool isHorizontalMove = this.IsHorizontalMove(sourceColumn, sourceRow, destColumn, destRow);
+            new [] { 1, -1 },
+            new [] { 1, 0 },
+            new [] { 1, 1 },
+            new [] { 0, -1 },
+            new [] { 0, 1 },
+            new [] { -1, -1 },
+            new [] { -1, 0 },
+            new [] { -1, 1 },
+        };
 
-            return isDiagonalMove || isVerticalMove || isHorizontalMove;
+
+        public override IList<Tile> GetValidMoves(Board board)
+        {
+            return Movement.GetMoves(board, this, board.Size, MoveTemplates);
         }
 
         #region private

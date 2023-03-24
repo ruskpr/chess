@@ -11,7 +11,7 @@ namespace Core
         #region properties
 
         //public Board Board { get; set; }
-        public Piece? Piece { get; set; }
+        public IPiece? Piece { get; set; }
         public int Row { get; set; }
         public int Column { get; set; }
         public bool IsEmptySpace { get { return Piece == null; } }
@@ -30,7 +30,7 @@ namespace Core
         }
 
         // with piece
-        public Tile(int row, int col, Piece? piece)
+        public Tile(int row, int col, IPiece piece)
         {
             Row = row;
             Column = col;

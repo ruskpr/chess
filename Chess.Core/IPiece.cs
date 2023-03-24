@@ -2,10 +2,10 @@
 {
     public interface IPiece
     {
-        List<Tile> CurrentValidMoves { get; set; }
-
         char Player { get; set; }
 
-        void GetValidMoves(Board board, Tile origin);
+        BoardLocation CurrentLocation { get; set; }
+
+        IList<Tile> GetValidMoves(Board board);
     }
 }

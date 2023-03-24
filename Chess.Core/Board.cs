@@ -17,8 +17,7 @@ namespace Core
 
         #region fields
 
-        const int DEFAULT_ROW_SIZE = 8;
-        const int DEFAULT_COLUMN_SIZE = 8;
+        const int DEFAULT_SIZE = 8;
 
         private Tile[,] _tiles = new Tile[8, 8];
         public Stack<Tuple<Piece, Tile, Tile>> MoveStack = new Stack<Tuple<Piece, Tile, Tile>>();
@@ -29,6 +28,7 @@ namespace Core
         #region props
 
         public Tile[,] Tiles { get { return _tiles; } set { _tiles = value; } }
+        public int Size { get; set; }
 
         public List<Piece> WhiteCapturedPieces { get; set; } = new List<Piece>();
         public List<Piece> BlackCapturedPieces { get; set; } = new List<Piece>();
@@ -40,7 +40,8 @@ namespace Core
         // default constructor
         public Board()
         {
-            CreateTiles(DEFAULT_ROW_SIZE, DEFAULT_COLUMN_SIZE);
+            Size = DEFAULT_SIZE;
+            CreateTiles(DEFAULT_SIZE, DEFAULT_SIZE);
             AddDefaultPieces();            
         }     
 

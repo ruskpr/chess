@@ -21,6 +21,20 @@ namespace Core
 
         #endregion
 
+        private BoardLocation _currentLocation;
+        public BoardLocation CurrentLocation
+        {
+            get => _currentLocation;
+            set => _currentLocation = value ?? throw new ArgumentNullException();
+        }
+
+        public abstract IList<Tile> GetValidMoves(Board board);
+
+        IList<Tile> IPiece.GetValidMoves(Board board)
+        {
+            throw new NotImplementedException();
+        }
+
         #region constructor
 
         public Piece(char player)
@@ -30,14 +44,15 @@ namespace Core
 
             Player = player;
             //CurrentTile = tile;
-            Pieces.Add(this);
+            //Pieces.Add(this);
         }
+
+
 
         #endregion
 
         #region methods
 
-        public abstract void GetValidMoves(Board board, Tile origin);
 
         #endregion
 
