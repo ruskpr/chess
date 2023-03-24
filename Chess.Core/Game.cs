@@ -24,11 +24,11 @@ namespace Core
 
         private bool _isGameOver = false;
 
-        public Game(Board board, Player w, Player b)
+        public Game(Board board, Player white, Player black)
         {
             Board = board;
-            White = w;
-            Black = b;
+            White = white;
+            Black = black;
         }
 
         #region public
