@@ -11,11 +11,14 @@ namespace Core.Pieces
     {
         public bool CompletedFirstMove { get; set; } = false;
 
-        #region Constructor
-        public Pawn(char player, Tile tile) : base(player, tile) { }
+        #region constructor
+
+        public Pawn(char player) : base(player) { }
+
         #endregion
 
-        #region Public Methods
+        #region public
+
         public override void GetValidMoves(Board board, Tile selTile)
         {
             CurrentValidMoves.Clear();
@@ -26,45 +29,48 @@ namespace Core.Pieces
             IgnoreKing(CurrentValidMoves);
             //IgnoreFriendlies(CurrentValidMoves, (int)selTile.CurrentPiece.CurrentPlayer);
         }
+
         #endregion
-        #region Private Methods
+
+        #region private
+
         private List<Tile> GetForwardMovement(Board b, Tile t)
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            if ((int)t.CurrPiece.Player == 1)
+            if ((int)t.Piece.Player == 1)
             {
                 // allow 1 space forward if the tile is empty
                 try
                 {
-                    if (b._tiles[t.Y - 1, t.X].CurrPiece == null)
+                    if (b._tiles[t.Y - 1, t.X].Piece == null)
                         validMoves.Add(b._tiles[t.Y - 1, t.X]);
                 }
                 catch { }
 
                 // allow pawn to move 2 spaces on its first move
-                if (t.CurrPiece.CompletedFirstMove == false && // condition: first move has not been completed
-                    b._tiles[t.Y - 2, t.X].CurrPiece == null && // condition: tile 2 steps ahead is empty
-                    b._tiles[t.Y - 1, t.X].CurrPiece == null // condition: tile 1 step ahead isnt taken
+                if (t.Piece.CompletedFirstMove == false && // condition: first move has not been completed
+                    b._tiles[t.Y - 2, t.X].Piece == null && // condition: tile 2 steps ahead is empty
+                    b._tiles[t.Y - 1, t.X].Piece == null // condition: tile 1 step ahead isnt taken
                     )
                     validMoves.Add(b._tiles[t.Y - 2, t.X]);
 
 
             }
-            else if ((int)t.CurrPiece.Player == 2)
+            else if ((int)t.Piece.Player == 2)
             {
                 // allow 1 space forward if the tile is empty
                 try
                 {
-                    if (b._tiles[t.Y + 1, t.X].CurrPiece == null)
+                    if (b._tiles[t.Y + 1, t.X].Piece == null)
                         validMoves.Add(b._tiles[t.Y + 1, t.X]);
                 }
                 catch { }
 
                 // allow pawn to move 2 spaces on its first move
-                if (t.CurrPiece.CompletedFirstMove == false && // condition: first move has not been completed
-                    b._tiles[t.Y + 2, t.X].CurrPiece == null && // condition: tile 2 steps ahead is empty
-                    b._tiles[t.Y + 1, t.X].CurrPiece == null // condition: tile 1 step ahead isnt taken
+                if (t.Piece.CompletedFirstMove == false && // condition: first move has not been completed
+                    b._tiles[t.Y + 2, t.X].Piece == null && // condition: tile 2 steps ahead is empty
+                    b._tiles[t.Y + 1, t.X].Piece == null // condition: tile 1 step ahead isnt taken
                     )
                     validMoves.Add(b._tiles[t.Y + 2, t.X]);
             }
@@ -76,15 +82,15 @@ namespace Core.Pieces
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
             // player 1
-            if ((int)t.CurrPiece.Player == 1)
+            if ((int)t.Piece.Player == 1)
             {
                 if (t.Y > 0)
                 {
                     try // try catch to ignore out of board index
                     {
                         // if there is a enemy piece AND they are left diagnal of pawn, allow them to kill
-                        if (b._tiles[t.Y - 1, t.X - 1].CurrPiece is Piece &&
-                        (int)b._tiles[t.Y - 1, t.X - 1].CurrPiece.CurrPlayer == 2)
+                        if (b._tiles[t.Y - 1, t.X - 1].Piece is Piece &&
+                        (int)b._tiles[t.Y - 1, t.X - 1].Piece.CurrPlayer == 2)
                             validMoves.Add(b._tiles[t.Y - 1, t.X - 1]);
                     }
                     catch { } // ignore exception 
@@ -92,23 +98,23 @@ namespace Core.Pieces
                     try // try catch to ignore out of board index
                     {
                         // enemy at right diagnal -> valid kill
-                        if (b._tiles[t.Y - 1, t.X + 1].CurrPiece is Piece &&
-                        (int)b._tiles[t.Y - 1, t.X + 1].CurrPiece.CurrPlayer == 2)
+                        if (b._tiles[t.Y - 1, t.X + 1].Piece is Piece &&
+                        (int)b._tiles[t.Y - 1, t.X + 1].Piece.CurrPlayer == 2)
                             validMoves.Add(b._tiles[t.Y - 1, t.X + 1]);
                     }
                     catch { } // ignore exception 
                 }
             }
             //player 2
-            else if ((int)t.CurrPiece.Player == 2)
+            else if ((int)t.Piece.Player == 2)
             {
                 if (t.Y < 7)
                 {
                     try // try catch to ignore out of board index
                     {
                         // if there is a enemy piece AND they are left diagnal of pawn, allow them to kill
-                        if (b._tiles[t.Y + 1, t.X + 1].CurrPiece is Piece &&
-                        (int)b._tiles[t.Y + 1, t.X + 1].CurrPiece.CurrPlayer == 1)
+                        if (b._tiles[t.Y + 1, t.X + 1].Piece is Piece &&
+                        (int)b._tiles[t.Y + 1, t.X + 1].Piece.CurrPlayer == 1)
                             validMoves.Add(b._tiles[t.Y + 1, t.X + 1]);
                     }
                     catch { } // ignore exception 
@@ -116,8 +122,8 @@ namespace Core.Pieces
                     try // try catch to ignore out of board index
                     {
                         // if there is a enemy piece AND they are right diagnal of pawn, allow them to kill
-                        if (b._tiles[t.Y + 1, t.X - 1].CurrPiece is Piece &&
-                            (int)b._tiles[t.Y + 1, t.X - 1].CurrPiece.CurrPlayer == 1)
+                        if (b._tiles[t.Y + 1, t.X - 1].Piece is Piece &&
+                            (int)b._tiles[t.Y + 1, t.X - 1].Piece.CurrPlayer == 1)
                             validMoves.Add(b._tiles[t.Y + 1, t.X - 1]);
                     }
                     catch { } // ignore exception 
@@ -126,6 +132,7 @@ namespace Core.Pieces
 
             return validMoves;
         }
+
         #endregion
     }
 }

@@ -18,11 +18,11 @@ namespace Core.Pieces
         public bool InCheckedState { get { return InCheckedState; } }
         #endregion
         #region Constructor
-        public King(char player, Tile tile) : base(player, tile)
+        public King(char player) : base(player)
         {
 
-            Board.OnKingChecked += ParentBoard_OnKingChecked;
-            CurrentTile.Board.OnPieceMoved += ParentBoard_PieceMoved;
+            //Board.OnKingChecked += ParentBoard_OnKingChecked;
+            //CurrentTile.Board.OnPieceMoved += ParentBoard_PieceMoved;
         }
         #endregion
         private void UpdateSpaces(Board b, Tile t)
@@ -55,57 +55,57 @@ namespace Core.Pieces
         private void ParentBoard_PieceMoved()
         {
             // update kings open spaces on every move
-            UpdateSpaces(CurrentTile.Board, CurrentTile);
+            //UpdateSpaces(CurrentTile.Board, CurrentTile);
         }
         #region onKingChecked
-        private void ParentBoard_OnKingChecked(King checkedKing)
-        {
-            // when king is check put that king in a state
-            // where they can only make moves to escape from check
-            if (checkedKing.inCheckedState == false)
-                ExecuteCheckedState(checkedKing);
+        //private void ParentBoard_OnKingChecked(King checkedKing)
+        //{
+        //    // when king is check put that king in a state
+        //    // where they can only make moves to escape from check
+        //    if (checkedKing.inCheckedState == false)
+        //        ExecuteCheckedState(checkedKing);
 
 
-            // Check spaces that are occupied by enemy players
-            List<Tile> tilesOccupiedByOpponent = new List<Tile>();
+        //    // Check spaces that are occupied by enemy players
+        //    List<Tile> tilesOccupiedByOpponent = new List<Tile>();
 
-            //foreach (Piece piece in Piece.Pieces)
-            //{
-            //    // if the tiles are occupied add to list
-            //    if (piece.CurrentPlayer != this.CurrentPlayer)
-            //        foreach (Tile move in piece.CurrentValidMoves)
-            //        {
+        //    //foreach (Piece piece in Piece.Pieces)
+        //    //{
+        //    //    // if the tiles are occupied add to list
+        //    //    if (piece.CurrentPlayer != this.CurrentPlayer)
+        //    //        foreach (Tile move in piece.CurrentValidMoves)
+        //    //        {
 
-            //        }
-            //}
+        //    //        }
+        //    //}
 
-            if (true) // if king is checked and all spaces are occupied by opponent...
-            {
+        //    if (true) // if king is checked and all spaces are occupied by opponent...
+        //    {
 
-            }
-        }
-        private void ExecuteCheckedState(King checkedKing)
-        {
-            checkedKing.inCheckedState = true;
-            checkedKing.CurrentTile.BackColor = Color.Red;
+        //    }
+        //}
+        //private void ExecuteCheckedState(King checkedKing)
+        //{
+        //    checkedKing.inCheckedState = true;
+        //    checkedKing.CurrentTile.BackColor = Color.Red;
 
-            User playerOne = checkedKing.CurrentTile.Board.CurrentRoom.PlayerOne;
-            User playerTwo = checkedKing.CurrentTile.Board.CurrentRoom.PlayerTwo;
+        //    User playerOne = checkedKing.CurrentTile.Board.CurrentRoom.PlayerOne;
+        //    User playerTwo = checkedKing.CurrentTile.Board.CurrentRoom.PlayerTwo;
 
-            Player player = checkedKing.Player;
-            string winningPlayer = player == Player.Player_One ? "player two" : "player one";
-            MessageBox.Show($"{checkedKing} is in check!\n +10 for {winningPlayer}");
+        //    Player player = checkedKing.Player;
+        //    string winningPlayer = player == Player.Player_One ? "player two" : "player one";
+        //    MessageBox.Show($"{checkedKing} is in check!\n +10 for {winningPlayer}");
 
-            if (winningPlayer.Contains("one"))
-                playerOne.chess_rating += 10;
-            else
-                playerTwo.chess_rating += 10;
+        //    if (winningPlayer.Contains("one"))
+        //        playerOne.chess_rating += 10;
+        //    else
+        //        playerTwo.chess_rating += 10;
 
-            LocalDataSaver ds = new();
-            ds.SavePlayerData(playerOne, playerTwo);
+        //    LocalDataSaver ds = new();
+        //    ds.SavePlayerData(playerOne, playerTwo);
 
-            CurrentTile.Board.ResetBoard();
-        }
+        //    CurrentTile.Board.ResetBoard();
+        //}
         #endregion
         #region Get Moves
         public override void GetValidMoves(Board board, Tile selectedTile)
@@ -144,8 +144,8 @@ namespace Core.Pieces
             foreach (Tile move in validMoves.ToList())
             {
                 // remove moves where there are friendly pieces
-                if (move.CurrPiece != null)
-                    if (move.CurrPiece.Player == Player)
+                if (move.Piece != null)
+                    if (move.Piece.Player == Player)
                         validMoves.Remove(move);
             }
         }

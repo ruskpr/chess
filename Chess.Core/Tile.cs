@@ -16,12 +16,12 @@ namespace Core
         #region Properties
 
         public Board Board { get; set; }
-        public Piece? CurrPiece { get; set; }
+        public Piece? Piece { get; set; }
         public Point Location { get; private set; }
         public int X { get; set; }
         public int Y { get; set; }
         public bool Selected { get; set; }
-        public bool IsAValidSpace { get { return CurrPiece == null; } }
+        public bool IsAValidSpace { get { return Piece == null; } }
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace Core
             X = x;
             Y = y;
             Selected = false;
-            CurrPiece = piece;
+            Piece = piece;
 
 
             //this.MouseDown += Tile_MouseDown;
@@ -75,7 +75,7 @@ namespace Core
             Selected = false;
             BackColor = originalColor;
 
-            Piece piece = this.CurrPiece;
+            Piece piece = this.Piece;
             if (piece is King)
             {
                 King king = (King)piece;
@@ -93,25 +93,25 @@ namespace Core
         {
             // p r n b q k
 
-            Piece.Player selectedPlayer = player == 1 ? Piece.Player.Player_One : Piece.Player.Player_Two;
+            Piece.Player selectedPlayer = player == 1 ? Core.Piece.Player.Player_One : Core.Piece.Player.Player_Two;
 
             //only add piece if tile is empty
-            if (CurrPiece == null)
+            if (Piece == null)
             {
                 switch (pieceLetter)
                 {
                     case 'p':
-                        CurrPiece = new Pawn(selectedPlayer, this); break;
+                        Piece = new Pawn(selectedPlayer, this); break;
                     case 'r':
-                        CurrPiece = new Rook(selectedPlayer, this); break;
+                        Piece = new Rook(selectedPlayer, this); break;
                     case 'n':
-                        CurrPiece = new Knight(selectedPlayer, this); break;
+                        Piece = new Knight(selectedPlayer, this); break;
                     case 'b':
-                        CurrPiece = new Bishop(selectedPlayer, this); break;
+                        Piece = new Bishop(selectedPlayer, this); break;
                     case 'q':
-                        CurrPiece = new Queen(selectedPlayer, this); break;
+                        Piece = new Queen(selectedPlayer, this); break;
                     case 'k':
-                        CurrPiece = new King(selectedPlayer, this); break;
+                        Piece = new King(selectedPlayer, this); break;
                     default:
                         throw new Exception("Invalid piece letter");
                 }
@@ -125,7 +125,7 @@ namespace Core
         #region Remove piece
         public void DiscardPosition()
         {
-            CurrPiece = null;
+            Piece = null;
         }
         #endregion
 
@@ -133,9 +133,9 @@ namespace Core
 
         public override string ToString()
         {
-            return CurrPiece == null ?
+            return Piece == null ?
             $"Empty tile at x{X}, y{Y}" :
-            $"{CurrPiece} at x{X}, y{Y}";
+            $"{Piece} at x{X}, y{Y}";
         }
 
         #endregion

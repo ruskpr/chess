@@ -34,8 +34,6 @@ namespace Core
 
         public void StartGame()
         {
-            Board.Init();
-
             while (!_isGameOver)
             {
 
@@ -49,12 +47,12 @@ namespace Core
 
         public void CheckIfInCheck(Tile mostRecentTile)
         {
-            foreach (Tile move in mostRecentTile.CurrPiece.CurrentValidMoves)
+            foreach (Tile move in mostRecentTile.Piece.CurrentValidMoves)
             {
-                if (move.CurrPiece is King && move.CurrPiece.Player !=
-                    mostRecentTile.CurrPiece.Player)
+                if (move.Piece is King && move.Piece.Player !=
+                    mostRecentTile.Piece.Player)
                 {
-                    King checkedKing = (King)move.CurrPiece; // type cast to king
+                    King checkedKing = (King)move.Piece; // type cast to king
                     HandleKingChecked.Invoke(checkedKing);
                     break;
                 }

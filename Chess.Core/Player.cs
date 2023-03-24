@@ -24,8 +24,8 @@
 
         public void MovePiece(Tile from, Tile to)
         {
-            to.CurrPiece = from.CurrPiece;
-            from.CurrPiece = null;
+            to.Piece = from.Piece;
+            from.Piece = null;
         }
     }
 }

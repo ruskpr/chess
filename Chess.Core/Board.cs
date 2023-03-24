@@ -2,66 +2,60 @@
 
 namespace Core
 {
-    [Serializable]
     public class Board
     {
         #region delegates / events
 
         //event is called on main form constructor
         public delegate void PieceMovedDelegate();
-        public event PieceMovedDelegate OnPieceMoved;
+        public event PieceMovedDelegate? OnPieceMoved;
 
         public delegate void OnKingCheckedDelegate(King kingThatIsChecked);
-        public static event OnKingCheckedDelegate OnKingChecked;
+        public static event OnKingCheckedDelegate? OnKingChecked;
 
         #endregion
 
         #region fields
+
         public Tile[,] _tiles = new Tile[8, 8];
         public Stack<Tuple<Piece, Tile, Tile>> MoveStack = new Stack<Tuple<Piece, Tile, Tile>>();
-        private string latestMove = "";
+        private string _latestMove = "";
+
         #endregion
+
         #region props
-        //public Tile SelTile { get; set; }
 
-        //public Form ParentForm { get; set; }
-
-        //public SidePanel SidePanel { get; set; }
-
-        public Tile[,] Tiles { get { return _tiles; } };
+        public Tile[,] Tiles { get { return _tiles; } }
 
         #endregion
-        #region Constructor / Finalizer
+
+        #region constructor
+
         public Board()
         {
-            Init();
-        }
-        ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
-        #endregion
-
-        #region init board
-        public void Init()
-        {
-            //AddTiles();
+            AddTiles();
             AddPieces();
 
             // store all the moves of each piece when board is created
             foreach (Piece p in Piece.Pieces)
                 p.GetValidMoves(this, p.CurrentTile);
-
-
         }
+        ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
+
+        #endregion
+
+        #region init board
         public void AddPieces()
         {
             //loop through each tile in 2d array (player 1 is white, player 2 is black)
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
-                {//LEFT OFF HERE
+                {
                     if (i == 1)
-                        _tiles[i, j].CurrPiece = new Pawn('p', 2); // add player black pawns to 2nd row
+                        _tiles[i, j].Piece = new Pawn('b'); // add 8 player black pawns to 2nd row
                     if (i == 6)
-                        _tiles[i, j].CreatePiece("pawn", 1); // add player 1's pawns to 7th row
+                        _tiles[i, j].Piece // add 8 white pawns to 7th row
 
                     // player 1's backrow
                     if (i == 7)
@@ -111,14 +105,14 @@ namespace Core
         #region Move Piece operations
         public void MovePiece(Tile oldTile, Tile newTile)
         {
-            if (oldTile.CurrPiece != null)
+            if (oldTile.Piece != null)
             {
                 if ((int)SelTile.CurrPiece.CurrPlayer == (int)Game.Turn)
                 {
                     //check if opponent piece was captured
-                    if (newTile.CurrPiece != null)
+                    if (newTile.Piece != null)
                     {
-                        Piece capturedPiece = newTile.CurrPiece;
+                        Piece capturedPiece = newTile.Piece;
 
                         // remove from main list
                         Piece.Pieces.Remove(capturedPiece);
@@ -131,25 +125,25 @@ namespace Core
                     }
 
                     //set selected tiles to have the newly moved piece
-                    newTile.CurrPiece = oldTile.CurrPiece;
+                    newTile.Piece = oldTile.Piece;
 
                     //MessageBox.Show(newTile.CurrentPiece.CurrentTile.ToString());
-                    newTile.CurrPiece.CurrentTile = newTile;
+                    newTile.Piece.CurrentTile = newTile;
                     //update new tile
                     newTile.BackgroundImage = oldTile.BackgroundImage;
                     oldTile.BackgroundImage = null;
 
                     // push move into stack
-                    MoveStack.Push(new Tuple<Piece, Tile, Tile>(newTile.CurrPiece, oldTile, newTile));
+                    MoveStack.Push(new Tuple<Piece, Tile, Tile>(newTile.Piece, oldTile, newTile));
 
                     //remove oldtile (set images and child piece of tile to null)
                     oldTile.DiscardPosition();
 
                     // set bool
-                    newTile.CurrPiece.CompletedFirstMove = true;
+                    newTile.Piece.CompletedFirstMove = true;
 
                     // check if recently moved piece is checking a king
-                    newTile.CurrPiece.GetValidMoves(this, newTile);
+                    newTile.Piece.GetValidMoves(this, newTile);
 
                     // check if moved piece is checking the opposite king
                     CheckIfInCheck(newTile);
@@ -162,7 +156,7 @@ namespace Core
                     }
 
                     // store latest move as string 
-                    latestMove = $"{newTile.CurrPiece} moved from " +
+                    _latestMove = $"{newTile.Piece} moved from " +
                                 $"{oldTile.X}, {oldTile.Y} " +
                                 $"to {newTile.X}, {newTile.Y}";
 
