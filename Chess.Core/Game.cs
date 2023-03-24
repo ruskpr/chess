@@ -13,9 +13,8 @@ namespace Core
         public delegate void OnKingChecked(King k);
         public event OnKingChecked HandleKingChecked;
 
-        public delegate void OnGameOver(Player? p);
+        public delegate void OnGameOver();
         public event OnGameOver HandleGameOver;
-
 
         public Board Board { get; set; }
         public Player White { get; set; }
@@ -32,6 +31,7 @@ namespace Core
         }
 
         #region public
+
         public void StartGame()
         {
             Board.Init();
