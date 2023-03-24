@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chess.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,49 +15,21 @@ namespace Core.Pieces
 
         #endregion
 
-        #region public
-
-        public override void GetValidMoves(Board board, Tile selTile)
+        private readonly static int[][] MoveTemplates = new int[][]
         {
-            CurrentValidMoves.Clear();
+            new [] { 1, 2 }, // right 1 up 2
+            new [] { 2, 1 }, // right 2 up 1
+            new [] { -1, 2 }, // left 1 up 2
+            new [] { -2, 1 }, // left 2 up 1
+            new [] { -2, -1 }, // left 2 down 1
+            new [] { -1, -2 }, // left 1 down 2
+            new [] { 1, -2 }, // right 1 down 2
+            new [] { 2, -1 }, // right 2 down 1
+        };
 
-            CurrentValidMoves.AddRange(GetKnightMoves(board, selTile));
-
-            //IgnoreKing(CurrentValidMoves);
-            try
-            {
-                //IgnoreFriendlies(CurrentValidMoves, Player);
-            }
-            catch { }
-        }
-
-        #endregion
-
-        #region private
-
-        private List<Tile> GetKnightMoves(Board b, Tile t)
+        public override IList<Tile> GetValidMoves(Board board)
         {
-            List<Tile> validMoves = new List<Tile>(); // list that will be returned
-
-            //upper right
-            try { validMoves.Add(b._tiles[t.Column - 2, t.Row + 1]); } catch { }
-            try { validMoves.Add(b._tiles[t.Column - 1, t.Row + 2]); } catch { }
-
-            //upper left
-            try { validMoves.Add(b._tiles[t.Column - 2, t.Row - 1]); } catch { }
-            try { validMoves.Add(b._tiles[t.Column - 1, t.Row - 2]); } catch { }
-
-            //lower right
-            try { validMoves.Add(b._tiles[t.Column + 2, t.Row + 1]); } catch { }
-            try { validMoves.Add(b._tiles[t.Column + 1, t.Row + 2]); } catch { }
-
-            //lower left
-            try { validMoves.Add(b._tiles[t.Column + 2, t.Row - 1]); } catch { }
-            try { validMoves.Add(b._tiles[t.Column + 1, t.Row - 2]); } catch { }
-
-            return validMoves;
+            return Movement.GetMoves(board, this, 1, MoveTemplates);
         }
-
-        #endregion
     }
 }

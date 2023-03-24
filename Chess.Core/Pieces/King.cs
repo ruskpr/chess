@@ -24,6 +24,11 @@ namespace Core.Pieces
 
         #region constructor
 
+        public King() : base()
+        {
+
+        }
+
         public King(char player) : base(player) { }
 
         #endregion

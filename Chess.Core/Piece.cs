@@ -35,7 +35,8 @@ namespace Core
             throw new NotImplementedException();
         }
 
-        #region constructor
+
+        public Piece() { }
 
         public Piece(char player)
         {
@@ -46,17 +47,6 @@ namespace Core
             //CurrentTile = tile;
             //Pieces.Add(this);
         }
-
-
-
-        #endregion
-
-        #region methods
-
-
-        #endregion
-
-
 
     }
 }
