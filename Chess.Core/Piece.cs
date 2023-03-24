@@ -2,7 +2,7 @@
 
 namespace Core
 {
-    public abstract class Piece : IDisposable
+    public abstract class Piece : IPiece
     {
         #region fields
 
@@ -32,6 +32,7 @@ namespace Core
             //CurrentTile = tile;
             Pieces.Add(this);
         }
+
         #endregion
 
         #region methods
@@ -40,39 +41,7 @@ namespace Core
 
         #endregion
 
-        #region handle dispose
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.Collect();
-            GC.SuppressFinalize(this);
 
-        }
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed)
-            {
-                if (disposing)
-                {
-                    // CurrentPlayer = null;
-                    CurrentTile = null;
-                    CurrentValidMoves = null;
-                    Image = null;
-                    Pieces.Clear();
-                }
-
-                // Dispose unmanaged resources here.
-            }
-
-            disposed = true;
-        }
-        #endregion
-
-        #region tostring
-
-        public override string ToString() => $"{Player.ToString().Replace("_", " ")}'s {GetType().Name}";
-
-        #endregion
     }
 }

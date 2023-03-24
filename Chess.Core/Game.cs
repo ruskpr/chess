@@ -25,6 +25,9 @@ namespace Core
 
         public Game(Board board, Player white, Player black)
         {
+            if (white.Color != 'w' || black.Color != 'b')
+                throw new ArgumentException("Player must be contain valid color - 'w' or 'b' (white or black)");
+
             Board = board;
             White = white;
             Black = black;

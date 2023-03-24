@@ -17,7 +17,10 @@ namespace Core
 
         #region fields
 
-        public Tile[,] _tiles = new Tile[8, 8];
+        const int DEFAULT_ROW_SIZE = 8;
+        const int DEFAULT_COLUMN_SIZE = 8;
+
+        private Tile[,] _tiles = new Tile[8, 8];
         public Stack<Tuple<Piece, Tile, Tile>> MoveStack = new Stack<Tuple<Piece, Tile, Tile>>();
         private string _latestMove = "";
 
@@ -25,239 +28,166 @@ namespace Core
 
         #region props
 
-        public Tile[,] Tiles { get { return _tiles; } }
+        public Tile[,] Tiles { get { return _tiles; } set { _tiles = value; } }
+
+        public List<Piece> WhiteCapturedPieces { get; set; } = new List<Piece>();
+        public List<Piece> BlackCapturedPieces { get; set; } = new List<Piece>();
 
         #endregion
 
         #region constructor
 
+        // default constructor
         public Board()
         {
-            AddTiles();
-            AddPieces();
+            CreateTiles(DEFAULT_ROW_SIZE, DEFAULT_COLUMN_SIZE);
+            AddDefaultPieces();            
+        }     
 
-            // store all the moves of each piece when board is created
-            foreach (Piece p in Piece.Pieces)
-                p.GetValidMoves(this, p.CurrentTile);
+        // overload to allow custom board
+        public Board(Tile[,] tiles)
+        {
+            _tiles = tiles;
         }
+
         ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
 
         #endregion
 
-        #region init board
-        public void AddPieces()
+        private void CreateTiles(int rows, int columns)
         {
-            //loop through each tile in 2d array (player 1 is white, player 2 is black)
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    _tiles[i, j] = new Tile(i, j);
+                }
+            }
+        }
+
+        public void AddDefaultPieces()
+        {
+            //loop through each tile in 2d array and add pieces to board tiles
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
                     if (i == 1)
-                        _tiles[i, j].Piece = new Pawn('b'); // add 8 player black pawns to 2nd row
+                        _tiles[i, j].Piece = new Pawn('b'); // adds 8 player black pawns to 2nd row
                     if (i == 6)
-                        _tiles[i, j].Piece // add 8 white pawns to 7th row
+                        _tiles[i, j].Piece = new Pawn('w'); // adds 8 white pawns to 7th row
 
                     // player 1's backrow
                     if (i == 7)
                     {
                         if (j == 0 || j == 7)
-                            _tiles[i, j].CreatePiece("rook", 1); // add player 1's rooks
+                            _tiles[i, j].Piece = new Rook('w'); // adds both white rooks
                         if (j == 1 || j == 6)
-                            _tiles[i, j].CreatePiece("knight", 1); // add player 1's knights
+                            _tiles[i, j].Piece = new Knight('w'); // adds both white knights
                         if (j == 2 || j == 5)
-                            _tiles[i, j].CreatePiece("bishop", 1); // add player 1's bishops
+                            _tiles[i, j].Piece = new Bishop('w'); // adds both white bishops
                         if (j == 3)
-                            _tiles[i, j].CreatePiece("queen", 1); // add player 1's queen
+                            _tiles[i, j].Piece = new Queen('w'); // adds white queen
                         if (j == 4)
-                            _tiles[i, j].CreatePiece("king", 1); // add player 1's king
+                            _tiles[i, j].Piece = new King('w'); // adds white king
                     }
 
                     // player 2's backrow
                     if (i == 0)
                     {
                         if (j == 0 || j == 7)
-                            _tiles[i, j].CreatePiece("rook", 2); // add player 2's rooks
+                            _tiles[i, j].Piece = new Rook('b'); // adds both black rooks
                         if (j == 1 || j == 6)
-                            _tiles[i, j].CreatePiece("knight", 2); // add player 2's knights
+                            _tiles[i, j].Piece = new Knight('b'); // adds both black knights
                         if (j == 2 || j == 5)
-                            _tiles[i, j].CreatePiece("bishop", 2); // add player 2's bishops
+                            _tiles[i, j].Piece = new Bishop('b'); // adds both black bishops
                         if (j == 3)
-                            _tiles[i, j].CreatePiece("queen", 2); // add player 2's queen
+                            _tiles[i, j].Piece = new Queen('b'); // adds black queen
                         if (j == 4)
-                            _tiles[i, j].CreatePiece("king", 2); // add player 2's king
+                            _tiles[i, j].Piece = new King('b'); // adds black king
                     }
                 }
             }
         }
-        #endregion
-        #region Delegate to send and recieve tiles
-        private void Tile_OnSelected(Tile tile) //recieve selected tile
+
+        // will return false until a valid move is made
+        public bool TryMakeMove(Tile from, Tile to)
         {
-            SelTile = tile;
-            //display valid moves for selected tile
-            //GetValidMoves(SelectedTile);
-        }
-        private void Tile_SendTargetTile(Tile targetTile) // recieve target tile (the tiles new position)
-        {
-            MovePiece(SelTile, targetTile);
-        }
-        #endregion
-        #region Move Piece operations
-        public void MovePiece(Tile oldTile, Tile newTile)
-        {
-            if (oldTile.Piece != null)
+            // check if the move is valid
+            if (from.Piece.CurrentValidMoves.Contains(to))
             {
-                if ((int)SelTile.CurrPiece.CurrPlayer == (int)Game.Turn)
+                // check if the move is a capture
+                if (to.Piece != null)
                 {
-                    //check if opponent piece was captured
-                    if (newTile.Piece != null)
+                    // check if the piece is the same color
+                    if (to.Piece.Player == from.Piece.Player)
                     {
-                        Piece capturedPiece = newTile.Piece;
-
-                        // remove from main list
-                        Piece.Pieces.Remove(capturedPiece);
-
-                        // if piece is captured place it in capturedPiece list
-                        if ((int)capturedPiece.Player == 1)
-                            Piece.White_CapturedPieces.Add(capturedPiece);
-                        else
-                            Piece.Black_CapturedPieces.Add(capturedPiece);
+                        return false;
                     }
-
-                    //set selected tiles to have the newly moved piece
-                    newTile.Piece = oldTile.Piece;
-
-                    //MessageBox.Show(newTile.CurrentPiece.CurrentTile.ToString());
-                    newTile.Piece.CurrentTile = newTile;
-                    //update new tile
-                    newTile.BackgroundImage = oldTile.BackgroundImage;
-                    oldTile.BackgroundImage = null;
-
-                    // push move into stack
-                    MoveStack.Push(new Tuple<Piece, Tile, Tile>(newTile.Piece, oldTile, newTile));
-
-                    //remove oldtile (set images and child piece of tile to null)
-                    oldTile.DiscardPosition();
-
-                    // set bool
-                    newTile.Piece.CompletedFirstMove = true;
-
-                    // check if recently moved piece is checking a king
-                    newTile.Piece.GetValidMoves(this, newTile);
-
-                    // check if moved piece is checking the opposite king
-                    CheckIfInCheck(newTile);
-
-                    // hide indicators
-                    foreach (Tile tile in _tiles)
+                    else
                     {
-                        tile.IsAValidSpace = false;
-                        tile.Image = null;
+                        // if opposite color, capture the piece
+                        MovePiece(from, to);
+                        return true;
                     }
-
-                    // store latest move as string 
-                    _latestMove = $"{newTile.Piece} moved from " +
-                                $"{oldTile.X}, {oldTile.Y} " +
-                                $"to {newTile.X}, {newTile.Y}";
-
-                    // switch turn after a move
-                    Game.SwapTurn();
-
-                    //send delegate to side panel
-                    OnPieceMoved.Invoke();
+                }
+                else
+                {
+                    // if no piece on tile, move the piece
+                    MovePiece(from, to);
+                    return true;
                 }
             }
+
+            return false;
         }
-        #endregion
-        #region show moves method
-        //public void ShowMovesOfSelectedTile(Tile selTile)
-        //{
-        //    if (selTile.CurrPiece != null)
-        //    {
-        //        // generate moves on click
-        //        selTile.CurrPiece.GetValidMoves(this, selTile);
 
-        //        //only show moves if it is the players turn
-
-        //        if ((int)selTile.CurrPiece.CurrPlayer == (int)Game.Turn)
-        //        {
-        //            // get list of moves for selected tile
-        //            List<Tile> currentTilesMoves = selTile.CurrPiece != null ?
-        //            selTile.CurrPiece.CurrentValidMoves : new List<Tile>();
-
-        //            //clear valid move indicators on all tiles
-        //            foreach (Tile tile in _tiles)
-        //            {
-        //                //tile.IsAValidSpace = false;
-        //                //tile.Image = null;
-        //            }
-
-        //            foreach (Tile tile in currentTilesMoves)
-        //            {
-        //                //tile.IsAValidSpace = true;
-
-        //            }
-        //        }
-        //    }
-        //}
-        #endregion
-        
-        #region Add tiles to board method
-        public void AddTiles()
+        // create a method to move a piece
+        public void MovePiece(Tile from, Tile to)
         {
-            //int locX = 0;
-            //int locY = 0;
-            //Color tileColor;
-            //bool colorToggle = true;
-
-            //for (int i = 0; i < 8; i++) // column Y
-            //{
-            //    colorToggle = !colorToggle;
-            //    for (int j = 0; j < 8; j++) // row X
-            //    {
-            //        tileColor = colorToggle ?
-            //            GameManager.ColorPackages[ColorPack].Item1 :
-            //            GameManager.ColorPackages[ColorPack].Item2;
-
-            //        Tile tile = new Tile(this, tileSize, new Point(locX, locY), j, i, tileColor);
-
-            //        Tiles[i, j] = tile;
-
-            //        locX += tileSize.Width;
-            //        colorToggle = !colorToggle;
-            //        this.Controls.Add(tile);
-            //    }
-            //    locX = 0; // go to left side of board to iterate next row
-            //    locY += tileSize.Height; // move one row down 
-            //}
+            to.Piece = from.Piece;
+            from.Piece = null;
         }
-        #endregion
-        #region ResetBoard
+
+        private void CapturePiece(Piece piece)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdatePieces()
+        {
+            var tasks = new List<Task>();
+
+            foreach (Tile tile in _tiles)
+            {
+                if (tile.Piece != null)
+                tasks.Add(Task.Run(() => tile.Piece.GetValidMoves(this, tile)));
+            }
+
+            Task.WaitAll(tasks.ToArray());
+        }
+        
+        #region reset board
+
         public void ResetBoard()
         {
-            MoveStack.Clear();
-            //SidePanel.Visible = false;
-            //SidePanel.Dispose();
-            //Piece.Pieces.Clear();
-
-            //for (int i = 0; i < 8; i++)
-            //{
-            //    for (int j = 0; j < 8; j++)
-            //    {
-            //        Tiles[i, j].Location = new Point(-300, -300);
-            //        Tiles[i, j] = null;
-            //    }
-            //}
-
-            ////Contruct new board after everything is reset
-            //ParentForm.Cursor = Cursors.WaitCursor;
-            //ConstructBoard();
-            //ParentForm.Cursor = Cursors.Default;
-
-            //GC.Collect();
+            throw new NotImplementedException();
         }
+
         #endregion
 
+        // place custom piece on tile
+        public void PlacePiece<T>(int row, int col, char color) where T : Piece, new()
+        {
+            T piece = new T();
+            piece.Player = color;
+            _tiles[row, col].Piece = piece;
+        }
 
+        // place custom tile
+        public void PlaceTile<T>(int row, int col, Piece? piece = null) where T : Piece, new()
+        {
+            _tiles[row, col] = new Tile(row, col, piece);
+        }
     }
 }

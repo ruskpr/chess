@@ -35,8 +35,8 @@ namespace Core.Pieces
 
         private void UpdateSpaces(Board b, Tile t)
         {
-            int currentX = t.X; // added for readability
-            int currentY = t.Y;
+            int currentX = t.Row; // added for readability
+            int currentY = t.Column;
 
             // all spaces
             try { allSpaces[0] = b._tiles[currentY - 1, currentX - 1]; } catch { }
@@ -129,8 +129,8 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = t.X; // added for readability
-            int currentY = t.Y;
+            int currentX = t.Row; // added for readability
+            int currentY = t.Column;
 
             UpdateSpaces(b, t);
 

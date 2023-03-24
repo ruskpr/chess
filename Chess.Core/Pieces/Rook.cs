@@ -28,13 +28,13 @@
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = t.X; // added for readability
-            int currentY = t.Y;
+            int currentX = t.Row; // added for readability
+            int currentY = t.Column;
 
             if ((int)t.Piece.Player == 1)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
-                    if (t.Y != i)
+                    if (t.Column != i)
                     {
                         if (b._tiles[i, currentX].Piece != null) // if there is a piece occupying a tile...
                         {
@@ -50,7 +50,7 @@
             else if ((int)t.Piece.Player == 2)
             {
                 for (int i = currentY; i >= 0; i--) //cast movement upward
-                    if (t.Y != i)
+                    if (t.Column != i)
                     {
                         if (b._tiles[i, currentX].Piece != null) // if there is a piece occupying a tile...
                         {
@@ -71,14 +71,14 @@
         {
             List<Tile> validMoves = new List<Tile>();
 
-            int currentX = t.X;
-            int currentY = t.Y;
+            int currentX = t.Row;
+            int currentY = t.Column;
 
             if ((int)t.Piece.Player == 1)
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
-                    if (t.Y != i) // skip add the valid location on same position of selected rook
+                    if (t.Column != i) // skip add the valid location on same position of selected rook
                     {
                         if (b._tiles[i, currentX].Piece != null) // if there is a piece occupying a tile...
                         {
@@ -102,7 +102,7 @@
             {
                 for (int i = currentY; i <= 7; i++) //cast movement downward
                 {
-                    if (t.Y != i) // skip add the valid location on same position of selected rook
+                    if (t.Column != i) // skip add the valid location on same position of selected rook
                     {
                         if (b._tiles[i, currentX].Piece != null) // if there is a piece occupying a tile...
                         {
@@ -129,14 +129,14 @@
         {
             List<Tile> validMoves = new List<Tile>();
 
-            int currentX = t.X;
-            int currentY = t.Y;
+            int currentX = t.Row;
+            int currentY = t.Column;
 
             if ((int)t.Piece.Player == 1)
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
-                    if (t.X != i) // skip add the valid location on same position of selected rook
+                    if (t.Row != i) // skip add the valid location on same position of selected rook
                     {
                         if (b._tiles[currentY, i].Piece != null) // if there is a piece occupying a tile...
                         {
@@ -159,7 +159,7 @@
             {
                 for (int i = currentX; i >= 0; i--) //cast movement left
                 {
-                    if (t.X != i) // skip add the valid location on same position of selected rook
+                    if (t.Row != i) // skip add the valid location on same position of selected rook
                     {
                         if (b._tiles[currentY, i].Piece != null) // if there is a piece occupying a tile...
                         {
@@ -186,14 +186,14 @@
         {
             List<Tile> validMoves = new List<Tile>();
 
-            int currentX = t.X;
-            int currentY = t.Y;
+            int currentX = t.Row;
+            int currentY = t.Column;
 
             if ((int)t.Piece.Player == 1)
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
-                    if (t.X != i) // skip add the valid location on same position of selected rook
+                    if (t.Row != i) // skip add the valid location on same position of selected rook
                     {
                         if (b._tiles[currentY, i].Piece != null) // if there is a piece occupying a tile...
                         {
@@ -216,7 +216,7 @@
             {
                 for (int i = currentX; i <= 7; i++) //cast movement right
                 {
-                    if (t.X != i) // skip add the valid location on same position of selected rook
+                    if (t.Row != i) // skip add the valid location on same position of selected rook
                     {
                         if (b._tiles[currentY, i].Piece != null) // if there is a piece occupying a tile...
                         {

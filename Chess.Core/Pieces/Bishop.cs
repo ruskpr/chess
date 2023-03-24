@@ -32,8 +32,8 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); 
 
-            int currentX = tile.X;
-            int currentY = tile.Y;
+            int currentX = tile.Row;
+            int currentY = tile.Column;
 
             // white
             if (tile.Piece.Player == 'w')
@@ -91,8 +91,8 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = t.X; // added for readability
-            int currentY = t.Y;
+            int currentX = t.Row; // added for readability
+            int currentY = t.Column;
 
             // white
             if (t.Piece.Player == 'w')
@@ -150,8 +150,8 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = tile.X; // added for readability
-            int currentY = tile.Y;
+            int currentX = tile.Row; // added for readability
+            int currentY = tile.Column;
 
             // white
             if (tile.Piece.Player == 'w')
@@ -209,8 +209,8 @@ namespace Core.Pieces
         {
             List<Tile> validMoves = new List<Tile>(); // list that will be returned
 
-            int currentX = tile.X; // added for readability
-            int currentY = tile.Y;
+            int currentX = tile.Row; // added for readability
+            int currentY = tile.Column;
 
             // white
             if (tile.Piece.Player == 'w')
