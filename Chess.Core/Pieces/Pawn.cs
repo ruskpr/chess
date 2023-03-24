@@ -26,7 +26,6 @@ namespace Core.Pieces
             CurrentValidMoves.AddRange(GetForwardMovement(board, selTile));
             CurrentValidMoves.AddRange(GetDiagnalMovement(board, selTile));
 
-            IgnoreKing(CurrentValidMoves);
             //IgnoreFriendlies(CurrentValidMoves, (int)selTile.CurrentPiece.CurrentPlayer);
         }
 

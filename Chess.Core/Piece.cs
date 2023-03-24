@@ -36,26 +36,7 @@ namespace Core
 
         #region methods
 
-        public abstract void GetValidMoves(Board board, Tile selTile);
-
-        protected void IgnoreKing(List<Tile> validMoves)
-        {
-            //for (int i = 0; i < validMoves.Count; i++)
-            //    if (validMoves[i].CurrentPiece is King)
-            //        validMoves.RemoveAt(i);
-        }
-
-        protected void IgnoreFriendlies(List<Tile> moveList, Player currPlayer)
-        {
-            // remove move if it contains a king or friendly player
-            foreach (Tile move in moveList.ToList())
-                if (move.Piece != null)
-                    if (move.Piece is King || (int)move.Piece.Player == (int)currPlayer)
-                    {
-                        moveList.Remove(move);
-                        //MessageBox.Show($"ignored {move}");
-                    }
-        }
+        public abstract void GetValidMoves(Board board, Tile origin);
 
         #endregion
 

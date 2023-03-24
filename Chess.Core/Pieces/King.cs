@@ -9,22 +9,30 @@ namespace Core.Pieces
 {
     public class King : Piece
     {
-        #region Fields
+        #region fields
+
         private bool inCheckedState = false;
         private bool[] spacesOccupied = new bool[9];
         private Tile[] allSpaces = new Tile[9];
+
         #endregion
-        #region Properties
-        public bool InCheckedState { get { return InCheckedState; } }
+
+        #region properties
+
+        public bool InCheckedState { get { return inCheckedState; } }
+
         #endregion
-        #region Constructor
+
+        #region constructor
+
         public King(char player) : base(player)
         {
-
             //Board.OnKingChecked += ParentBoard_OnKingChecked;
             //CurrentTile.Board.OnPieceMoved += ParentBoard_PieceMoved;
         }
+
         #endregion
+
         private void UpdateSpaces(Board b, Tile t)
         {
             int currentX = t.X; // added for readability
@@ -113,7 +121,6 @@ namespace Core.Pieces
             CurrentValidMoves.Clear();
 
             CurrentValidMoves.AddRange(OneInEachDirection(board, selectedTile));
-            IgnoreKing(CurrentValidMoves); // inherited
 
             IgnoreOccupiedSpaces(CurrentValidMoves); // ignore all spaces where a piece sits
             IgnoreEnemyMoves(CurrentValidMoves);
@@ -151,12 +158,14 @@ namespace Core.Pieces
         }
         private void IgnoreEnemyMoves(List<Tile> validMoves)
         {
-
+            throw new NotImplementedException();
         }
+
         #endregion
         private void Checkmate()
         {
-            MessageBox.Show("Checkmate!");
+            throw new NotImplementedException();
+
         }
     }
 }

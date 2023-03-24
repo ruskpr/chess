@@ -18,7 +18,6 @@
             CurrentValidMoves.AddRange(CastBackwardMovement(board, selectedTile));
             CurrentValidMoves.AddRange(CastLeftMovement(board, selectedTile));
             CurrentValidMoves.AddRange(CastRightMovement(board, selectedTile));
-            IgnoreKing(CurrentValidMoves);
         }
 
         #endregion
