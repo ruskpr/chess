@@ -40,11 +40,13 @@ namespace Core
             {
 
             }
-
-
         }
 
-        #region Check if in king is in check method
+        public void SwapTurn()
+        {
+            Turn = Turn == 'w' ? 'b' : 'w';
+        }
+
         public void CheckIfInCheck(Tile mostRecentTile)
         {
             foreach (Tile move in mostRecentTile.CurrPiece.CurrentValidMoves)
@@ -58,26 +60,14 @@ namespace Core
                 }
             }
         }
-        #endregion
+
         #endregion
 
         #region private
 
         #endregion
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 22be03fa860f392607ab738d18f9b94561fa38d2
-        public void SwapTurn()
-        {
-            Turn = Turn == 'w' ? 'b' : 'w'; 
-        }
-<<<<<<< HEAD
-=======
-        public void SwapTurn() { Turn == 'w' ? 'b': 'w'' )
->>>>>>> e0048de05e6e63652aff5129a70df4c0ececcff6
-=======
->>>>>>> 22be03fa860f392607ab738d18f9b94561fa38d2
+        
+
     }
 }
