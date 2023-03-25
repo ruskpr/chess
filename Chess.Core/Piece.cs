@@ -1,6 +1,4 @@
-﻿using Core.Pieces;
-
-namespace Core
+﻿namespace Chess.Core
 {
     public abstract class Piece : IPiece
     {

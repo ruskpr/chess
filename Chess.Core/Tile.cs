@@ -1,10 +1,4 @@
-﻿using Core.Pieces;
-using static System.Net.Mime.MediaTypeNames;
-using System.Drawing;
-using System.IO;
-using System.Data.Common;
-
-namespace Core
+﻿namespace Chess.Core
 {
     public class Tile
     {

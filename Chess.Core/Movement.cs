@@ -1,6 +1,4 @@
-﻿using Core;
-
-namespace Chess.Core
+﻿namespace Chess.Core
 {
     internal class Movement
     {

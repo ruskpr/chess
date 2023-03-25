@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Chess.Core
 {
     public enum PlayerType
     {

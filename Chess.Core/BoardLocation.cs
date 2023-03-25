@@ -1,4 +1,4 @@
-﻿namespace Core
+﻿namespace Chess.Core
 {
     public class BoardLocation
     {

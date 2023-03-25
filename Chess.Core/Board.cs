@@ -1,6 +1,6 @@
-﻿using Core.Pieces;
+﻿using Chess.Core.Pieces;
 
-namespace Core
+namespace Chess.Core
 {
     public class Board
     {

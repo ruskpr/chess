@@ -1,12 +1,4 @@
-﻿using Chess.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-//using static ChessGame.Piece;
-
-namespace Core.Pieces
+﻿namespace Chess.Core.Pieces
 {
     public class King : Piece
     {

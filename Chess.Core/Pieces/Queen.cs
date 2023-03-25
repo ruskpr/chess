@@ -1,6 +1,5 @@
-﻿using Chess.Core;
-
-namespace Core.Pieces
+﻿
+namespace Chess.Core.Pieces
 {
     public class Queen : Piece
     {
