@@ -4,7 +4,16 @@ namespace Core.Pieces
 {
     public class Queen : Piece
     {
-        public Queen(char player) : base(player) { }
+
+        public Queen() : base()
+        {
+            _symbol = 'q';
+        }
+
+        public Queen(char player, int row, int col) : base(player, row, col)
+        {
+            _symbol = 'q';
+        }
 
         private readonly static int[][] MoveTemplates = new int[][]
         {

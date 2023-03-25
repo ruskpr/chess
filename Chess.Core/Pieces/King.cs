@@ -26,10 +26,13 @@ namespace Core.Pieces
 
         public King() : base()
         {
-
+            _symbol = 'k';
         }
 
-        public King(char player) : base(player) { }
+        public King(char player, int row, int col) : base(player, row, col)
+        {
+            _symbol = 'k';
+        }
 
         #endregion
 

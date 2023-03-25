@@ -18,7 +18,6 @@ namespace Core
 
         #endregion
 
-
         #region constructors
 
         // default
@@ -30,7 +29,7 @@ namespace Core
         }
 
         // with piece
-        public Tile(int row, int col, IPiece piece)
+        public Tile(int row, int col, IPiece? piece)
         {
             Row = row;
             Column = col;

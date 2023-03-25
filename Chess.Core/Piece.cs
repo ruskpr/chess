@@ -6,46 +6,57 @@ namespace Core
     {
         #region fields
 
-        public static List<Piece> Pieces = new List<Piece>();
-        public static List<Piece> White_CapturedPieces = new List<Piece>();
-        public static List<Piece> Black_CapturedPieces = new List<Piece>();
-        private bool disposed;
+        protected BoardLocation _currentLocation;
+        protected char _symbol;
 
         #endregion
 
         #region properties
 
-        public char Player { get; set; }
-        //public Tile? CurrentTile { get; set; }
+        public char Color { get; set; }
+
+        public char Symbol
+        {
+            get
+            {
+                if (Color == 'b')
+                {
+                    return Char.ToUpper(_symbol);
+                }
+                else
+                {
+                    return Char.ToLower(_symbol);
+                }
+            }
+
+            protected set { _symbol = value; }
+        }
+
+
         public List<Tile> CurrentValidMoves { get; set; } = new List<Tile>();
 
         #endregion
 
-        private BoardLocation _currentLocation;
         public BoardLocation CurrentLocation
         {
             get => _currentLocation;
             set => _currentLocation = value ?? throw new ArgumentNullException();
         }
 
+
         public abstract IList<Tile> GetValidMoves(Board board);
 
-        IList<Tile> IPiece.GetValidMoves(Board board)
-        {
-            throw new NotImplementedException();
-        }
 
 
         public Piece() { }
 
-        public Piece(char player)
+        public Piece(char player, int row, int col)
         {
-            if (player != 'w' || player != 'b')
+            if (player != 'w' && player != 'b')
                 throw new ArgumentException("Player must be either 'w' or 'b' (white or black");
 
-            Player = player;
-            //CurrentTile = tile;
-            //Pieces.Add(this);
+            Color = player;
+            _currentLocation = new BoardLocation(row, col);
         }
 
     }

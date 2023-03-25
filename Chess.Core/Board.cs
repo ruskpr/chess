@@ -81,38 +81,38 @@ namespace Core
                 for (int j = 0; j < 8; j++)
                 {
                     if (i == 1)
-                        _tiles[i, j].Piece = new Pawn('b'); // adds 8 player black pawns to 2nd row
+                        _tiles[i, j].Piece = new Pawn('b', i, j); // adds 8 player black pawns to 2nd row
                     if (i == 6)
-                        _tiles[i, j].Piece = new Pawn('w'); // adds 8 white pawns to 7th row
+                        _tiles[i, j].Piece = new Pawn('w', i, j); // adds 8 white pawns to 7th row
 
                     // player 1's backrow
                     if (i == 7)
                     {
                         if (j == 0 || j == 7)
-                            _tiles[i, j].Piece = new Rook('w'); // adds both white rooks
+                            _tiles[i, j].Piece = new Rook('w', i, j); // adds both white rooks
                         if (j == 1 || j == 6)
-                            _tiles[i, j].Piece = new Knight('w'); // adds both white knights
+                            _tiles[i, j].Piece = new Knight('w', i, j); // adds both white knights
                         if (j == 2 || j == 5)
-                            _tiles[i, j].Piece = new Bishop('w'); // adds both white bishops
+                            _tiles[i, j].Piece = new Bishop('w', i, j); // adds both white bishops
                         if (j == 3)
-                            _tiles[i, j].Piece = new Queen('w'); // adds white queen
+                            _tiles[i, j].Piece = new Queen('w', i, j); // adds white queen
                         if (j == 4)
-                            _tiles[i, j].Piece = new King('w'); // adds white king
+                            _tiles[i, j].Piece = new King('w', i, j); // adds white king
                     }
 
                     // player 2's backrow
                     if (i == 0)
                     {
                         if (j == 0 || j == 7)
-                            _tiles[i, j].Piece = new Rook('b'); // adds both black rooks
+                            _tiles[i, j].Piece = new Rook('b', i, j); // adds both black rooks
                         if (j == 1 || j == 6)
-                            _tiles[i, j].Piece = new Knight('b'); // adds both black knights
+                            _tiles[i, j].Piece = new Knight('b', i, j); // adds both black knights
                         if (j == 2 || j == 5)
-                            _tiles[i, j].Piece = new Bishop('b'); // adds both black bishops
+                            _tiles[i, j].Piece = new Bishop('b', i, j); // adds both black bishops
                         if (j == 3)
-                            _tiles[i, j].Piece = new Queen('b'); // adds black queen
+                            _tiles[i, j].Piece = new Queen('b', i, j); // adds black queen
                         if (j == 4)
-                            _tiles[i, j].Piece = new King('b'); // adds black king
+                            _tiles[i, j].Piece = new King('b', i, j); // adds black king
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace Core
                 if (to.Piece != null)
                 {
                     // check if the piece is the same color
-                    if (to.Piece.Player == from.Piece.Player)
+                    if (to.Piece.Color == from.Piece.Color)
                     {
                         return false;
                     }
@@ -185,11 +185,14 @@ namespace Core
         #endregion
 
         // place custom piece on tile
-        public void AddPiece<T>(int row, int col, char color) where T : Piece, new()
+        public Piece AddPiece<T>(int row, int col, char color) where T : Piece, new()
         {
             T piece = new T();
-            piece.Player = color;
+            piece.CurrentLocation = new BoardLocation(row, col);
+            piece.GetValidMoves(this);
+            piece.Color = color;
             _tiles[row, col].Piece = piece;
+            return piece;
         }
 
         public IPiece? GetPiece(int row, int col)
@@ -198,7 +201,7 @@ namespace Core
         }
 
         // place custom tile
-        public void PlaceTile<T>(int row, int col, Piece? piece = null) where T : Piece, new()
+        public void PlaceTile(int row, int col, Piece? piece = null)
         {
             _tiles[row, col] = new Tile(row, col, piece);
         }

@@ -2,9 +2,11 @@
 {
     public interface IPiece
     {
-        char Player { get; set; }
+        char Color { get; set; }
 
         BoardLocation CurrentLocation { get; set; }
+
+        char Symbol { get; }
 
         IList<Tile> GetValidMoves(Board board);
     }

@@ -9,11 +9,16 @@ namespace Core.Pieces
 {
     public class Knight : Piece
     {
-        #region constructor
 
-        public Knight(char player) : base(player) { }
+        public Knight() : base()
+        {
+            _symbol = 'n';
+        }
 
-        #endregion
+        public Knight(char player, int row, int col) : base(player, row, col)
+        {
+            _symbol = 'n';
+        }
 
         private readonly static int[][] MoveTemplates = new int[][]
         {

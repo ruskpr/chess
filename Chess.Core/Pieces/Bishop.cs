@@ -9,7 +9,15 @@ namespace Core.Pieces
 {
     public class Bishop : Piece
     {
-        public Bishop(char player) : base(player) { }
+        public Bishop() : base()
+        {
+            _symbol = 'b';
+        }
+
+        public Bishop(char player, int row, int col) : base(player, row, col)
+        {
+            _symbol = 'b';
+        }
 
         private readonly static int[][] MoveTemplates = new int[][]
         {

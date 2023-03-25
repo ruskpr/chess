@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Core", "Chess.Core\Ch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chess.Tests", "Chess.Tests\Chess.Tests.csproj", "{AEDB1E5F-EB0C-4371-9E92-C8E270C56E64}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{E86C8853-7A9F-4606-B362-DD2CBA19075C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Winforms", "Winforms", "{E86C8853-7A9F-4606-B362-DD2CBA19075C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessLibrary", "Winforms\ChessLibrary\ChessLibrary.csproj", "{C77E2476-2340-456E-B422-EDCF053ECC4F}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessGame", "Winforms\Chess
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CLI", "CLI", "{F4C2E530-E04F-49A9-A73D-D8C40DEE4B1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessConsoleApp", "CLI\ChessConsoleApp\ChessConsoleApp.csproj", "{17402407-827C-461B-A57E-0D8B14D125D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessConsoleApp", "CLI\ChessConsoleApp\ChessConsoleApp.csproj", "{17402407-827C-461B-A57E-0D8B14D125D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

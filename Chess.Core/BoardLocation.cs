@@ -14,14 +14,14 @@
 
         public BoardLocation(int row, int col)
         {
-            if (!IsInRange(row))
-            {
-                throw new ArgumentOutOfRangeException("row");
-            }
-            if (!IsInRange(col))
-            {
-                throw new ArgumentOutOfRangeException("col");
-            }
+            //if (!IsInRange(row))
+            //{
+            //    throw new ArgumentOutOfRangeException("row");
+            //}
+            //if (!IsInRange(col))
+            //{
+            //    throw new ArgumentOutOfRangeException("col");
+            //}
 
             Row = row;
             Column = col;

@@ -10,12 +10,20 @@ namespace Core.Pieces
 {
     public class Pawn : Piece
     {
-        public Pawn(char player ) : base(player) { }
+        public Pawn() : base()
+        {
+            _symbol = 'p';
+        }
+
+        public Pawn(char player, int row, int col) : base(player, row, col)
+        {
+            _symbol = 'p';
+        }
 
         private int GetDirection()
         {
             // white goes up, black goes down
-            return Player == 'w' ? 1 : -1;
+            return Color == 'w' ? 1 : -1;
         }
 
         private bool CompletedFirstMove()
