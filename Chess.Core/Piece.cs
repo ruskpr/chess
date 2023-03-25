@@ -30,9 +30,6 @@
             protected set { _symbol = value; }
         }
 
-
-        public List<Tile> CurrentValidMoves { get; set; } = new List<Tile>();
-
         #endregion
 
         public BoardLocation CurrentLocation

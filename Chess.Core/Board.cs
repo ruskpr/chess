@@ -119,47 +119,29 @@ namespace Chess.Core
         }
 
         // will return false until a valid move is made
-        public bool TryMakeMove(Tile from, Tile to)
+        public bool TryMakeMove(Tile? from, Tile? to)
         {
+            // if there is no piece on the tile, return false
+            if (from.Piece is null) return false;
+
+
+            var moves = from.Piece.GetValidMoves(this);
             // check if the move is valid
-            if (from.Piece.GetValidMoves(this).Contains(to))
+            if (Movement.MoveContains(this, from, to))
             {
-                // check if the move is a capture
-                if (to.Piece != null)
-                {
-                    // check if the piece is the same color
-                    if (to.Piece.Color == from.Piece.Color)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        // if opposite color, capture the piece
-                        MovePiece(from, to);
-                        return true;
-                    }
-                }
-                else
-                {
-                    // if no piece on tile, move the piece
-                    MovePiece(from, to);
-                    return true;
-                }
+                MovePiece(from, to);
+                return true;
             }
 
             return false;
         }
 
-        // create a method to move a piece
-        public void MovePiece(Tile from, Tile to)
+        private void MovePiece(Tile from, Tile to)
         {
             to.Piece = from.Piece;
-            from.Piece = null;
-        }
+            to.Piece.CurrentLocation = new BoardLocation(to.Row, to.Column);
 
-        private void CapturePiece(Piece piece)
-        {
-            throw new NotImplementedException();
+            from.Piece = null;
         }
 
         public void UpdatePieces()

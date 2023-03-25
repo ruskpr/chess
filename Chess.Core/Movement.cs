@@ -45,5 +45,19 @@
             return ret;
         }
 
+        internal static bool MoveContains(Board board, Tile from, Tile to)
+        {
+            if (board == null) throw new ArgumentNullException("board");
+            if (from == null) throw new ArgumentNullException("from");
+            if (to == null) throw new ArgumentNullException("to");
+
+            var piece = board.GetPiece(from.Row, from.Column);
+            if (piece == null) return false;
+            var moves = piece.GetValidMoves(board);
+
+            return moves.Any(m => m.Row == to.Row && m.Column == to.Column);
+
+        }
+
     }
 }

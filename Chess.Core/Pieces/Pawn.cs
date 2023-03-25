@@ -15,7 +15,7 @@
         private int GetDirection()
         {
             // white goes up, black goes down
-            return Color == 'w' ? 1 : -1;
+            return Color == 'w' ? -1 : 1;
         }
 
         private bool CompletedFirstMove()
@@ -28,7 +28,7 @@
         {
             var templates = new List<int[]>();
             // add the forward move
-            templates.Add(new[] { GetDirection(), 0 });
+            templates.Add(new[] { 0, GetDirection() });
             // add the double forward move
             if (!CompletedFirstMove())
             {

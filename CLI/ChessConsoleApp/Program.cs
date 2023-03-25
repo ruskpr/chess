@@ -1,21 +1,40 @@
 ﻿using Chess.Core;
+using Chess.Core.Pieces;
 
 internal class Program
 {
     private static void Main()
     {
-        var board = new Board(8, true);
+        var board = new Board(8, false);
+        var king = board.AddPiece<King>(3, 3, 'b');
 
-        DrawBoard(board);
+        //var moves = king.GetValidMoves(board);
+
+        //var from = board.GetTile(0, 3);
+        //var to = board.GetTile(1, 3);
+        //board.TryMakeMove(from, to);
+        //DrawBoard(board);
+        //Console.ReadLine();
 
         // take user input to make a move
         while (true)
         {
+
+            DrawBoard(board);
             Console.WriteLine("Enter the piece you want to move");
             var selectedPieceInput = Console.ReadLine();
             int fromRow = Convert.ToInt32(selectedPieceInput[0].ToString());
             int fromCol = Convert.ToInt32(selectedPieceInput[1].ToString());
             var pieceToMove = board.GetPiece(fromRow, fromCol);
+
+            if (pieceToMove == null)
+            {
+                Console.WriteLine("Invalid piece");
+                continue;
+            }
+
+            DrawBoard(board, pieceToMove.GetValidMoves(board));
+
             Console.WriteLine($"Selected: {pieceToMove.Color} {pieceToMove.Symbol}");
             Console.WriteLine("Enter the tile you want to move to, type x to cancel");
             string tileInput = Console.ReadLine();
@@ -25,19 +44,13 @@ internal class Program
 
             var tileToMoveTo = board.GetTile(toRow, toCol);
 
-            Console.Clear();
-
-            if (pieceToMove == null)
-            {
-                Console.WriteLine("Invalid piece");
-                continue;
-            }
             if (tileToMoveTo == null)
             {
                 Console.WriteLine("Invalid tile");
                 continue;
             }
 
+            // try to make the move
             if (board.TryMakeMove(board.GetTile(pieceToMove), tileToMoveTo))
             {
                 DrawBoard(board);
@@ -48,13 +61,11 @@ internal class Program
                 Console.WriteLine("Invalid move");
             }
 
-            DrawBoard(board);
-
         }
 
     }
 
-    private static void DrawBoard(Board board)
+    private static void DrawBoard(Board board, IList<Tile>? moves = null)
     {
         // draw the chess board
         for (int i = 0; i < board.Size; i++)
@@ -63,6 +74,16 @@ internal class Program
 
             for (int j = 0; j < board.Size; j++)
             {
+                // draw the move
+                if (moves != null)
+                {
+                    if (moves.Contains(board.GetTile(i, j)))
+                    {
+                        Console.Write("| X ");
+                        continue;
+                    }
+                }   
+
 
                 var tile = board.Tiles[i, j];
                 if (tile.Piece != null)
