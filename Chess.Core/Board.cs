@@ -197,7 +197,7 @@ namespace Chess.Core
 
         public IPiece? GetPiece(int row, int col)
         {
-            return _tiles[row, col].Piece;
+            return _tiles[row, col].Piece ?? null;
         }
 
         // place custom tile
@@ -206,6 +206,27 @@ namespace Chess.Core
             _tiles[row, col] = new Tile(row, col, piece);
         }
 
-        
+        // create a method to get tile
+        public Tile? GetTile(int row, int col)
+        {
+            try
+            {
+                return _tiles[row, col];
+            }
+            catch { return null; }
+        }
+
+        // get tile by piece
+        public Tile? GetTile(IPiece piece)
+        {
+            foreach (Tile tile in _tiles)
+            {
+                if (tile.Piece == piece)
+                    return tile;
+            }
+            return null;
+        }
+
+
     }
 }

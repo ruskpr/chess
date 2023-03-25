@@ -1,5 +1,4 @@
 ﻿using Chess.Core;
-using Core;
 
 internal class Program
 {
