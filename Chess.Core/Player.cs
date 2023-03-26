@@ -16,18 +16,12 @@
 
         public Player(string name, char color, PlayerType type)
         {
-            if (color != 'w' || color != 'b')
+            if (color != 'w' && color != 'b')
                 throw new ArgumentException("Player must be either 'w' or 'b' (white or black");
 
             Name = name;
             Color = color;
             Type = type;
-        }
-
-        public void MovePiece(Tile from, Tile to)
-        {
-            to.Piece = from.Piece;
-            from.Piece = null;
         }
     }
 }

@@ -6,10 +6,10 @@
         {
             location = null;
             var newRow = current.Row + deltaRow;
-            if ((newRow <= 0) || (newRow > board.Size)) return false;
+            if ((newRow < 0) || (newRow > board.Size)) return false;
 
             var newCol = current.Column + deltaCol;
-            if ((newCol <= 0) || (newCol > board.Size)) return false;
+            if ((newCol < 0) || (newCol > board.Size)) return false;
 
             location = new BoardLocation(newRow, newCol);
             return true;

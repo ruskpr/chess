@@ -7,8 +7,8 @@ namespace Chess.Core
         #region delegates / events
 
         //event is called on main form constructor
-        public delegate void PieceMovedDelegate();
-        public event PieceMovedDelegate? OnPieceMoved;
+        //public delegate void PieceMovedDelegate();
+        //public event PieceMovedDelegate? OnPieceMoved;
 
         public delegate void OnKingCheckedDelegate(King kingThatIsChecked);
         public static event OnKingCheckedDelegate? OnKingChecked;
@@ -19,7 +19,7 @@ namespace Chess.Core
 
         const int DEFAULT_SIZE = 8;
 
-        private Tile[,] _tiles = new Tile[8, 8];
+        private Tile[,] _tiles;
         public Stack<Tuple<Piece, Tile, Tile>> MoveStack = new Stack<Tuple<Piece, Tile, Tile>>();
         private string _latestMove = "";
 
@@ -33,18 +33,15 @@ namespace Chess.Core
         public List<Piece> WhiteCapturedPieces { get; set; } = new List<Piece>();
         public List<Piece> BlackCapturedPieces { get; set; } = new List<Piece>();
 
+
         #endregion
 
         #region constructor
 
         // default constructor
-        public Board()
-        {
-                      
-        }
-
         public Board(int size, bool addDefaultPieces)
         {
+            _tiles = new Tile[size, size];
             Size = size;
             CreateTiles(size, size);
 
@@ -125,11 +122,25 @@ namespace Chess.Core
             if (from.Piece is null) return false;
 
 
-            var moves = from.Piece.GetValidMoves(this);
+            from.Piece.GetValidMoves(this);
+
             // check if the move is valid
             if (Movement.MoveContains(this, from, to))
             {
+                // return false if tiles are the same color
+                if (from.Piece.Color == to.Piece?.Color) return false;
+                // return false if the target piece is a king
+                if (to.Piece is King) return false;
+
+                char oppositeColor = from.Piece.Color == 'w' ? 'b' : 'w';
+
                 MovePiece(from, to);
+                King? king = null;
+                if (IsKingInCheck(oppositeColor, out king))
+                {
+                    OnKingChecked?.Invoke(king);
+                }
+
                 return true;
             }
 
@@ -142,6 +153,54 @@ namespace Chess.Core
             to.Piece.CurrentLocation = new BoardLocation(to.Row, to.Column);
 
             from.Piece = null;
+        }
+
+        // create a method to check if the king is in check
+        public bool IsKingInCheck(char color, out King king)
+        {
+
+            // loop through each tile on the board
+            foreach (Tile tile in _tiles)
+            {
+                // if the tile has a piece on it
+                if (tile.Piece != null)
+                {
+                    // if the piece is a king
+                    if (tile.Piece is King)
+                    {
+                        // if the king is the same color as the color passed in
+                        if (tile.Piece.Color == color)
+                        {
+                            // get the valid moves for the king
+                            tile.Piece.GetValidMoves(this);
+                            // loop through each tile on the board
+                            foreach (Tile tile2 in _tiles)
+                            {
+                                // if the tile has a piece on it
+                                if (tile2.Piece != null)
+                                {
+                                    // if the piece is not the same color as the king
+                                    if (tile2.Piece.Color != color)
+                                    {
+                                        // if the king is in the list of valid moves for the piece
+                                        // Movement.MoveContains(this, from, to)
+                                        var moves = tile2.Piece.GetValidMoves(this);
+                                        if (Movement.MoveContains(this, tile2, tile))
+                                        {
+                                            // return true
+                                            king = (King)tile.Piece;
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // return false if the king is not in check
+            king = null;
+            return false;
         }
 
         public void UpdatePieces()
@@ -169,6 +228,9 @@ namespace Chess.Core
         // place custom piece on tile
         public Piece AddPiece<T>(int row, int col, char color) where T : Piece, new()
         {
+            if (row >= Size || col >= Size)
+                throw new IndexOutOfRangeException("Row or column is out of range.");
+
             T piece = new T();
             piece.CurrentLocation = new BoardLocation(row, col);
             piece.GetValidMoves(this);
@@ -199,7 +261,7 @@ namespace Chess.Core
         }
 
         // get tile by piece
-        public Tile? GetTile(IPiece piece)
+        public Tile? GetTileByPiece(IPiece piece)
         {
             foreach (Tile tile in _tiles)
             {

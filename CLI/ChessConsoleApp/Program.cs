@@ -51,7 +51,7 @@ internal class Program
             }
 
             // try to make the move
-            if (board.TryMakeMove(board.GetTile(pieceToMove), tileToMoveTo))
+            if (board.TryMakeMove(board.GetTileByPiece(pieceToMove), tileToMoveTo))
             {
                 DrawBoard(board);
                 continue;

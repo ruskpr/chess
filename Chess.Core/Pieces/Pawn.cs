@@ -24,37 +24,53 @@
             return true;
         }
 
-        private int[][] GetTemplates()
+        private int[][] GetTemplates(Board board)
         {
             var templates = new List<int[]>();
+
             // add the forward move
-            templates.Add(new[] { 0, GetDirection() });
+            templates.Add(new[] { GetDirection(), 0 });
+
             // add the double forward move
             if (!CompletedFirstMove())
             {
                 templates.Add(new[] { GetDirection() * 2, 0 });
             }
-            // add the diagonal moves
-            templates.Add(new[] { GetDirection(), -1 });
-            templates.Add(new[] { GetDirection(), 1 });
-            return templates.ToArray();
-        }
 
-        private int GetRange()
-        {
-            if (CompletedFirstMove())
+            // check if diagnal moves have a piece to capture
+            var currentPawn = board.GetTileByPiece(this);
+            var left = board.GetTile(currentPawn.Row + GetDirection(), currentPawn.Column - 1);
+            var right = board.GetTile(currentPawn.Row + GetDirection(), currentPawn.Column + 1);
+
+            if (right != null)
+                if (right.Piece != null && right.Piece.Color != Color)
+                    templates.Add(new[] { GetDirection(), 1 });
+
+            if (left != null)
+                if (left.Piece != null && left.Piece.Color != Color)
+                    templates.Add(new[] { GetDirection(), -1 });
+
+            //
+
+
+
+            // TODO: check if current pawn is in the en passant position
+            if (currentPawn.Column == 4)
             {
-                return 1;
+                var leftEnPassant = board.GetTile(currentPawn.Row, currentPawn.Column - 1);
+                if (leftEnPassant != null)
+                    if (leftEnPassant.Piece != null && leftEnPassant.Piece.Color != Color)
+                        templates.Add(new[] { GetDirection(), -1 });
             }
-
-            return 2;
+                        
+            return templates.ToArray();
         }
 
         public override IList<Tile> GetValidMoves(Board board)
         {
             // check to see row of current piece on board
 
-            return Movement.GetMoves(board, this, GetRange(), GetTemplates());
+            return Movement.GetMoves(board, this, 1, GetTemplates(board));
         }
     }
 }
