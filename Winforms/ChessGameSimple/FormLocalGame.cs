@@ -1,5 +1,6 @@
 using Chess.Core;
 using Chess.Core.Pieces;
+using System.Resources;
 
 namespace ChessGameSimple
 {
@@ -12,7 +13,9 @@ namespace ChessGameSimple
         static Color Color1 = Color.Gainsboro;
         static Color Color2 = Color.Gray;
 
+        ResourceManager rm = new ResourceManager("ChessGameSimple.Resources", typeof(Resources).Assembly);
 
+        
         int gap = 20;
         int tileSize = 80;
 
@@ -20,7 +23,6 @@ namespace ChessGameSimple
 
         private Button[,] _buttonArray = new Button[BOARDSIZE, BOARDSIZE];
 
-        private Button? btnPrev = null;
         public FormLocalGame()
         {
             InitializeComponent();
@@ -31,7 +33,7 @@ namespace ChessGameSimple
             _game = new Game(_board,
                 new Player("White", 'w', PlayerType.LocalPlayer),
                 new Player("Black", 'b', PlayerType.LocalPlayer));
-
+            
             CreateTiles();
             DrawSymbols();
         }
@@ -95,6 +97,7 @@ namespace ChessGameSimple
             {
                 for (int col = 0; col < _board.Size; col++)
                 {
+                    
                 }
             }
         }
@@ -111,7 +114,7 @@ namespace ChessGameSimple
                         _buttonArray[row, col].Text = "";
                         continue;
                     }
-
+                    _buttonArray[row, col].Image = (Image)rm.GetObject("BlackBishop");
                     _buttonArray[row, col].Text = _board.Tiles[row, col].Piece.Symbol.ToString();
                 }
             }
