@@ -123,6 +123,26 @@ namespace ChessGameSimple {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ValidCapture {
+            get {
+                object obj = ResourceManager.GetObject("ValidCapture", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ValidSpace {
+            get {
+                object obj = ResourceManager.GetObject("ValidSpace", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap WhiteBishop {
             get {
                 object obj = ResourceManager.GetObject("WhiteBishop", resourceCulture);
@@ -153,9 +173,9 @@ namespace ChessGameSimple {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap whitePawn {
+        internal static System.Drawing.Bitmap WhitePawn {
             get {
-                object obj = ResourceManager.GetObject("whitePawn", resourceCulture);
+                object obj = ResourceManager.GetObject("WhitePawn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

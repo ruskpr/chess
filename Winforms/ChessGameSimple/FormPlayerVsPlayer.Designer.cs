@@ -1,6 +1,6 @@
 ﻿namespace ChessGameSimple
 {
-    partial class FormLocalGame
+    partial class FormPlayerVsPlayer
     {
         /// <summary>
         ///  Required designer variable.
