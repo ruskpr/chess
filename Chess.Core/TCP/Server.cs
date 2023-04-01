@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -68,10 +69,43 @@ namespace Chess.Core.TCP
 
         public async Task HandleClient(TcpClient client)
         {
-            if (_listener.Pending())
+            try
             {
-                client = _listener.AcceptTcpClient();
-                _clients.Add(client);
+                NetworkStream stream = client.GetStream();
+
+                // make buffer
+                byte[] buffer = new byte[4096];
+                int bytesRead = 0;
+                while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+                {
+                    string message = Encoding.UTF8.GetString(buffer);
+                    var packet = JsonConvert.DeserializeObject<Packet>(message);
+
+                    
+                    switch (packet.MessageType)
+                    {
+                        case MessageType.ServerDisconnected:
+                            _running = false;
+                            break;
+                        default:
+                            OnPacketRecieved?.Invoke(packet);
+                            break;
+
+                    }
+                    
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string payload = $"Client disconnected from {client.Client.RemoteEndPoint} :: {ex.Message}";
+                Packet packet = new Packet(payload, MessageType.ClientDisconnected);
+                // close connection
+                client.GetStream().Close();
+                client.Close();
+                _clients.Remove(client);
+                OnPacketRecieved?.Invoke(packet);
+
             }
         }
 

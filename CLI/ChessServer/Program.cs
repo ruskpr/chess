@@ -9,9 +9,7 @@ namespace ChessServer
             Server server = new Server(30000);
             server.OnPacketRecieved += Server_OnPacketRecieved;
 
-            Task.Run(() => server.Start()); 
-            
-            Console.ReadLine();
+            Task.Run(() => server.Start()).Wait();    
         }
 
         private static void Server_OnPacketRecieved(Packet packet)
