@@ -21,7 +21,7 @@ namespace ChessGameSimple
 
         private Button[,] _buttonArray = new Button[BOARDSIZE, BOARDSIZE];
         private Board _board;
-        private Game _game;
+        //private Game _game;
         private Player _white;
         private Player _black;
 
@@ -31,20 +31,21 @@ namespace ChessGameSimple
             this.StartPosition = FormStartPosition.CenterScreen;
             this.MinimumSize = this.Size;
 
-            _white = new Player("White", 'w', PlayerType.AI);
-            _black = new Player("Black", 'b', PlayerType.AI);
+            _white = new Player("White", 'w', PlayerType.LocalPlayer);
+            _black = new Player("Black", 'b', PlayerType.LocalPlayer);
 
             _board = new Board(BOARDSIZE, true);
 
-            ChessUtils.CreateTiles(this, _buttonArray, _board, tileSize, Color1, Color2, tileClickEvent);
+            ChessUtils.CreateTiles(this, _buttonArray, _board, tileSize, Color1, Color2, tileClickEventHandler);
             ChessUtils.DrawSymbols(_buttonArray, _board);
         }
 
-        private void tileClickEvent(object sender, EventArgs e)
+        private void tileClickEventHandler(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
-            int row = Convert.ToInt32(btn.Tag.ToString().Split(',')[0]); 
-            int col = Convert.ToInt32(btn.Tag.ToString().Split(',')[1]);
+            BoardPoint boardPoint = (BoardPoint)btn.Tag;
+            int row = boardPoint.row;
+            int col = boardPoint.col;
 
             // if no piece is selected, select the piece
             if (_selectedTile == null)

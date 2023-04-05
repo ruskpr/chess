@@ -3,14 +3,17 @@ using System.Resources;
 
 namespace ChessGameSimple
 {
+    internal struct BoardPoint
+    {
+        public int row;
+        public int col;
+    }
     internal static class ChessUtils
     {
-       
         static ResourceManager RM = new ResourceManager("ChessGameSimple.Resources", typeof(Resources).Assembly);
     
-
         /// <summary>
-        /// Will show moves of the selected piece
+        /// Will render the valid moves on the board
         /// </summary>
         internal static void ShowMoves(Button[,] buttonArray, Board board, Tile tile)
         {
@@ -110,13 +113,14 @@ namespace ChessGameSimple
         /// </summary>
         internal static void CreateTiles(Form form, Button[,] buttonArray, Board board, int tileSize, Color color1, Color color2, EventHandler tileClickEvent)
         {
-            int x = 0;
+            int x = 0; // index for alternating colors
             for (int row = 0; row < board.Size; row++)
             {
                 for (int col = 0; col < board.Size; col++)
                 {
-                    Tile tile = board.Tiles[row, col];
                     Button btn = new Button();
+
+                    // styling
                     btn.Size = new Size(tileSize, tileSize);
                     btn.Location = new Point(col * tileSize, row * tileSize);
                     btn.FlatStyle = FlatStyle.Flat;
@@ -124,8 +128,18 @@ namespace ChessGameSimple
                     btn.BackColor = x % 2 == 0 ? color1 : color2;
                     btn.BackgroundImageLayout = ImageLayout.Stretch;
                     btn.ImageAlign = ContentAlignment.MiddleCenter;
+
+                    // create click event handler
                     btn.Click += tileClickEvent;
-                    btn.Tag = row + "," + col;
+
+                    // attach BoardPoint object in button tag
+                    btn.Tag = new BoardPoint()
+                    {
+                        row = row,
+                        col = col,
+                    };
+
+                    // add to button array and form
                     buttonArray[row, col] = btn;
                     form.Controls.Add(btn);
                     x++;
