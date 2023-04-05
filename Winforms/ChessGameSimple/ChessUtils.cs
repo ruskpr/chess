@@ -10,12 +10,10 @@ namespace ChessGameSimple
     }
     internal static class ChessUtils
     {
-       
         static ResourceManager RM = new ResourceManager("ChessGameSimple.Resources", typeof(Resources).Assembly);
     
-
         /// <summary>
-        /// Will show moves of the selected piece
+        /// Will render the valid moves on the board
         /// </summary>
         internal static void ShowMoves(Button[,] buttonArray, Board board, Tile tile)
         {

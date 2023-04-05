@@ -47,7 +47,6 @@ namespace ChessGameSimple
             int row = boardPoint.row;
             int col = boardPoint.col;
 
-
             // if no piece is selected, select the piece
             if (_selectedTile == null)
             {
