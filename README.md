@@ -1,2 +1,2 @@
-# Chess Library
-Chess Library made in C#
+# Chess
+Chess Core Library made with C# including implemetations and sample applications
