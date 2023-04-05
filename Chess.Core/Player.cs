@@ -1,4 +1,6 @@
-﻿namespace Chess.Core
+﻿using Chess.Core.Pieces;
+
+namespace Chess.Core
 {
     public enum PlayerType
     {
@@ -8,10 +10,9 @@
     }
 
     public class Player
-    {
-        
+    {        
         public string Name { get; set; }
-        public char Color { get; set; }
+        public char Symbol { get; set; }
         public PlayerType Type { get; set; }
 
         public Player(string name, char color, PlayerType type)
@@ -20,7 +21,7 @@
                 throw new ArgumentException("Player must be either 'w' or 'b' (white or black");
 
             Name = name;
-            Color = color;
+            Symbol = color;
             Type = type;
         }
     }
