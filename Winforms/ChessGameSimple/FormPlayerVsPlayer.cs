@@ -31,8 +31,8 @@ namespace ChessGameSimple
             this.StartPosition = FormStartPosition.CenterScreen;
             this.MinimumSize = this.Size;
 
-            _white = new Player("White", 'w', PlayerType.AI),
-            _black = new Player("Black", 'b', PlayerType.AI));
+            _white = new Player("White", 'w', PlayerType.AI);
+            _black = new Player("Black", 'b', PlayerType.AI);
 
             _board = new Board(BOARDSIZE, true);
 
