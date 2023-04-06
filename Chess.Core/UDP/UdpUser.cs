@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
 namespace Chess.Core.UDP
 {
@@ -16,6 +18,14 @@ namespace Chess.Core.UDP
             return connection;
         }
 
+        public void Send(Packet packet)
+        {
+            var json = Packet.Serialize(packet);
+
+            byte[] datagram = Encoding.ASCII.GetBytes(json);
+            Client.Send(datagram, datagram.Length);
+        }
+
         public void Send(string message)
         {
             var datagram = Encoding.ASCII.GetBytes(message);
@@ -30,11 +40,9 @@ namespace Chess.Core.UDP
                 {
                     try
                     {
-                        var Packet = await this.ReceivePacket();
-                        Console.WriteLine(Packet.Payload);
-                        OnUserReceiveMessage?.Invoke(Packet);
-                        if (Packet.Payload.Contains("quit"))
-                            break;
+                        var packet = await this.Receive();
+                        Console.WriteLine(packet.Payload);
+                        OnUserReceiveMessage?.Invoke(packet);
                     }
                     catch (Exception ex)
                     {

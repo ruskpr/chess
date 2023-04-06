@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Chess.Core.UDP
 {
@@ -24,9 +25,31 @@ namespace Chess.Core.UDP
 
         public void Reply(Packet packet, IPEndPoint endpoint)
         {
-            var datagram = Encoding.ASCII.GetBytes(Packet.Serialize(packet));
+            packet.Sender = endpoint;
+            string json = JsonConvert.SerializeObject(packet);
+            var datagram = Encoding.ASCII.GetBytes(json);
+            Client.Send(datagram, datagram.Length, endpoint);
+        }
+        public void Reply(string message, IPEndPoint endpoint)
+        {
+            var datagram = Encoding.ASCII.GetBytes(message);
             Client.Send(datagram, datagram.Length, endpoint);
         }
 
+        public void StartListening()
+        {
+            //start listening for messages and copy the messages back to the client
+            Task.Factory.StartNew(async () => {
+                while (true)
+                {
+                    var received = await this.Receive();
+                    Console.WriteLine(received.Payload);
+
+
+                    Reply(received.Payload, received.Sender);
+                    //server.Reply("copy " + received.Payload, received.Sender);
+                }
+            });
+        }
     }
 }

@@ -10,10 +10,16 @@ namespace Chess.Core.UDP
 {
     public class Packet
     {
-        public IPEndPoint Sender { get; set; }
         public string Payload { get; set; }
+        public IPEndPoint? Sender { get; set; }
 
+        public Packet(string payload, IPEndPoint senderIP)
+        {
+            Payload = payload;  
+            Sender = senderIP;
+        }
 
+        public Packet() { }
 
         #region public static
 

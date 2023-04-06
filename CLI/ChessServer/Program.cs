@@ -9,19 +9,8 @@ namespace ChessServer
         {
             //create a new server
             var server = new UdpListener();
-            
-            //start listening for messages and copy the messages back to the client
-            Task.Factory.StartNew(async () => {
-                while (true)
-                {
-                    var received = await server.ReceivePacket();
-                    Console.WriteLine("message recieved: " + received.Payload);
-                    server.Reply(received, received.Sender);
-                    if (received.Payload == "quit")
-                        break;
-                }
-            });
-
+            server.StartListening();
+           
             Console.WriteLine("listening...");
             Console.ReadLine();
         }

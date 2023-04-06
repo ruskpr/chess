@@ -10,22 +10,38 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Chess.Core.UDP;
+using System.Diagnostics;
 
 namespace ChessGameSimple
 {
     public partial class FormClient : Form
     {
         string _clientName;
-        private UdpUser client;
+        private UdpUser _client;
 
         public FormClient(string ip, int port)
         {
             InitializeComponent();
             Thread.Sleep(500);
-            client = UdpUser.ConnectTo("172.18.31.108", 32123);
-            client.OnUserReceiveMessage += Client_OnPacketRecieved;
-            client.Listen();
-            
+            _client = UdpUser.ConnectTo("127.0.0.1", 32123);
+            _client.OnUserReceiveMessage += Client_OnPacketRecieved;
+            //client.Listen();
+
+            Task.Factory.StartNew(async () => {
+                while (true)
+                {
+                    try
+                    {
+                        var received = await _client.Receive();
+                        HandlePacket(received);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Write(ex);
+                    }
+                }
+            });
+
         }
 
         private void Client_OnPacketRecieved(Packet packet)
@@ -42,7 +58,7 @@ namespace ChessGameSimple
 
         private void button1_Click(object sender, EventArgs e)
         {
-            client.Send("hello world");
+            _client.Send(new Packet("hello world", null));
         }
 
         #endregion

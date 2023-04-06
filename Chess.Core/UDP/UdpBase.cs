@@ -19,9 +19,10 @@ namespace Chess.Core.UDP
             Client = new UdpClient();
         }
 
-        public async Task<Packet> ReceivePacket()
+        public async Task<Packet> Receive()
         {
             var result = await Client.ReceiveAsync();
+
             return new Packet()
             {
                 Payload = Encoding.ASCII.GetString(result.Buffer, 0, result.Buffer.Length),
