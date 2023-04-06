@@ -1,6 +1,6 @@
 ﻿namespace ChessGameSimple
 {
-    partial class FormTcpClient
+    partial class FormClient
     {
         /// <summary>
         /// Required designer variable.
@@ -28,13 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
+            button1 = new Button();
+            lstMessages = new ListBox();
             SuspendLayout();
+            // 
+            // button1
+            // 
+            button1.Location = new Point(536, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 0;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // lstMessages
+            // 
+            lstMessages.Dock = DockStyle.Right;
+            lstMessages.FormattingEnabled = true;
+            lstMessages.ItemHeight = 15;
+            lstMessages.Location = new Point(617, 0);
+            lstMessages.Name = "lstMessages";
+            lstMessages.Size = new Size(163, 450);
+            lstMessages.TabIndex = 1;
             // 
             // FormTcpClient
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(780, 450);
+            Controls.Add(lstMessages);
+            Controls.Add(button1);
             Name = "FormTcpClient";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;
@@ -43,5 +67,8 @@
         }
 
         #endregion
+
+        private Button button1;
+        private ListBox lstMessages;
     }
 }

@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace ChessGameSimple
 {
     internal static class Program
@@ -11,7 +13,8 @@ namespace ChessGameSimple
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new FormPlayerVsPlayer());
+
+            Application.Run(new FormClient("172.18.31.108", 6001));
         }
     }
 }

@@ -1,20 +1,30 @@
-﻿using Chess.Core.TCP;
+﻿using Chess.Core.UDP;
 
 namespace ChessServer
 {
     internal class Program
     {
+       
         static void Main(string[] args)
         {
-            Server server = new Server(30000);
-            server.OnPacketRecieved += Server_OnPacketRecieved;
+            //create a new server
+            var server = new UdpListener();
+            
+            //start listening for messages and copy the messages back to the client
+            Task.Factory.StartNew(async () => {
+                while (true)
+                {
+                    var received = await server.ReceivePacket();
+                    Console.WriteLine("message recieved: " + received.Payload);
+                    server.Reply(received, received.Sender);
+                    if (received.Payload == "quit")
+                        break;
+                }
+            });
 
-            Task.Run(() => server.Start()).Wait();    
+            Console.WriteLine("listening...");
+            Console.ReadLine();
         }
 
-        private static void Server_OnPacketRecieved(Packet packet)
-        {
-            Console.WriteLine(packet.Payload);
-        }
     }
 }
