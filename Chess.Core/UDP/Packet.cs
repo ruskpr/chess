@@ -14,6 +14,8 @@ namespace Chess.Core.UDP
         Disconnect,
         Message,
         Move,
+        GameUpdateRequest,
+        GameUpdateResponse,
         GameStart,
         GameEnd,
         Error,

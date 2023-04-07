@@ -18,6 +18,7 @@ namespace ChessGameSimple
             AppContext appContext = new AppContext();
 
             Application.Run(appContext);
+            //Application.Run(new FormPlayerVsPlayer());
             //Application.Run(new FormClient("172.18.31.108", 32123));
         }
     }
@@ -35,11 +36,14 @@ namespace ChessGameSimple
             _form1.StartPosition = FormStartPosition.Manual;
             _form2.StartPosition = FormStartPosition.Manual;
 
-            _form1.Location = new Point(200, 800);
-            _form2.Location = new Point(1200, 800);
+            _form1.Location = new Point(300, 200);
+            _form2.Location = new Point(1100, 200);
 
             _form1.Show();
             _form2.Show();
+
+            _form1.BringToFront();
+            _form2.BringToFront();
         }
 
     }

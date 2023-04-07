@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Net.Sockets;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Chess.Core.UDP;
-using System.Diagnostics;
+﻿using Chess.Core.UDP;
+using Chess.Core;
+using Newtonsoft.Json;
 
 namespace ChessGameSimple
 {
@@ -18,20 +8,30 @@ namespace ChessGameSimple
     {
         string _username;
         private UdpUser _client;
-        
+
+        Button[,] _buttons = new Button[8, 8];
+
+        Board _board;
 
         public FormClient(string name, string ip, int port)
         {
             InitializeComponent();
+
             _username = name;
+            this.Text = "Chess Game - " + _username;
+
             _client = UdpUser.ConnectTo(_username, ip, port);
             _client.OnPacketRecieved += Client_OnPacketRecieved;
-            _client.Listen();          
+            _client.Listen();
         }
 
         #region private
 
-        #region packet handlers
+        private void SendUpdateGameRequest()
+        {
+            Packet p = new(_username, $"{_username} requested a game update", PacketType.GameUpdateRequest);
+            _client.Send(p);
+        }
 
         // will be called when a packet is recieved from the server
         private void Client_OnPacketRecieved(Packet packet)
@@ -44,7 +44,8 @@ namespace ChessGameSimple
             // TODO: update board
             switch (packet.Type)
             {
-                case PacketType.Connect:
+                case PacketType.GameUpdateResponse:
+                    UpdateBoard(packet);
                     break;
                 case PacketType.Disconnect:
                     throw new NotImplementedException();
@@ -54,10 +55,10 @@ namespace ChessGameSimple
 
                     break;
                 case PacketType.Move:
-                    // TODO: update board on client side
+                    SendUpdateGameRequest();
                     throw new NotImplementedException();
-                    break;
                 case PacketType.GameStart:
+                    SendUpdateGameRequest();
                     break;
                 case PacketType.GameEnd:
                     break;
@@ -69,22 +70,49 @@ namespace ChessGameSimple
 
         }
 
-        #endregion
+        private void UpdateBoard(Packet packet)
+        {
+            // packet payload will be board as json
+            // deserizalize packet payload
+            _board = JsonConvert.DeserializeObject<Board>(packet.Payload, new JsonSerializerSettings
+            {
+                TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
+                NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+            });
 
-        #region packet type handler methods
+            this.Invoke(() =>
+            {
+                ChessUtils.CreateTiles(pnlBoard, _buttons, _board, pnlBoard.Width / 8, Color.Gainsboro, Color.Tan, OnTileClicked);
+                ChessUtils.DrawSymbols(_buttons, _board);
+            });
+        }
 
-        #endregion
+        private void OnTileClicked(object? sender, EventArgs e)
+        {
+            // TODO: send a move packet to server
+            throw new NotImplementedException();
+        }
 
         #endregion
 
         #region form code
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnSendMessage_Click(object sender, EventArgs e)
         {
-            _client.Send(new Packet(_username, "hello world" , PacketType.Message));
+            if (tbMessage.Text.Trim() != "")
+                _client.Send(new Packet(_username, tbMessage.Text, PacketType.Message));
+
+            tbMessage.Text = "";
+        }
+
+        private void FormClient_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode > Keys.A && e.KeyCode < Keys.Z)
+                tbMessage.Focus();
         }
 
         #endregion
+
 
     }
 }

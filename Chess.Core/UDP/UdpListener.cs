@@ -21,27 +21,30 @@ namespace Chess.Core.UDP
 
         #endregion
 
+        private int _maxClientCount;
+
         private IPEndPoint _listenOn;
 
         private Dictionary<IPEndPoint, string> _userConnections = new Dictionary<IPEndPoint, string>();
         private List<Packet> _packetHistory = new List<Packet>();
 
-        public UdpListener(IPEndPoint endpoint)
+        public UdpListener(IPEndPoint endpoint, int maxClientCount)
         {
+            _maxClientCount = maxClientCount;
             _listenOn = endpoint;
             Client = new UdpClient(_listenOn);
         }
 
-        #region private
+        #region public
 
-        private void Reply(Packet packet, IPEndPoint endpoint)
+        public void Reply(Packet packet, IPEndPoint endpoint)
         {
             string json = Packet.Serialize(packet);
             byte[] datagram = Encoding.ASCII.GetBytes(json);
             Client.Send(datagram, datagram.Length, endpoint);
         }
 
-        private void ReplyAll(Packet packet)
+        public void ReplyAll(Packet packet)
         {
             string json = Packet.Serialize(packet);
             byte[] datagram = Encoding.ASCII.GetBytes(json);
@@ -51,6 +54,10 @@ namespace Chess.Core.UDP
 
             Console.WriteLine($"[Reply All] '{packet.Payload}'");
         }
+
+        #endregion
+
+        #region private
 
         private bool TryStoreUserConnection(string name, IPEndPoint clientEnpoint)
         {
@@ -80,14 +87,18 @@ namespace Chess.Core.UDP
 
                     if (isNewConnection)
                     {
-                        packet.Payload = $"{packet.SenderName} connected";
-                        ReplyAll(packet);
-
                         // update user with all previous packets
                         foreach (var p in _packetHistory)
                             Reply(p, packet.SenderEndpointParsed);
-                        
-                        Console.WriteLine($"Total users connected: {UsersConnected}");
+
+                        ReplyAll(packet);
+
+                        // the server will start the game when the max number of clients is reached
+                        if (UsersConnected == _maxClientCount)
+                        {
+                            Packet gameStartPacket = new("SERVER", "none", PacketType.GameStart);
+                            ReplyAll(gameStartPacket);
+                        }
                     }
                     else
                     {
@@ -106,22 +117,13 @@ namespace Chess.Core.UDP
 
                 case PacketType.Message:
                     #region send a text message to all users that are connected
-
                     ReplyAll(packet);
 
                     #endregion
                     break;
-                case PacketType.Move:
-                    break;
-                case PacketType.Error:
-                    break;
                 default:
-                    // any other packet type will be send through an event handler
-
                     break;
             }
-            
-
         }
 
         #endregion
