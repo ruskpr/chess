@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Chess.Core.UDP
 {
-    
-
+   
     public abstract class UdpBase
     {
+        public delegate void PacketRecieved(Packet packet);
+        public event PacketRecieved? OnPacketRecieved;
+
         protected UdpClient Client;
 
         protected UdpBase()
@@ -24,6 +21,7 @@ namespace Chess.Core.UDP
             var result = await Client.ReceiveAsync();
             Packet p = Packet.Deserialize(Encoding.ASCII.GetString(result.Buffer, 0, result.Buffer.Length));            
             p.SenderEndpoint = result.RemoteEndPoint.Address + ":" + result.RemoteEndPoint.Port;
+            OnPacketRecieved?.Invoke(p);
             return p;
         }
     }

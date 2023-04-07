@@ -11,16 +11,21 @@ namespace Chess.Core.UDP
 {
     public class UdpListener : UdpBase
     {
-        struct User
+
+        #region properties
+
+        public int UsersConnected
         {
-            string Name;
-            IPEndPoint Endpoint;
+            get => _userConnections.Count;
         }
 
-        private IPEndPoint _listenOn;
-        private User[] connectedUsers;
+        #endregion
 
-        
+        private IPEndPoint _listenOn;
+
+        private Dictionary<IPEndPoint, string> _userConnections = new Dictionary<IPEndPoint, string>();
+        private List<Packet> _packetHistory = new List<Packet>();
+
         public UdpListener(IPEndPoint endpoint)
         {
             _listenOn = endpoint;
@@ -36,20 +41,90 @@ namespace Chess.Core.UDP
             Client.Send(datagram, datagram.Length, endpoint);
         }
 
-        private void ReplyAll(Packet packet, IEnumerable<IPEndPoint> endpoints)
+        private void ReplyAll(Packet packet)
         {
             string json = Packet.Serialize(packet);
             byte[] datagram = Encoding.ASCII.GetBytes(json);
 
-            foreach (var ep in endpoints)
-                Client.Send(datagram, datagram.Length, ep);
+            foreach (var endpoint in _userConnections.Keys)
+                Client.Send(datagram, datagram.Length, endpoint);
+
+            Console.WriteLine($"[Reply All] '{packet.Payload}'");
         }
 
+        private bool TryStoreUserConnection(string name, IPEndPoint clientEnpoint)
+        {
+            return _userConnections.TryAdd(clientEnpoint, name);
+        }
+
+        private void DisconnectUser(IPEndPoint clientEndpoint)
+        {
+            string user;
+            _userConnections.Remove(clientEndpoint, out user);
+            Console.WriteLine($"{user} was removed was disconnected by the server");
+
+            // TODO: handle udp dispose
+            throw new NotImplementedException();
+        }
+
+        private void HandleClientPacket(Packet packet)
+        {
+            _packetHistory.Add(packet);
+
+            switch (packet.Type)
+            {
+                case PacketType.Connect:
+                    #region if the packet is a new connection, store it and reply to all clients
+
+                    bool isNewConnection = TryStoreUserConnection(packet.SenderName, packet.SenderEndpointParsed);
+
+                    if (isNewConnection)
+                    {
+                        packet.Payload = $"{packet.SenderName} connected";
+                        ReplyAll(packet);
+
+                        // update user with all previous packets
+                        foreach (var p in _packetHistory)
+                            Reply(p, packet.SenderEndpointParsed);
+                        
+                        Console.WriteLine($"Total users connected: {UsersConnected}");
+                    }
+                    else
+                    {
+                        DisconnectUser(packet.SenderEndpointParsed);
+                    }
+
+                    break;
+                    #endregion
+
+                case PacketType.Disconnect:
+                    #region handle udp client properly when a user disconnects
+
+                    throw new NotImplementedException();
+
+                    #endregion
+
+                case PacketType.Message:
+                    #region send a text message to all users that are connected
+
+                    ReplyAll(packet);
+
+                    #endregion
+                    break;
+                case PacketType.Move:
+                    break;
+                case PacketType.Error:
+                    break;
+                default:
+                    // any other packet type will be send through an event handler
+
+                    break;
+            }
+            
+
+        }
 
         #endregion
-
-
-
 
         public void StartListening()
         {
@@ -58,10 +133,11 @@ namespace Chess.Core.UDP
                 while (true)
                 {
                     var packet = await this.Receive();
-                    Console.WriteLine(packet.Payload);
-                    Reply(packet, IPEndPoint.Parse(packet.SenderEndpoint));
+                    HandleClientPacket(packet);
                 }
             });
         }
+
+        
     }
 }

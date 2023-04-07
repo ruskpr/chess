@@ -42,7 +42,5 @@ namespace ChessGameSimple
             _form2.Show();
         }
 
-
-
     }
 }

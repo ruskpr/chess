@@ -16,35 +16,24 @@ namespace ChessGameSimple
 {
     public partial class FormClient : Form
     {
-        string _clientName;
+        string _username;
         private UdpUser _client;
         
 
         public FormClient(string name, string ip, int port)
         {
             InitializeComponent();
-            _clientName = name;
-            _client = UdpUser.ConnectTo(ip, port);
-            _client.OnUserReceiveMessage += Client_OnPacketRecieved;
-            //client.Listen();
-
-            Task.Factory.StartNew(async () => {
-                while (true)
-                {
-                    try
-                    {
-                        var packet = await _client.Receive();
-                        HandlePacket(packet);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.Write(ex);
-                    }
-                }
-            });
-
+            _username = name;
+            _client = UdpUser.ConnectTo(_username, ip, port);
+            _client.OnPacketRecieved += Client_OnPacketRecieved;
+            _client.Listen();          
         }
 
+        #region private
+
+        #region packet handlers
+
+        // will be called when a packet is recieved from the server
         private void Client_OnPacketRecieved(Packet packet)
         {
             HandlePacket(packet);
@@ -53,15 +42,46 @@ namespace ChessGameSimple
         private void HandlePacket(Packet packet)
         {
             // TODO: update board
+            switch (packet.Type)
+            {
+                case PacketType.Connect:
+                    break;
+                case PacketType.Disconnect:
+                    throw new NotImplementedException();
+                    break;
+                case PacketType.Message:
+                    this.Invoke(() => lstMessages.Items.Add($"{packet.SenderName}: {packet.Payload}"));
 
-            this.Invoke(() => lstMessages.Items.Add(packet.Payload));
+                    break;
+                case PacketType.Move:
+                    // TODO: update board on client side
+                    throw new NotImplementedException();
+                    break;
+                case PacketType.GameStart:
+                    break;
+                case PacketType.GameEnd:
+                    break;
+                case PacketType.Error:
+                    break;
+                default:
+                    break;
+            }
+
         }
+
+        #endregion
+
+        #region packet type handler methods
+
+        #endregion
+
+        #endregion
 
         #region form code
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _client.Send(new Packet(_clientName, "hello world", null));
+            _client.Send(new Packet(_username, "hello world" , PacketType.Message));
         }
 
         #endregion

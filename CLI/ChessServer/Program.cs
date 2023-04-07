@@ -17,10 +17,15 @@ namespace ChessServer
 
             //start a new server
             var server = new UdpListener(new IPEndPoint(IPAddress.Any, port));
+            server.OnPacketRecieved += Server_OnPacketRecieved;
             server.StartListening();
             Console.WriteLine("listening...");
             Console.ReadKey();
         }
 
+        private static void Server_OnPacketRecieved(Packet packet)
+        {
+            Console.WriteLine($"Packet recieved: payload = {packet.Payload}");
+        }
     }
 }
