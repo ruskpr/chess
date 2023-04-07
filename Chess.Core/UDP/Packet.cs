@@ -11,15 +11,17 @@ namespace Chess.Core.UDP
     public class Packet
     {
         public string Payload { get; set; }
-        public IPEndPoint? Sender { get; set; }
+        public string SenderName { get; set; }
+        public string? SenderEndpoint { get; set; }
 
-        public Packet(string payload, IPEndPoint senderIP)
+        public Packet(string senderName, string payload, IPEndPoint senderIP)
         {
-            Payload = payload;  
-            Sender = senderIP;
-        }
+            Payload = payload;
+            SenderName = senderName;
 
-        public Packet() { }
+            if (senderIP != null)
+                SenderEndpoint = senderIP.Address + ":" + senderIP.Port;
+        }
 
         #region public static
 

@@ -18,12 +18,13 @@ namespace ChessGameSimple
     {
         string _clientName;
         private UdpUser _client;
+        
 
-        public FormClient(string ip, int port)
+        public FormClient(string name, string ip, int port)
         {
             InitializeComponent();
-            Thread.Sleep(500);
-            _client = UdpUser.ConnectTo("127.0.0.1", 32123);
+            _clientName = name;
+            _client = UdpUser.ConnectTo(ip, port);
             _client.OnUserReceiveMessage += Client_OnPacketRecieved;
             //client.Listen();
 
@@ -32,8 +33,8 @@ namespace ChessGameSimple
                 {
                     try
                     {
-                        var received = await _client.Receive();
-                        HandlePacket(received);
+                        var packet = await _client.Receive();
+                        HandlePacket(packet);
                     }
                     catch (Exception ex)
                     {
@@ -51,14 +52,16 @@ namespace ChessGameSimple
 
         private void HandlePacket(Packet packet)
         {
+            // TODO: update board
+
             this.Invoke(() => lstMessages.Items.Add(packet.Payload));
         }
 
-        #region private
+        #region form code
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _client.Send(new Packet("hello world", null));
+            _client.Send(new Packet(_clientName, "hello world", null));
         }
 
         #endregion

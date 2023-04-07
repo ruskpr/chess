@@ -22,12 +22,9 @@ namespace Chess.Core.UDP
         public async Task<Packet> Receive()
         {
             var result = await Client.ReceiveAsync();
-
-            return new Packet()
-            {
-                Payload = Encoding.ASCII.GetString(result.Buffer, 0, result.Buffer.Length),
-                Sender = result.RemoteEndPoint
-            };
+            Packet p = Packet.Deserialize(Encoding.ASCII.GetString(result.Buffer, 0, result.Buffer.Length));            
+            p.SenderEndpoint = result.RemoteEndPoint.Address + ":" + result.RemoteEndPoint.Port;
+            return p;
         }
     }
 }

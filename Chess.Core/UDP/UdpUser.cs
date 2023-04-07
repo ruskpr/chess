@@ -26,11 +26,11 @@ namespace Chess.Core.UDP
             Client.Send(datagram, datagram.Length);
         }
 
-        public void Send(string message)
-        {
-            var datagram = Encoding.ASCII.GetBytes(message);
-            Client.Send(datagram, datagram.Length);
-        }
+        //public void Send(string message)
+        //{
+        //    var datagram = Encoding.ASCII.GetBytes(message);
+        //    Client.Send(datagram, datagram.Length);
+        //}
 
         public void Listen()
         {

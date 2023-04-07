@@ -11,30 +11,45 @@ namespace Chess.Core.UDP
 {
     public class UdpListener : UdpBase
     {
-        private IPEndPoint _listenOn;
-
-        public UdpListener() : this(new IPEndPoint(IPAddress.Any, 32123))
+        struct User
         {
+            string Name;
+            IPEndPoint Endpoint;
         }
 
+        private IPEndPoint _listenOn;
+        private User[] connectedUsers;
+
+        
         public UdpListener(IPEndPoint endpoint)
         {
             _listenOn = endpoint;
             Client = new UdpClient(_listenOn);
         }
 
-        public void Reply(Packet packet, IPEndPoint endpoint)
+        #region private
+
+        private void Reply(Packet packet, IPEndPoint endpoint)
         {
-            packet.Sender = endpoint;
-            string json = JsonConvert.SerializeObject(packet);
-            var datagram = Encoding.ASCII.GetBytes(json);
+            string json = Packet.Serialize(packet);
+            byte[] datagram = Encoding.ASCII.GetBytes(json);
             Client.Send(datagram, datagram.Length, endpoint);
         }
-        public void Reply(string message, IPEndPoint endpoint)
+
+        private void ReplyAll(Packet packet, IEnumerable<IPEndPoint> endpoints)
         {
-            var datagram = Encoding.ASCII.GetBytes(message);
-            Client.Send(datagram, datagram.Length, endpoint);
+            string json = Packet.Serialize(packet);
+            byte[] datagram = Encoding.ASCII.GetBytes(json);
+
+            foreach (var ep in endpoints)
+                Client.Send(datagram, datagram.Length, ep);
         }
+
+
+        #endregion
+
+
+
 
         public void StartListening()
         {
@@ -42,12 +57,9 @@ namespace Chess.Core.UDP
             Task.Factory.StartNew(async () => {
                 while (true)
                 {
-                    var received = await this.Receive();
-                    Console.WriteLine(received.Payload);
-
-
-                    Reply(received.Payload, received.Sender);
-                    //server.Reply("copy " + received.Payload, received.Sender);
+                    var packet = await this.Receive();
+                    Console.WriteLine(packet.Payload);
+                    Reply(packet, IPEndPoint.Parse(packet.SenderEndpoint));
                 }
             });
         }
