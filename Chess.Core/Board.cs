@@ -1,4 +1,5 @@
 ﻿using Chess.Core.Pieces;
+using Newtonsoft.Json;
 
 namespace Chess.Core
 {
@@ -54,6 +55,10 @@ namespace Chess.Core
         {
             _tiles = tiles;
         }
+
+        // for json serialization
+        [JsonConstructor]
+        public Board() { }
 
         ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
 

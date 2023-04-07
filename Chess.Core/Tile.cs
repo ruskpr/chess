@@ -1,4 +1,6 @@
-﻿namespace Chess.Core
+﻿using Newtonsoft.Json;
+
+namespace Chess.Core
 {
     public class Tile
     {
@@ -29,6 +31,10 @@
             Column = col;
             Piece = piece;
         }
+
+        // for json serialization
+        [JsonConstructor]
+        public Tile() { }
 
         #endregion
 
