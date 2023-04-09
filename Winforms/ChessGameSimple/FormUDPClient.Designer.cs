@@ -1,6 +1,6 @@
 ﻿namespace ChessGameSimple
 {
-    partial class FormClient
+    partial class FormUDPClient
     {
         /// <summary>
         /// Required designer variable.

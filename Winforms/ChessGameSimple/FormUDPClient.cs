@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ChessGameSimple
 {
-    public partial class FormClient : Form
+    public partial class FormUDPClient : Form
     {
         string _username;
         private UdpUser _client;
@@ -13,7 +13,7 @@ namespace ChessGameSimple
 
         Board _board;
 
-        public FormClient(string name, string ip, int port)
+        public FormUDPClient(string name, string ip, int port)
         {
             InitializeComponent();
 
@@ -27,6 +27,7 @@ namespace ChessGameSimple
 
         #region private
 
+        // send a packet to notify the server an updated game state is needed
         private void SendUpdateGameRequest()
         {
             Packet p = new(_username, $"{_username} requested a game update", PacketType.GameUpdateRequest);

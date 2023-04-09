@@ -25,11 +25,12 @@ namespace ChessGameSimple
 
     class AppContext : ApplicationContext
     {
-        private FormClient _form1;
-        private FormClient _form2;
+        private FormUDPClient _form1;
+        private FormUDPClient _form2;
 
         public AppContext()
         {
+            Thread.Sleep(1000);
             _form1 = new("russ", "172.18.31.108", 32123);
             _form2 = new("john", "172.18.31.108", 32123);
 
