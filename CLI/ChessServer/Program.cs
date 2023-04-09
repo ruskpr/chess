@@ -2,6 +2,7 @@
 using Chess.Core.UDP;
 using Newtonsoft.Json;
 using System.Net;
+using System.Net.Sockets;
 
 namespace ChessServer
 {
@@ -28,9 +29,12 @@ namespace ChessServer
             _server = new UdpListener(new IPEndPoint(IPAddress.Any, port), 2);
             _server.OnPacketRecieved += Server_OnPacketRecieved;
             _server.StartListening();
-            Console.WriteLine($"started server on port {port}...");
+            
+            Console.WriteLine($"SERVER STARTED...");
+            Console.WriteLine($"clients can access it on {GetLocalIpAddress()}:{port}\n");
             Console.ReadKey();
         }
+
 
         private static void Server_OnPacketRecieved(Packet packet)
         {
@@ -64,5 +68,19 @@ namespace ChessServer
                     break;
             }
         }
+
+        public static string GetLocalIpAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            return _server.IpAddress;
+        }
+
     }
 }

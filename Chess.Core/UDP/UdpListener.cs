@@ -19,6 +19,11 @@ namespace Chess.Core.UDP
             get => _userConnections.Count;
         }
 
+        public string IpAddress 
+        { 
+            get => _listenOn.Address.ToString();
+        }
+
         #endregion
 
         private int _maxClientCount;
