@@ -105,6 +105,8 @@ namespace ChessGameSimple
             int row = boardPoint.row;
             int col = boardPoint.col;
 
+            lstMessages.Items.Add($"{row}, {col}");
+
             // if no piece is selected, select the piece
             if (_selectedTile == null)
             {
@@ -114,10 +116,11 @@ namespace ChessGameSimple
                 {
                     Tile selectedTile = _board.GetTile(row, col);
 
-                    if (selectedTile.Piece.Color != _turn) return;
+                    //if (selectedTile.Piece.Color != _clientPlayer.Symbol) return;
 
                     _selectedTile = selectedTile;
                     ChessUtils.ShowMoves(_buttons, _board, _selectedTile);
+                    lstMessages.Items.Add($"Selected {_selectedTile.Piece.Symbol} at {_selectedTile.Row}, {_selectedTile.Column}");
                 }
             }
             // unselect the piece if it is already selected
