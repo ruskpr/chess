@@ -1,4 +1,5 @@
 ﻿using Chess.Core.Pieces;
+using Newtonsoft.Json;
 
 namespace Chess.Core
 {
@@ -8,16 +9,11 @@ namespace Chess.Core
         public event KingChecked OnKingChecked;
 
         public delegate void GameOver();
-        public event GameOver OnGameOver;
-
-        public enum PromoteOptions
-        {
-            Queen = 0, Rook = 1, Bishop = 2, Knight = 3
-        }
+        public event GameOver OnGameOver;    
 
         public Board Board { get; set; }
-        public Player White { get; set; }
-        public Player Black { get; set; }
+        public Player Player1 { get; set; }
+        public Player Player2 { get; set; }
         
         public char Turn { get; set; } = 'w';
 
@@ -29,10 +25,13 @@ namespace Chess.Core
                 throw new ArgumentException("Player must be contain valid color - 'w' or 'b' (white or black)");
 
             Board = board;
-            White = white;
-            Black = black;
+            Player1 = white;
+            Player2 = black;
 
         }
+
+        [JsonConstructor]
+        public Game() { }
 
         #region public
 

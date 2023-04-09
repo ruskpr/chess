@@ -24,5 +24,7 @@ namespace Chess.Core
             Symbol = color;
             Type = type;
         }
+
+        public Player() { }
     }
 }

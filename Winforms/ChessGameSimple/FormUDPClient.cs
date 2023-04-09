@@ -9,16 +9,19 @@ namespace ChessGameSimple
         string _username;
         private UdpUser _client;
 
-        Button[,] _buttons = new Button[8, 8];
+        private Button[,] _buttons = new Button[8, 8];
 
-        Board _board;
+        private Board _board;
+        private Tile? _selectedTile = null;
+        private Player _clientPlayer;
+        private char _turn;
 
         public FormUDPClient(string name, string ip, int port)
         {
             InitializeComponent();
 
             _username = name;
-            this.Text = "Chess Game - " + _username;
+            this.Text = "Chess - " + _username;
 
             _client = UdpUser.ConnectTo(_username, ip, port);
             _client.OnPacketRecieved += Client_OnPacketRecieved;
@@ -46,7 +49,7 @@ namespace ChessGameSimple
             switch (packet.Type)
             {
                 case PacketType.GameUpdateResponse:
-                    UpdateBoard(packet);
+                    UpdateGame(packet);
                     break;
                 case PacketType.Disconnect:
                     throw new NotImplementedException();
@@ -71,15 +74,22 @@ namespace ChessGameSimple
 
         }
 
-        private void UpdateBoard(Packet packet)
+        private void UpdateGame(Packet packet)
         {
             // packet payload will be board as json
             // deserizalize packet payload
-            _board = JsonConvert.DeserializeObject<Board>(packet.Payload, new JsonSerializerSettings
+            var game = JsonConvert.DeserializeObject<Game>(packet.Payload, new JsonSerializerSettings
             {
                 TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
                 NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
             });
+
+            _board = game.Board;
+            
+            if (_clientPlayer == null)
+                _clientPlayer = game.Player1.Name == _username ? game.Player1 : game.Player2;
+
+            _turn = game.Turn;
 
             this.Invoke(() =>
             {
@@ -90,8 +100,65 @@ namespace ChessGameSimple
 
         private void OnTileClicked(object? sender, EventArgs e)
         {
-            // TODO: send a move packet to server
-            throw new NotImplementedException();
+            Button btn = (Button)sender;
+            BoardPoint boardPoint = (BoardPoint)btn.Tag;
+            int row = boardPoint.row;
+            int col = boardPoint.col;
+
+            // if no piece is selected, select the piece
+            if (_selectedTile == null)
+            {
+                var piece = _board.GetPiece(row, col);
+
+                if (piece != null)
+                {
+                    Tile selectedTile = _board.GetTile(row, col);
+
+                    if (selectedTile.Piece.Color != _turn) return;
+
+                    _selectedTile = selectedTile;
+                    ChessUtils.ShowMoves(_buttons, _board, _selectedTile);
+                }
+            }
+            // unselect the piece if it is already selected
+            else if (_selectedTile == _board.GetTile(row, col))
+            {
+                ChessUtils.HideMoves(_buttons);
+                _selectedTile = null;
+            }
+            // if a piece is selected, try to move it
+            else
+            {
+                Tile to = _board.GetTile(row, col);
+
+                // if the piece is the same color as the selected piece, select the new piece
+                if (to.Piece != null)
+                {
+                    if (_selectedTile.Piece.Color == to.Piece.Color)
+                    {
+                        _selectedTile = to;
+                        ChessUtils.HideMoves(_buttons);
+                        ChessUtils.ShowMoves(_buttons, _board, _selectedTile);
+                        return;
+                    }
+                }
+
+                bool moveSuccessful = _board.TryMakeMove(_selectedTile, to);
+
+                if (moveSuccessful)
+                {
+                    ChessUtils.HideMoves(_buttons);
+                    _selectedTile = null;
+                    ChessUtils.DrawSymbols(_buttons, _board);
+                    return;
+                }
+                else
+                {
+                    _selectedTile = null;
+                    return;
+                }
+            }
+
         }
 
         #endregion
