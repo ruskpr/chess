@@ -12,7 +12,6 @@ namespace ChessGameSimple
         static Color Color1 = Color.Gainsboro;
         static Color Color2 = Color.Cornsilk;
 
-
         private char _turn = 'w';
 
         int tileSize = 80;
