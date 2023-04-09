@@ -42,6 +42,18 @@ namespace Chess.Core.UDP
 
         #region public
 
+        public void StartListening()
+        {
+            //start listening for messages and copy the messages back to the client
+            Task.Factory.StartNew(async () => {
+                while (true)
+                {
+                    var packet = await this.Receive();
+                    HandleClientPacket(packet);
+                }
+            });
+        }
+
         public void Reply(Packet packet, IPEndPoint endpoint)
         {
             string json = Packet.Serialize(packet);
@@ -81,7 +93,6 @@ namespace Chess.Core.UDP
 
         private void HandleClientPacket(Packet packet)
         {
-            _packetHistory.Add(packet);
 
             switch (packet.Type)
             {
@@ -129,22 +140,14 @@ namespace Chess.Core.UDP
                 default:
                     break;
             }
+
+            _packetHistory.Add(packet);
         }
 
         #endregion
 
-        public void StartListening()
-        {
-            //start listening for messages and copy the messages back to the client
-            Task.Factory.StartNew(async () => {
-                while (true)
-                {
-                    var packet = await this.Receive();
-                    HandleClientPacket(packet);
-                }
-            });
-        }
 
-        
+
+
     }
 }
