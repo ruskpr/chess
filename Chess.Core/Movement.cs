@@ -20,7 +20,7 @@
             if (board == null) throw new ArgumentNullException("board");
             if (piece == null) throw new ArgumentNullException("piece");
             if (range < 1) throw new ArgumentOutOfRangeException("range");
-            if (templates == null || !templates.Any()) throw new ArgumentException("templates");
+            if (templates == null || !templates.Any()) return new List<Tile>();
 
             var ret = new List<Tile>();
 
@@ -45,7 +45,7 @@
             return ret;
         }
 
-        internal static bool MoveContains(Board board, Tile from, Tile to)
+        internal static bool MoveIsValid(Board board, Tile from, Tile to)
         {
             if (board == null) throw new ArgumentNullException("board");
             if (from == null) throw new ArgumentNullException("from");

@@ -126,11 +126,10 @@ namespace Chess.Core
             // if there is no piece on the tile, return false
             if (from.Piece is null) return false;
 
-
             from.Piece.GetValidMoves(this);
 
             // check if the move is valid
-            if (Movement.MoveContains(this, from, to))
+            if (Movement.MoveIsValid(this, from, to))
             {
                 // return false if tiles are the same color
                 if (from.Piece.Color == to.Piece?.Color) return false;
@@ -190,7 +189,7 @@ namespace Chess.Core
                                         // if the king is in the list of valid moves for the piece
                                         // Movement.MoveContains(this, from, to)
                                         var moves = tile2.Piece.GetValidMoves(this);
-                                        if (Movement.MoveContains(this, tile2, tile))
+                                        if (Movement.MoveIsValid(this, tile2, tile))
                                         {
                                             // return true
                                             king = (King)tile.Piece;
@@ -231,14 +230,14 @@ namespace Chess.Core
         #endregion
 
         // place custom piece on tile
-        public Piece AddPiece<T>(int row, int col, char color) where T : Piece, new()
+        public IPiece AddPiece<T>(int row, int col, char color) where T : IPiece, new()
         {
             if (row >= Size || col >= Size)
                 throw new IndexOutOfRangeException("Row or column is out of range.");
 
             T piece = new T();
             piece.CurrentLocation = new BoardLocation(row, col);
-            piece.GetValidMoves(this);
+            //piece.GetValidMoves(this);
             piece.Color = color;
             _tiles[row, col].Piece = piece;
             return piece;

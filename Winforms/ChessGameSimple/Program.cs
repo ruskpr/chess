@@ -17,9 +17,8 @@ namespace ChessGameSimple
 
             AppContext appContext = new AppContext();
 
-            Application.Run(appContext);
-            //Application.Run(new FormPlayerVsPlayer());
-            //Application.Run(new FormClient("172.18.31.108", 32123));
+            //Application.Run(appContext);
+            Application.Run(new FormPlayerVsPlayer());
         }
     }
 

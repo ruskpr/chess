@@ -68,8 +68,6 @@ namespace Chess.Core.UDP
 
             foreach (var endpoint in _userConnections.Keys)
                 Client.Send(datagram, datagram.Length, endpoint);
-
-            Console.WriteLine($"[Reply All] '{packet.Payload}'");
         }
 
         #endregion

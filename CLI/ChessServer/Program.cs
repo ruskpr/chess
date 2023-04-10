@@ -87,8 +87,6 @@ namespace ChessServer
 
         private static void Server_OnPacketRecieved(Packet packet)
         {
-            Console.WriteLine($"Packet recieved: payload = {packet.Payload}");
-
             switch (packet.Type)
             {
                 case PacketType.Connect:
@@ -112,23 +110,25 @@ namespace ChessServer
 
                 case PacketType.GameUpdateRequest:
 
-                    var gameInfoJson = JsonConvert.SerializeObject(_game, new JsonSerializerSettings
-                    {
-                        TypeNameHandling = TypeNameHandling.Auto,
-                        NullValueHandling = NullValueHandling.Ignore,
-                    });
-
-                    Packet gameStatePacket = new("SERVER", gameInfoJson, PacketType.GameUpdateResponse);
-                    _server.Reply(gameStatePacket, packet.SenderEndpointParsed);
+                    _server.Reply(UpdateGamePacket(), packet.SenderEndpointParsed);
                     break;
 
                 case PacketType.Move:
-                    var move = JsonConvert.DeserializeObject<Tuple<Tile, Tile>>(packet.Payload);
+                    
+                    var move = JsonConvert.DeserializeObject<Tuple<Tile, Tile>>(packet.Payload, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
+                        NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                    });
+
+                    var from = _game.Board.GetTile(move.Item1.Row, move.Item1.Column);
+                    var to = _game.Board.GetTile(move.Item2.Row, move.Item2.Column);
 
                     // try to make the move
-                    if (_game.Board.TryMakeMove(move.Item1, move.Item2))
+                    if (_game.Board.TryMakeMove(from, to))
                     {
-                        _server.ReplyAll(new Packet("SERVER", "piece moved", PacketType.GameUpdateResponse));
+                        _game.SwapTurn();
+                        _server.ReplyAll(UpdateGamePacket());
                     }
 
                     break;
@@ -138,6 +138,17 @@ namespace ChessServer
             }
         }
 
+
+        private static Packet UpdateGamePacket()
+        {
+            var gameInfoJson = JsonConvert.SerializeObject(_game, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                NullValueHandling = NullValueHandling.Ignore,
+            });
+
+            return new("SERVER", gameInfoJson, PacketType.GameUpdateResponse);
+        }
         #endregion
 
         public static string GetLocalIpAddress()

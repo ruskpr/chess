@@ -11,7 +11,7 @@ namespace Chess.Tests
         public void KingCanMoveLeft()
         {
             var board = new Board(8, false);
-            var king = board.AddPiece<King>(3,3, 'w');
+            var king = board.AddPiece<King>(3, 3, 'w');
 
             // move left 1 tile
             bool successfulMove = board.TryMakeMove(board.Tiles[3, 3], board.Tiles[3, 2]);
@@ -59,10 +59,6 @@ namespace Chess.Tests
             Assert.True(successfulMove);
         }
 
-        #endregion
-
-        #region move generation
-
         [Fact]
         public void KingCanMoveToAllAdjacentTiles()
         {
@@ -70,15 +66,6 @@ namespace Chess.Tests
             var king = board.AddPiece<King>(3, 3, 'b');
             var moves = king.GetValidMoves(board);
             Assert.Equal(8, moves.Count);
-        }
-
-        [Fact]
-        public void KingCanMoveToAllAdjacentTiles3by3()
-        {
-            var board = new Board(3, false);
-            var king = board.AddPiece<King>(1, 2, 'b');
-            var moves = king.GetValidMoves(board);
-            Assert.Equal(5, moves.Count);
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace ChessGameSimple
 
         private Button[,] _buttons = new Button[8, 8];
 
-        private Board _board;
+        private Board _board = new Board(8, false);
         private Tile? _selectedTile = null;
         private Player _clientPlayer;
         private char _turn;
@@ -22,6 +22,7 @@ namespace ChessGameSimple
 
             _username = name;
             this.Text = "Chess - " + _username;
+            ChessUtils.CreateTiles(pnlBoard, _buttons, _board, pnlBoard.Width / 8, Color.Gainsboro, Color.Tan, OnTileClicked);
 
             _client = UdpUser.ConnectTo(_username, ip, port);
             _client.OnPacketRecieved += Client_OnPacketRecieved;
@@ -95,15 +96,25 @@ namespace ChessGameSimple
 
                 _turn = game.Turn;
 
-                ChessUtils.CreateTiles(pnlBoard, _buttons, _board, pnlBoard.Width / 8, Color.Gainsboro, Color.Tan, OnTileClicked);
                 ChessUtils.DrawSymbols(_buttons, _board);
 
-                var x = _buttons;
+                if (_turn == _clientPlayer.Symbol)
+                { 
+                    lstMessages.Items.Add("Your Turn");
+                }
+                else
+                {
+                    lstMessages.Items.Add("Opponent's Turn");
+                }
+
             });
         }
 
         private void OnTileClicked(object? sender, EventArgs e)
         {
+            // return if it not players turn
+            if (_turn != _clientPlayer.Symbol) return;
+
             Button btn = (Button)sender;
             BoardPoint boardPoint = (BoardPoint)btn.Tag;
             int row = boardPoint.row;
@@ -150,20 +161,21 @@ namespace ChessGameSimple
                     }
                 }
 
-                bool moveSuccessful = _board.TryMakeMove(_selectedTile, to);
+                var moveToSend = Tuple.Create(_selectedTile, to);
 
-                if (moveSuccessful)
+                var moveDataJson = JsonConvert.SerializeObject(moveToSend, new JsonSerializerSettings
                 {
-                    ChessUtils.HideMoves(_buttons);
-                    _selectedTile = null;
-                    ChessUtils.DrawSymbols(_buttons, _board);
-                    return;
-                }
-                else
-                {
-                    _selectedTile = null;
-                    return;
-                }
+                    TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
+                    NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
+                });
+
+                // send move to server
+                Packet p = new(_username, moveDataJson, PacketType.Move);
+                _client.Send(p);
+
+                _selectedTile = null;
+                ChessUtils.HideMoves(_buttons);
+                
             }
 
         }
