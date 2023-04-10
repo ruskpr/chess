@@ -84,17 +84,21 @@ namespace ChessGameSimple
                 NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore,
             });
 
-            _board = game.Board;
-            
-            if (_clientPlayer == null)
-                _clientPlayer = game.Player1.Name == _username ? game.Player1 : game.Player2;
-
-            _turn = game.Turn;
 
             this.Invoke(() =>
             {
+                _board = game.Board;
+                //_board = new Board(8, true);
+
+                if (_clientPlayer == null)
+                    _clientPlayer = game.Player1.Name == _username ? game.Player1 : game.Player2;
+
+                _turn = game.Turn;
+
                 ChessUtils.CreateTiles(pnlBoard, _buttons, _board, pnlBoard.Width / 8, Color.Gainsboro, Color.Tan, OnTileClicked);
                 ChessUtils.DrawSymbols(_buttons, _board);
+
+                var x = _buttons;
             });
         }
 
@@ -116,7 +120,7 @@ namespace ChessGameSimple
                 {
                     Tile selectedTile = _board.GetTile(row, col);
 
-                    //if (selectedTile.Piece.Color != _clientPlayer.Symbol) return;
+                    if (selectedTile.Piece.Color != _clientPlayer.Symbol) return;
 
                     _selectedTile = selectedTile;
                     ChessUtils.ShowMoves(_buttons, _board, _selectedTile);

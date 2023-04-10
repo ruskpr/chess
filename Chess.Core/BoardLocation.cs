@@ -1,11 +1,13 @@
-﻿namespace Chess.Core
+﻿using Newtonsoft.Json;
+
+namespace Chess.Core
 {
     public class BoardLocation
     {
         private const int BoardSize = 8;
 
-        public int Row { get; }
-        public int Column { get; }
+        public int Row { get; set; }
+        public int Column { get; set; }
 
         private static bool IsInRange(int pos)
         {
@@ -26,6 +28,8 @@
             Row = row;
             Column = col;
         }
-        
+
+        [JsonConstructor]
+        public BoardLocation() { }     
     }
 }

@@ -29,10 +29,7 @@ namespace ChessGameSimple
                     {
                         buttonArray[move.Row, move.Column].Image = (Image)RM.GetObject("ValidSpace");
                     }
-                    catch
-                    {
-                        continue;
-                    }
+                    catch { continue; }
                 }
             }
         }
