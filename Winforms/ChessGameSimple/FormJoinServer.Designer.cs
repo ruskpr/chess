@@ -42,14 +42,14 @@
             tbPort.Location = new Point(120, 70);
             tbPort.Name = "tbPort";
             tbPort.Size = new Size(100, 23);
-            tbPort.TabIndex = 7;
+            tbPort.TabIndex = 2;
             // 
             // tbIP
             // 
             tbIP.Location = new Point(120, 41);
             tbIP.Name = "tbIP";
             tbIP.Size = new Size(100, 23);
-            tbIP.TabIndex = 8;
+            tbIP.TabIndex = 1;
             // 
             // btnJoin
             // 
@@ -60,7 +60,7 @@
             btnJoin.Location = new Point(63, 108);
             btnJoin.Name = "btnJoin";
             btnJoin.Size = new Size(139, 23);
-            btnJoin.TabIndex = 6;
+            btnJoin.TabIndex = 3;
             btnJoin.Text = "Join Server";
             btnJoin.UseVisualStyleBackColor = false;
             btnJoin.Click += btnJoin_Click;
@@ -88,7 +88,7 @@
             tbUsername.Location = new Point(120, 12);
             tbUsername.Name = "tbUsername";
             tbUsername.Size = new Size(100, 23);
-            tbUsername.TabIndex = 10;
+            tbUsername.TabIndex = 0;
             // 
             // label1
             // 
@@ -101,6 +101,7 @@
             // 
             // FormJoinServer
             // 
+            AcceptButton = btnJoin;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(251, 156);
@@ -111,8 +112,10 @@
             Controls.Add(btnJoin);
             Controls.Add(label3);
             Controls.Add(label2);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Name = "FormJoinServer";
             ShowIcon = false;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Join Server";
             ResumeLayout(false);
             PerformLayout();

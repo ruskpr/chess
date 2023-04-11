@@ -34,7 +34,7 @@ namespace ChessGameSimple
                 return;
             }
 
-            if (IPEndPoint.TryParse($"{tbIP}:{tbPort}", out IPEndPoint ipEp))
+            if (IPEndPoint.TryParse($"{tbIP.Text}:{tbPort.Text}", out IPEndPoint ipEp))
             {
                 Username = tbUsername.Text;
                 EndpointAddress = ipEp;

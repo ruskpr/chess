@@ -72,14 +72,14 @@
             tbUsername.Location = new Point(115, 28);
             tbUsername.Name = "tbUsername";
             tbUsername.Size = new Size(100, 23);
-            tbUsername.TabIndex = 3;
+            tbUsername.TabIndex = 0;
             // 
             // tbPort
             // 
             tbPort.Location = new Point(115, 57);
             tbPort.Name = "tbPort";
             tbPort.Size = new Size(100, 23);
-            tbPort.TabIndex = 3;
+            tbPort.TabIndex = 1;
             // 
             // FormHostServer
             // 
