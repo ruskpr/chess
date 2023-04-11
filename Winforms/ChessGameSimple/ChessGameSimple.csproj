@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Chess.Core\Chess.Core.csproj" />
+    <ProjectReference Include="..\..\CLI\ChessServer\ChessServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

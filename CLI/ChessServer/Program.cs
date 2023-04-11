@@ -7,7 +7,7 @@ using System.Net.Sockets;
 namespace ChessServer
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
-    internal class Program
+    public class Program
     {
 
         static UdpListener _server;
@@ -17,7 +17,7 @@ namespace ChessServer
         private static Player _p1;
         private static Player _p2;
 
-        static async Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             // configure console
             Console.SetWindowPosition(0, 0);
