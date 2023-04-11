@@ -254,6 +254,19 @@ namespace Chess.Core
             return null;
         }
 
+        public void RemovePiece(IPiece piece)
+        {
+            var tile = GetTileByPiece(piece);
+            if (tile != null)
+                tile.Piece = null;
+        }
+
+        public void RemovePiece(int row, int col)
+        {
+            var tile = GetTile(row, col);
+            if (tile != null)
+                tile.Piece = null;
+        }
 
     }
 }
