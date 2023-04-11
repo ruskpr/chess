@@ -34,9 +34,15 @@ namespace ChessGameSimple
             _black = new Player("Black", 'b', PlayerType.LocalPlayer);
 
             _board = new Board(BOARDSIZE, true);
+            _board.OnKingChecked += _board_OnKingChecked;
 
             ChessUtils.CreateTiles(this, _buttonArray, _board, tileSize, Color1, Color2, tileClickEventHandler);
             ChessUtils.DrawSymbols(_buttonArray, _board);
+        }
+
+        private void _board_OnKingChecked(King? kingThatIsChecked, string message)
+        {
+            MessageBox.Show(message);
         }
 
         private void tileClickEventHandler(object sender, EventArgs e)

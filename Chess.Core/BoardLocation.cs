@@ -30,6 +30,12 @@ namespace Chess.Core
         }
 
         [JsonConstructor]
-        public BoardLocation() { }     
+        public BoardLocation() { }
+
+
+        public override string ToString()
+        {
+            return $"{Row},{Column}";
+        }
     }
 }
