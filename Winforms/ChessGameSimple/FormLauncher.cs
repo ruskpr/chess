@@ -36,7 +36,18 @@ namespace ChessGameSimple
 
         private void btnJoinServer_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            using (FormJoinServer frmJoinServer = new FormJoinServer())
+            {
+                frmJoinServer.ShowDialog();
+                if (frmJoinServer.DialogResult == DialogResult.OK)
+                {
+
+                    FormUDPClient frmClient = new FormUDPClient(frmJoinServer.Username,
+                                                    frmJoinServer.EndpointAddress.Address.ToString(), 
+                                                    frmJoinServer.EndpointAddress.Port);
+                    frmClient.Show();
+                }
+            }
         }
 
         private async void btnHostServer_Click(object sender, EventArgs e)
@@ -45,10 +56,8 @@ namespace ChessGameSimple
             {
                 frmHostServer.ShowDialog();
 
-
                 if (frmHostServer.DialogResult == DialogResult.OK)
                 {
-
                     var ipAddress = frmHostServer.EndpointAddress.Address.ToString();
                     var port = frmHostServer.EndpointAddress.Port;
                     var serverExecutablePath = Path.Combine(Environment.CurrentDirectory, "ChessServer.exe");
