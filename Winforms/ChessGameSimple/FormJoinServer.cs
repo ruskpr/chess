@@ -28,7 +28,7 @@ namespace ChessGameSimple
                 MessageBox.Show("Enter a username.");
                 return;
             }
-            if (tbIP.Text.Length < 30)
+            if (tbIP.Text.Length >= 30)
             {
                 MessageBox.Show("username must be less that 30 characters.");
                 return;
