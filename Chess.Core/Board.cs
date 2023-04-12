@@ -149,9 +149,8 @@ namespace Chess.Core
         public bool TryMakeMove(Tile? from, Tile? to)
         {
             if (_gameOver) return false;
-
-            if (from.Piece is null) return false;          
-
+            if (from.Piece is null) return false;  
+            
             from.Piece.GetValidMoves(this);
             if (!Movement.MoveIsValid(this, from, to))
                 return false;
@@ -174,10 +173,7 @@ namespace Chess.Core
                 {
                     _gameOver = true;
                     OnGameOver?.Invoke(GameOverType.Checkmate);
-                }
-                else
-                {
-                }
+                }                
             }
 
             return true;

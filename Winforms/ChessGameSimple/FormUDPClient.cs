@@ -113,6 +113,7 @@ namespace ChessGameSimple
         private void OnTileClicked(object? sender, EventArgs e)
         {
             // return if it not players turn
+            if (_clientPlayer == null) return;
             if (_turn != _clientPlayer.Symbol) return;
 
             Button btn = (Button)sender;

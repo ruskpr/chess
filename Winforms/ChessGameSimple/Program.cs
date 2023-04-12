@@ -18,8 +18,8 @@ namespace ChessGameSimple
             //AppContext appContext = new AppContext();
 
             //Application.Run(appContext);
-            //Application.Run(new FormLauncher());
-            Application.Run(new FormPlayerVsPlayer());
+            Application.Run(new FormLauncher());
+            //Application.Run(new FormPlayerVsPlayer());
         }
     }
 
