@@ -10,10 +10,10 @@ namespace Chess.Core
         {
             location = null;
             var newRow = currPiece.CurrentLocation.Row + deltaRow;
-            if ((newRow < 0) || (newRow > board.Size)) return false;
+            if ((newRow < 0) || (newRow >= board.Size)) return false;
 
             var newCol = currPiece.CurrentLocation.Column + deltaCol;
-            if ((newCol < 0) || (newCol > board.Size)) return false;           
+            if ((newCol < 0) || (newCol >= board.Size)) return false;           
 
             location = new BoardLocation(newRow, newCol);
             return true;
@@ -90,8 +90,6 @@ namespace Chess.Core
 
                 // if the king can move to a location that is not in check, then we can move the king
 
-
-
                 foreach (var tmpMove in allMoves)
                 {
                     var tmpLocation = new BoardLocation(tmpMove.Row, tmpMove.Column);
@@ -116,7 +114,6 @@ namespace Chess.Core
                     if (!tmpBoard.IsKingInCheck(attackerColor))
                         ret.Add(new Tile(tmpLocation.Row, tmpLocation.Column));
 
-
                     // move king back to original position
                     tmpBoard.MovePiece(tmpLocation, originalLocation, false);
 
@@ -130,6 +127,21 @@ namespace Chess.Core
             }
             else
                 return GetMoves(board, king, range, templates);
+        }
+
+        public bool IsKingInCheck(Board board, BoardLocation attackerPos, BoardLocation kingPos)
+        {
+            var attackerPiece = board.GetPiece(attackerPos.Row, attackerPos.Column);
+            if (attackerPiece.GetValidMoves(board).Any(a => a.Row == kingPos.Row && a.Column == kingPos.Column))
+            {
+                var tmpKing = board.GetPiece(kingPos.Row, kingPos.Column) as King;
+                if (tmpKing.Color != attackerPiece.Color)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private static bool IsSameColor(Board board, IPiece piece, BoardLocation newLoc)

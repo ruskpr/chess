@@ -47,5 +47,13 @@ namespace Chess.Core
             return rowCoordinate + Column.ToString();
         }
 
+        public override string ToString()
+        {
+            if (Piece != null)
+                return Piece.ToString();
+            else
+                return base.ToString();
+        }
+
     }
 }

@@ -26,7 +26,7 @@ namespace ChessGameSimple
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.MinimumSize = this.Size;
-            this.KeyPreview = true;
+            this.Text = "";
 
             _board = new Board(BOARDSIZE, false);
             _board.AddPiece<King>(2, 4, 'b');
@@ -41,11 +41,18 @@ namespace ChessGameSimple
 
         private void _board_OnKingChecked(King? kingThatIsChecked)
         {
-            MessageBox.Show(kingThatIsChecked.ToString() + " is in check.");
+            this.Text = kingThatIsChecked.ToString() + " is in check.";
         }
 
         private void tileClickEventHandler(object sender, EventArgs e)
         {
+            if (_board.IsGameOver)
+            {
+                this.Text = _turn == 'w' ? "Black wins" : "White wins";
+                return;
+            }
+            ChessUtils.HideMoves(_buttonArray);
+
             Button btn = (Button)sender;
             BoardPoint boardPoint = (BoardPoint)btn.Tag;
             int row = boardPoint.row;
@@ -63,17 +70,18 @@ namespace ChessGameSimple
                     if (selectedTile.Piece.Color != _turn) return;
 
                     _selectedTile = selectedTile;
+                    this.Text = $"Selected: {_selectedTile}";
                     ChessUtils.ShowMoves(_buttonArray, _board, _selectedTile);
                 }
-
-                lbSelected.Text = $"Selected: {row}, {col}";
+                else
+                    this.Text = $"Selected: empty tile at {row}, {col}";
             }
             // unselect the piece if it is already selected
             else if (_selectedTile == _board.GetTile(row, col))
             {
                 ChessUtils.HideMoves(_buttonArray);
                 _selectedTile = null;
-                lbSelected.Text = $"Selected:";
+                this.Text = "";
             }
             // if a piece is selected, try to move it
             else
@@ -88,6 +96,7 @@ namespace ChessGameSimple
                         _selectedTile = to;
                         ChessUtils.HideMoves(_buttonArray);
                         ChessUtils.ShowMoves(_buttonArray, _board, _selectedTile);
+                        this.Text = $"Selected: {_selectedTile}";
                         return;
                     }
                 }
@@ -98,14 +107,28 @@ namespace ChessGameSimple
                 {
                     ChessUtils.HideMoves(_buttonArray);
                     _selectedTile = null;
-                    lbSelected.Text = $"Selected:";
+                    this.Text = "";
                     SwapTurns();
                     ChessUtils.DrawSymbols(_buttonArray, _board);
+
+                    
+                    if (_board.IsGameOver)
+                    {
+                        this.Text = _turn == 'w' ? "Black wins" : "White wins";
+                        return;
+                    }
+
+                    if (_board.KingInCheck != null)
+                    {
+                        var color = _board.KingInCheck == 'w' ? "White" : "Black";
+                        this.Text = $"{color} king is in check.";
+                        return;
+                    }
                 }
                 else
                 {
                     _selectedTile = null;
-                    lbSelected.Text = "Invalid move";
+                    this.Text = "Invalid move.";
                 }
             }
         }
@@ -113,7 +136,7 @@ namespace ChessGameSimple
         private void SwapTurns()
         {
             _turn = _turn == 'w' ? 'b' : 'w';
-            lbTurn.Text = _turn == 'w' ? "White" : "Black";
+            lbTurn.Text = _turn == 'w' ? "Turn: White" : "Turn: Black";
         }
 
         private void btnUndo_Click_1(object sender, EventArgs e)

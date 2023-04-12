@@ -38,6 +38,7 @@ namespace Chess.Core
         private BoardLocation _blackKingLocation;
         private char? _kingInCheck;
         private bool _gameOver = false;
+        private char? _winner = null;
 
         #endregion
 
@@ -45,8 +46,9 @@ namespace Chess.Core
 
         public Tile[,] Tiles { get { return _tiles; } set { _tiles = value; } }
         public int Size { get; set; }
-
         public char? KingInCheck { get => _kingInCheck; set => _kingInCheck = value; }
+        public bool IsGameOver { get => _gameOver; set => _gameOver = value; }
+        public char? Winner { get => _winner; set => _winner = value; }
 
         #endregion
 
@@ -146,6 +148,8 @@ namespace Chess.Core
 
         public bool TryMakeMove(Tile? from, Tile? to)
         {
+            if (_gameOver) return false;
+
             if (from.Piece is null) return false;          
 
             from.Piece.GetValidMoves(this);
@@ -161,18 +165,19 @@ namespace Chess.Core
             {
                 var kingLoc = to.Piece.Color == 'w' ? _blackKingLocation : _whiteKingLocation;
                 King king = GetPiece(kingLoc.Row, kingLoc.Column) as King;
+
                 _kingInCheck = king.Color;
-                var kingMoves = king.GetValidMoves(this);
                 OnKingChecked?.Invoke(king);
 
-                //if (kingMoves.Count == 0)
-                //{
-                //    _gameOver = true;
-                //    OnGameOver?.Invoke(GameOverType.Checkmate);
-                //}
-                //else
-                //{
-                //}
+                var kingMoves = king.GetValidMoves(this);
+                if (kingMoves.Count == 0)
+                {
+                    _gameOver = true;
+                    OnGameOver?.Invoke(GameOverType.Checkmate);
+                }
+                else
+                {
+                }
             }
 
             return true;
@@ -234,16 +239,20 @@ namespace Chess.Core
 
             if (from.Piece is King)
                 UpdateKingPosition(from.Piece.Color, from.Row, from.Column);
+
+            if (_gameOver) _gameOver = false;
+
         }               
 
         // create a method to check if the king is in check
-        public bool IsKingInCheck(char attackerColor)
+        internal bool IsKingInCheck(char attackerColor)
         {
 
             var kingPos = attackerColor == 'w' ? _blackKingLocation : _whiteKingLocation;
             foreach (var tile in _tiles)
             {
                 if (tile.Piece == null) continue;
+                if (tile.Piece is King) continue;
 
                 if (tile.Piece.Color == attackerColor)
                 {
@@ -260,7 +269,9 @@ namespace Chess.Core
             }
 
             return false;
-        }    
+        }
+
+        
 
         private void UpdateKingPosition(char color, int row, int col)
         {
