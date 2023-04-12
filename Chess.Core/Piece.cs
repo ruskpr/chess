@@ -54,5 +54,11 @@
             _currentLocation = new BoardLocation(row, col);
         }
 
+        public override string ToString()
+        {
+            
+            return $"{Color} {Symbol} at {CurrentLocation}";
+        }
+
     }
 }
