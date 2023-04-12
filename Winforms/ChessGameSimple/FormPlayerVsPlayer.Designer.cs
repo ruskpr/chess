@@ -30,6 +30,7 @@
         {
             lbTurn = new Label();
             lbSelected = new Label();
+            btnUndo = new Button();
             SuspendLayout();
             // 
             // lbTurn
@@ -50,14 +51,26 @@
             lbSelected.TabIndex = 0;
             lbSelected.Text = "Selected:";
             // 
-            // FormLocalGame
+            // btnUndo
+            // 
+            btnUndo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnUndo.Location = new Point(665, 77);
+            btnUndo.Name = "btnUndo";
+            btnUndo.Size = new Size(75, 23);
+            btnUndo.TabIndex = 1;
+            btnUndo.Text = "Undo";
+            btnUndo.UseVisualStyleBackColor = true;
+            btnUndo.Click += btnUndo_Click_1;
+            // 
+            // FormPlayerVsPlayer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(765, 708);
+            Controls.Add(btnUndo);
             Controls.Add(lbSelected);
             Controls.Add(lbTurn);
-            Name = "FormLocalGame";
+            Name = "FormPlayerVsPlayer";
             Text = "Form1";
             ResumeLayout(false);
             PerformLayout();
@@ -67,5 +80,6 @@
 
         private Label lbTurn;
         private Label lbSelected;
+        private Button btnUndo;
     }
 }

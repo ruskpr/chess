@@ -1,8 +1,15 @@
 ﻿using Chess.Core.Pieces;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Chess.Core
 {
+    public enum GameOverType
+    {
+        Checkmate,
+        Stalemate
+    }
+
     public class Board
     {
         #region delegates / events
@@ -11,8 +18,11 @@ namespace Chess.Core
         //public delegate void PieceMovedDelegate();
         //public event PieceMovedDelegate? OnPieceMoved;
 
-        public delegate void GameOver(King? kingThatIsChecked, string message);
-        public event GameOver? OnKingChecked;
+        public delegate void KingChecked(King? kingThatIsChecked);
+        public event KingChecked? OnKingChecked;
+
+        public delegate void GameOver(GameOverType type);
+        public event GameOver OnGameOver;
 
         #endregion
 
@@ -21,8 +31,13 @@ namespace Chess.Core
         const int DEFAULT_SIZE = 8;
 
         private Tile[,] _tiles;
-        public Stack<Tuple<Piece, Tile, Tile>> MoveStack = new Stack<Tuple<Piece, Tile, Tile>>();
+        public Stack<Tuple<BoardLocation, BoardLocation, IPiece?>> MoveStack = new Stack<Tuple<BoardLocation, BoardLocation, IPiece?>>();
         private string _latestMove = "";
+
+        private BoardLocation _whiteKingLocation;
+        private BoardLocation _blackKingLocation;
+        private char? _kingInCheck;
+        private bool _gameOver = false;
 
         #endregion
 
@@ -31,9 +46,7 @@ namespace Chess.Core
         public Tile[,] Tiles { get { return _tiles; } set { _tiles = value; } }
         public int Size { get; set; }
 
-        public List<Piece> WhiteCapturedPieces { get; set; } = new List<Piece>();
-        public List<Piece> BlackCapturedPieces { get; set; } = new List<Piece>();
-
+        public char? KingInCheck { get => _kingInCheck; set => _kingInCheck = value; }
 
         #endregion
 
@@ -46,14 +59,21 @@ namespace Chess.Core
             Size = size;
             CreateTiles(size, size);
 
+            
+
             if (addDefaultPieces)
+            {
                 AddDefaultPieces();
+                _blackKingLocation = new BoardLocation(0, 4);
+                _whiteKingLocation = new BoardLocation(7, 4);
+            }
         }
          
         // overload to allow custom board
         public Board(Tile[,] tiles)
         {
             _tiles = tiles;
+            Size = tiles.GetLength(0);
         }
 
         // for json serialization
@@ -63,6 +83,8 @@ namespace Chess.Core
         ~Board() => System.Diagnostics.Debug.WriteLine($"Chessboard was disposed");
 
         #endregion
+
+        #region tile & piece creation
 
         private void CreateTiles(int rows, int columns)
         {
@@ -75,7 +97,7 @@ namespace Chess.Core
             }
         }
 
-        public void AddDefaultPieces()
+        private void AddDefaultPieces()
         {
             //loop through each tile in 2d array and add pieces to board tiles
             for (int i = 0; i < 8; i++)
@@ -120,92 +142,147 @@ namespace Chess.Core
             }
         }
 
-        // will return false until a valid move is made
+        #endregion
+
         public bool TryMakeMove(Tile? from, Tile? to)
         {
-            // if there is no piece on the tile, return false
-            if (from.Piece is null) return false;
+            if (from.Piece is null) return false;          
 
             from.Piece.GetValidMoves(this);
+            if (!Movement.MoveIsValid(this, from, to))
+                return false;
 
-            // check if the move is valid
-            if (Movement.MoveIsValid(this, from, to))
+            if (from.Piece.Color == to.Piece?.Color) return false; // same color check
+            if (to.Piece is King) return false; // king piece check
+
+            MovePiece(from, to);            
+
+            if (IsKingInCheck(to.Piece.Color))
             {
-                // return false if tiles are the same color
-                if (from.Piece.Color == to.Piece?.Color) return false;
-                // return false if the target piece is a king
-                if (to.Piece is King) return false;
+                var kingLoc = to.Piece.Color == 'w' ? _blackKingLocation : _whiteKingLocation;
+                King king = GetPiece(kingLoc.Row, kingLoc.Column) as King;
+                _kingInCheck = king.Color;
+                var kingMoves = king.GetValidMoves(this);
+                OnKingChecked?.Invoke(king);
 
-                MovePiece(from, to);
-
-                if (IsKingInCheck(to.Piece, out King? king))
-                {
-                    OnKingChecked?.Invoke(king, "Check");
-
-                    //if (king.GetValidMoves(this).Count == 0)
-                    //{
-                    //    OnKingChecked?.Invoke(king, "Checkmate");
-                    //}
-                    //else
-                    //{
-                    //    OnKingChecked?.Invoke(king, "Check");
-                    //}
-                }
-
-                return true;
+                //if (kingMoves.Count == 0)
+                //{
+                //    _gameOver = true;
+                //    OnGameOver?.Invoke(GameOverType.Checkmate);
+                //}
+                //else
+                //{
+                //}
             }
 
-            return false;
+            return true;
+
         }
 
-        private void MovePiece(Tile from, Tile to)
+        internal void MovePiece(Tile from, Tile to)
         {
+            // store the moves details in a stack
+            var fromLoc = new BoardLocation(from.Row, from.Column);
+            var toLoc = new BoardLocation(to.Row, to.Column);
+            IPiece? capturedPiece = to.Piece;
+            MoveStack.Push(Tuple.Create(fromLoc, toLoc, capturedPiece));
+
+            // move piece
             to.Piece = from.Piece;
             to.Piece.CurrentLocation = new BoardLocation(to.Row, to.Column);
-
             from.Piece = null;
+
+            if (to.Piece is King)
+                UpdateKingPosition(to.Piece.Color, to.Row, to.Column);
         }
 
-        // create a method to check if the king is in check
-        public bool IsKingInCheck(IPiece attackerPiece, out King? king)
+        internal void MovePiece(BoardLocation from, BoardLocation to, bool saveToStack)
         {
-            var attackerMoves = attackerPiece.GetValidMoves(this).ToList();
-
-            // if a move contains an enemy king
-            foreach (var move in attackerMoves)
+            // store the moves details in a stack
+            if (saveToStack)
             {
-                var tile = GetTile(move.Row, move.Column);
-                if (tile == null) continue;
+                IPiece? capturedPiece = GetTile(to).Piece;
+                MoveStack.Push(Tuple.Create(from, to, capturedPiece));
+            }
 
-                if (tile.Piece is King && attackerPiece.Color != tile.Piece.Color)
+            // move piece
+            var fromTile = GetTile(from);
+            var toTile = GetTile(to);
+
+            toTile.Piece = fromTile.Piece;
+            toTile.Piece.CurrentLocation = to;
+            fromTile.Piece = null;
+
+            if (toTile.Piece is King)
+                UpdateKingPosition(toTile.Piece.Color, toTile.Row, toTile.Column);
+        }
+
+        public void UndoMove()
+        {
+            if (MoveStack.Count == 0) return;
+
+            var lastMove = MoveStack.Pop();
+
+            var from = GetTile(lastMove.Item1.Row, lastMove.Item1.Column);
+            var to = GetTile(lastMove.Item2.Row, lastMove.Item2.Column);
+
+            from.Piece = to.Piece;
+            if (from.Piece != null)
+                from.Piece.CurrentLocation = new BoardLocation(from.Row, from.Column);
+
+            to.Piece = lastMove.Item3; // restore captured piece (if there was one)            
+
+            if (from.Piece is King)
+                UpdateKingPosition(from.Piece.Color, from.Row, from.Column);
+        }               
+
+        // create a method to check if the king is in check
+        public bool IsKingInCheck(char attackerColor)
+        {
+
+            var kingPos = attackerColor == 'w' ? _blackKingLocation : _whiteKingLocation;
+            foreach (var tile in _tiles)
+            {
+                if (tile.Piece == null) continue;
+
+                if (tile.Piece.Color == attackerColor)
                 {
-                    king = (King)move.Piece;
-                    return true;
+                    var attackerMoves = GetPiece(tile.Row, tile.Column).GetValidMoves(this);
+                    if (attackerMoves.Any(a => a.Row == kingPos.Row && a.Column == kingPos.Column))
+                    {
+                        var tmpKing = GetPiece(kingPos.Row, kingPos.Column) as King;
+                        if (tmpKing.Color != attackerColor)
+                        {
+                            return true;
+                        }
+                    }
                 }
             }
 
-            king = null;
             return false;
-        }
+        }    
 
-        public void UpdatePieces()
+        private void UpdateKingPosition(char color, int row, int col)
         {
-            var tasks = new List<Task>();
-
-            foreach (Tile tile in _tiles)
-            {
-                if (tile.Piece != null)
-                tasks.Add(Task.Run(() => tile.Piece.GetValidMoves(this)));
-            }
-
-            Task.WaitAll(tasks.ToArray());
+            if (color == 'w')
+                _whiteKingLocation = new BoardLocation(row, col);
+            else
+                _blackKingLocation = new BoardLocation(row, col);
         }
-        
+
         #region reset board
 
         public void ResetBoard()
         {
-            throw new NotImplementedException();
+            // clear the move stack
+            MoveStack.Clear();
+            // clear the board
+            foreach (var tile in _tiles)
+            {
+                tile.Piece = null;
+            }
+            // add the default pieces
+            AddDefaultPieces();
         }
 
         #endregion
@@ -218,20 +295,36 @@ namespace Chess.Core
 
             T piece = new T();
             piece.CurrentLocation = new BoardLocation(row, col);
-            //piece.GetValidMoves(this);
             piece.Color = color;
             _tiles[row, col].Piece = piece;
+
+            if (piece is King && piece.Color == 'b')
+                _blackKingLocation = new BoardLocation(row, col);
+            else if (piece is King && piece.Color == 'w')
+                _whiteKingLocation = new BoardLocation(row, col);
+
+            return piece;
+        }
+
+        public IPiece AddPiece(int row, int col, IPiece piece)
+        {
+            if (row >= Size || col >= Size)
+                throw new IndexOutOfRangeException("Row or column is out of range.");
+
+            piece.CurrentLocation = new BoardLocation(row, col);
+            _tiles[row, col].Piece = piece;
+
+            if (piece is King && piece.Color == 'b')
+                _blackKingLocation = new BoardLocation(row, col);
+            else if (piece is King && piece.Color == 'w')
+                _whiteKingLocation = new BoardLocation(row, col);
+
             return piece;
         }
 
         public IPiece? GetPiece(int row, int col)
         {
             return _tiles[row, col].Piece ?? null;
-        }
-
-        public void PlaceTile(int row, int col, Piece? piece = null)
-        {
-            _tiles[row, col] = new Tile(row, col, piece);
         }
 
         public Tile? GetTile(int row, int col)
@@ -243,12 +336,21 @@ namespace Chess.Core
             catch { return null; }
         }
 
+        public Tile? GetTile(BoardLocation boardLocation)
+        {
+            try
+            {
+                return _tiles[boardLocation.Row, boardLocation.Column];
+            }
+            catch { return null; }
+        }
+
         // get tile by piece
         public Tile? GetTileByPiece(IPiece piece)
         {
             foreach (Tile tile in _tiles)
             {
-                if (tile.Piece == piece)
+                if (tile.Row == piece.CurrentLocation.Row && tile.Column == piece.CurrentLocation.Column)
                     return tile;
             }
             return null;

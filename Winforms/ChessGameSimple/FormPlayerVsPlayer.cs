@@ -6,7 +6,7 @@ namespace ChessGameSimple
 {
     public partial class FormPlayerVsPlayer : Form
     {
-        
+
         const int BOARDSIZE = 8;
 
         static Color Color1 = Color.Gainsboro;
@@ -20,29 +20,28 @@ namespace ChessGameSimple
 
         private Button[,] _buttonArray = new Button[BOARDSIZE, BOARDSIZE];
         private Board _board;
-        //private Game _game;
-        private Player _white;
-        private Player _black;
 
         public FormPlayerVsPlayer()
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.MinimumSize = this.Size;
+            this.KeyPreview = true;
 
-            _white = new Player("White", 'w', PlayerType.LocalPlayer);
-            _black = new Player("Black", 'b', PlayerType.LocalPlayer);
-
-            _board = new Board(BOARDSIZE, true);
+            _board = new Board(BOARDSIZE, false);
+            _board.AddPiece<King>(2, 4, 'b');
+            _board.AddPiece<King>(7, 4, 'w');
+            _board.AddPiece<Queen>(5, 2, 'w');
+            _board.AddPiece<Queen>(6, 2, 'w');
             _board.OnKingChecked += _board_OnKingChecked;
 
             ChessUtils.CreateTiles(this, _buttonArray, _board, tileSize, Color1, Color2, tileClickEventHandler);
             ChessUtils.DrawSymbols(_buttonArray, _board);
         }
 
-        private void _board_OnKingChecked(King? kingThatIsChecked, string message)
+        private void _board_OnKingChecked(King? kingThatIsChecked)
         {
-            MessageBox.Show(message);
+            MessageBox.Show(kingThatIsChecked.ToString() + " is in check.");
         }
 
         private void tileClickEventHandler(object sender, EventArgs e)
@@ -102,22 +101,30 @@ namespace ChessGameSimple
                     lbSelected.Text = $"Selected:";
                     SwapTurns();
                     ChessUtils.DrawSymbols(_buttonArray, _board);
-                    return;
                 }
                 else
                 {
                     _selectedTile = null;
                     lbSelected.Text = "Invalid move";
-                    return;
                 }
             }
-
         }
 
         private void SwapTurns()
         {
             _turn = _turn == 'w' ? 'b' : 'w';
             lbTurn.Text = _turn == 'w' ? "White" : "Black";
+        }
+
+        private void btnUndo_Click_1(object sender, EventArgs e)
+        {
+            if (_board.MoveStack.Count == 0) return;
+
+            _selectedTile = null;
+            _board.UndoMove();
+            SwapTurns();
+            ChessUtils.DrawSymbols(_buttonArray, _board);
+            ChessUtils.HideMoves(_buttonArray);
         }
     }
 }
