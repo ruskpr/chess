@@ -32,7 +32,7 @@ namespace Chess.Core.Pieces
 
         public override IList<Tile> GetValidMoves(Board board)
         {
-            var moves = Movement.GetKingMoves(board, this, MoveTemplates);
+            var moves = Movement.GetMoves(board, this, 1, MoveTemplates);
            
             return moves;
         }

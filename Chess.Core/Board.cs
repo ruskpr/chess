@@ -34,8 +34,8 @@ namespace Chess.Core
         public Stack<Tuple<BoardLocation, BoardLocation, IPiece?>> MoveStack = new Stack<Tuple<BoardLocation, BoardLocation, IPiece?>>();
         private string _latestMove = "";
 
-        private BoardLocation _whiteKingLocation;
-        private BoardLocation _blackKingLocation;
+        internal BoardLocation _whiteKingLocation;
+        internal BoardLocation _blackKingLocation;
         private char? _kingInCheck;
         private bool _gameOver = false;
         private char? _winner = null;
@@ -60,8 +60,6 @@ namespace Chess.Core
             _tiles = new Tile[size, size];
             Size = size;
             CreateTiles(size, size);
-
-            
 
             if (addDefaultPieces)
             {
@@ -151,14 +149,16 @@ namespace Chess.Core
             if (_gameOver) return false;
             if (from.Piece is null) return false;  
             
-            from.Piece.GetValidMoves(this);
+
+            // validates that the selected piece can move to the selected tile
             if (!Movement.MoveIsValid(this, from, to))
                 return false;
+            
 
             if (from.Piece.Color == to.Piece?.Color) return false; // same color check
             if (to.Piece is King) return false; // king piece check
 
-            MovePiece(from, to);            
+            MovePiece(from, to);
 
             if (IsKingInCheck(to.Piece.Color))
             {
@@ -168,13 +168,16 @@ namespace Chess.Core
                 _kingInCheck = king.Color;
                 OnKingChecked?.Invoke(king);
 
-                var kingMoves = king.GetValidMoves(this);
-                if (kingMoves.Count == 0)
-                {
-                    _gameOver = true;
-                    OnGameOver?.Invoke(GameOverType.Checkmate);
-                }                
+                // check to see if the player in check can make any moves that will get the king out of check
+                // if not, the game is over
+                //if (!Movement.CanMoveKingOutOfCheck(this, _kingInCheck))
+                //{
+                //    _gameOver = true;
+                //    OnGameOver?.Invoke(GameOverType.Checkmate);
+                //}
             }
+            else
+                _kingInCheck = null;
 
             return true;
 
@@ -197,15 +200,8 @@ namespace Chess.Core
                 UpdateKingPosition(to.Piece.Color, to.Row, to.Column);
         }
 
-        internal void MovePiece(BoardLocation from, BoardLocation to, bool saveToStack)
+        internal void TempMove(BoardLocation from, BoardLocation to)
         {
-            // store the moves details in a stack
-            if (saveToStack)
-            {
-                IPiece? capturedPiece = GetTile(to).Piece;
-                MoveStack.Push(Tuple.Create(from, to, capturedPiece));
-            }
-
             // move piece
             var fromTile = GetTile(from);
             var toTile = GetTile(to);
@@ -237,6 +233,7 @@ namespace Chess.Core
                 UpdateKingPosition(from.Piece.Color, from.Row, from.Column);
 
             if (_gameOver) _gameOver = false;
+            if (_kingInCheck != null) _kingInCheck = null;
 
         }               
 
@@ -266,9 +263,7 @@ namespace Chess.Core
 
             return false;
         }
-
         
-
         private void UpdateKingPosition(char color, int row, int col)
         {
             if (color == 'w')
@@ -332,6 +327,11 @@ namespace Chess.Core
         public IPiece? GetPiece(int row, int col)
         {
             return _tiles[row, col].Piece ?? null;
+        }
+
+        public IPiece? GetPiece(BoardLocation boardLocation)
+        {
+            return _tiles[boardLocation.Row, boardLocation.Column].Piece ?? null;
         }
 
         public Tile? GetTile(int row, int col)

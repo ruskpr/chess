@@ -1,6 +1,7 @@
 ﻿using Chess.Core.Pieces;
 using System;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Chess.Core
 {
@@ -27,6 +28,10 @@ namespace Chess.Core
             if (templates == null || !templates.Any()) return new List<Tile>();
 
             var ret = new List<Tile>();
+            bool kingInCheck = board.KingInCheck == piece.Color;
+
+            if (kingInCheck)
+                return GenerateMovesToEscapeCheck(board, piece, range, templates);
 
             foreach (var template in templates) 
             {
@@ -58,86 +63,88 @@ namespace Chess.Core
             }           
 
             return ret;
-        }        
+        }
 
-        internal static IList<Tile> GetKingMoves(Board board, King king, int[][] templates)
+        private static IList<Tile> GenerateMovesToEscapeCheck(Board board, IPiece piece, int pieceRange, IEnumerable<int[]> templates)
         {
-            if (board == null) throw new ArgumentNullException("board");
-            if (king == null) throw new ArgumentNullException("king");
-            if (templates == null || !templates.Any()) return new List<Tile>();
+            var kingPosition = board.KingInCheck == 'w' ? board._whiteKingLocation : board._blackKingLocation;
 
-            var range = 1; // king can only move one space at a time
-            bool inCheck = board.KingInCheck == king.Color;
+            var ret = new List<Tile>();
 
-            if (inCheck)
+            // board to apply future moves to
+            var tmpBoard = new Board(board.Tiles);
+            tmpBoard._blackKingLocation = board._whiteKingLocation;
+            tmpBoard._whiteKingLocation = board._blackKingLocation;
+            var attackerColor = piece.Color == 'w' ? 'b' : 'w';
+            var originalLocation = piece.CurrentLocation;
+
+            var allMoves = GetMoves(tmpBoard, tmpBoard.GetPiece(piece.CurrentLocation), pieceRange, templates);
+
+            IPiece? tempPiece = null;
+            BoardLocation? pieceLocation;
+
+            foreach (var tmpMove in allMoves)
             {
-                var ret = new List<Tile>();
-                char attackerColor = king.Color == 'w' ? 'b' : 'w';
+                var tmpLocation = new BoardLocation(tmpMove.Row, tmpMove.Column);
 
-                // board to apply future moves to
-                var tmpBoard = new Board(board.Tiles);
-                var tmpKing = tmpBoard.GetTile(king.CurrentLocation).Piece;
-
-                var originalLocation = tmpKing.CurrentLocation;
-
-                var allMoves = GetMoves(tmpBoard,
-                    tmpBoard.GetPiece(tmpKing.CurrentLocation.Row, tmpKing.CurrentLocation.Column), 
-                    range, 
-                    templates);
-
-                IPiece? tempPiece = null;
-                BoardLocation? pieceLocation;
-
-                // if the king can move to a location that is not in check, then we can move the king
-
-                foreach (var tmpMove in allMoves)
+                // temporarily remove the piece from the board (if there is one in the location being checked)
+                if (tmpBoard.GetTile(tmpLocation).Piece != null)
                 {
-                    var tmpLocation = new BoardLocation(tmpMove.Row, tmpMove.Column);
+                    tempPiece = tmpBoard.GetTile(tmpLocation).Piece;
+                    pieceLocation = tempPiece.CurrentLocation;
+                    tmpBoard.RemovePiece(tempPiece);
+                }
+                else
+                {
+                    tempPiece = null;
+                    pieceLocation = null;
+                }
 
-                    // if the king is moving to a location that is occupied by a piece
-                    // then we need to temporarily remove the piece from the board
-                    // so that we can check if the king is in check
-                    if (tmpBoard.GetTile(tmpLocation).Piece != null)
-                    {
-                        tempPiece = tmpBoard.GetTile(tmpLocation).Piece;
-                        pieceLocation = tempPiece.CurrentLocation;
-                        tmpBoard.RemovePiece(tempPiece);
-                    }
-                    else
-                    {
-                        tempPiece = null;
-                        pieceLocation = null;
-                    }
+                tmpBoard.TempMove(originalLocation, tmpLocation);
 
-                    tmpBoard.MovePiece(tmpKing.CurrentLocation, tmpLocation, false);
-
-                    if (!tmpBoard.IsKingInCheck(attackerColor))
-                        ret.Add(new Tile(tmpLocation.Row, tmpLocation.Column));
-
-                    // move king back to original position
-                    tmpBoard.MovePiece(tmpLocation, originalLocation, false);
+                if (!IsKingInCheck(tmpBoard, attackerColor))
+                {
+                    // move piece back to original position
+                    tmpBoard.TempMove(tmpLocation, originalLocation);
 
                     // restore the piece that was removed
                     if (tempPiece != null)
                         tmpBoard.AddPiece(pieceLocation.Row, pieceLocation.Column, tempPiece);
+                    ret.Add(new Tile(tmpLocation.Row, tmpLocation.Column));
+                    return ret;
                 }
 
+                // move piece back to original position
+                tmpBoard.TempMove(tmpLocation, originalLocation);
 
-                return ret;
+                // restore the piece that was removed
+                if (tempPiece != null)
+                    tmpBoard.AddPiece(pieceLocation.Row, pieceLocation.Column, tempPiece);
             }
-            else
-                return GetMoves(board, king, range, templates);
+
+            return ret;
         }
 
-        public bool IsKingInCheck(Board board, BoardLocation attackerPos, BoardLocation kingPos)
+        internal static bool IsKingInCheck(Board board, char attackerColor)
         {
-            var attackerPiece = board.GetPiece(attackerPos.Row, attackerPos.Column);
-            if (attackerPiece.GetValidMoves(board).Any(a => a.Row == kingPos.Row && a.Column == kingPos.Column))
+            var kingPos = attackerColor == 'w' ? board._blackKingLocation : board._whiteKingLocation;
+            var king = board.GetTile(kingPos);
+
+            foreach (var tile in board.Tiles)
             {
-                var tmpKing = board.GetPiece(kingPos.Row, kingPos.Column) as King;
-                if (tmpKing.Color != attackerPiece.Color)
+                if (tile.Piece == null) continue;
+                if (tile.Piece is King) continue;
+
+                if (tile.Piece.Color == attackerColor)
                 {
-                    return true;
+                    var tmpCheckState = board.KingInCheck;
+                    board.KingInCheck = null;
+                    var attackerMoves = board.GetPiece(tile.Row, tile.Column).GetValidMoves(board);
+                    board.KingInCheck = tmpCheckState;
+                    if (attackerMoves.Any(a => a.Row == kingPos.Row && a.Column == kingPos.Column))
+                    {
+                        return true;
+                    }
                 }
             }
 
@@ -178,12 +185,14 @@ namespace Chess.Core
             return false;
         }
 
+        public static bool CanMoveKingOutOfCheck(Board board, char? colorThatIsChecked)
+        {
+            throw new NotImplementedException();
+            return true;
+        }
+
         internal static bool MoveIsValid(Board board, Tile from, Tile to)
         {
-            if (board == null) throw new ArgumentNullException("board");
-            if (from == null) throw new ArgumentNullException("from");
-            if (to == null) throw new ArgumentNullException("to");
-
             var piece = board.GetPiece(from.Row, from.Column);
             if (piece == null) return false;
             var moves = piece.GetValidMoves(board);

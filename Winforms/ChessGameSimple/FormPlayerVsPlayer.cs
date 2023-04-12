@@ -28,11 +28,11 @@ namespace ChessGameSimple
             this.MinimumSize = this.Size;
             this.Text = "";
 
-            _board = new Board(BOARDSIZE, false);
-            _board.AddPiece<King>(2, 4, 'b');
-            _board.AddPiece<King>(7, 4, 'w');
-            _board.AddPiece<Queen>(5, 2, 'w');
-            _board.AddPiece<Queen>(6, 2, 'w');
+            _board = new Board(BOARDSIZE, true);
+            //_board.AddPiece<King>(2, 4, 'b');
+            //_board.AddPiece<King>(7, 4, 'w');
+            //_board.AddPiece<Queen>(5, 2, 'w');
+            //_board.AddPiece<Queen>(6, 2, 'w');
             _board.OnKingChecked += _board_OnKingChecked;
 
             ChessUtils.CreateTiles(this, _buttonArray, _board, tileSize, Color1, Color2, tileClickEventHandler);
@@ -89,7 +89,7 @@ namespace ChessGameSimple
                 Tile to = _board.GetTile(row, col);
 
                 // if the piece is the same color as the selected piece, select the new piece
-                if (to.Piece != null)
+                if (_selectedTile.Piece != null && to.Piece != null)
                 {
                     if (_selectedTile.Piece.Color == to.Piece.Color)
                     {
@@ -110,7 +110,6 @@ namespace ChessGameSimple
                     this.Text = "";
                     SwapTurns();
                     ChessUtils.DrawSymbols(_buttonArray, _board);
-
                     
                     if (_board.IsGameOver)
                     {
