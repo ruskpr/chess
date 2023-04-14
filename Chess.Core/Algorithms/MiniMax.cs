@@ -8,7 +8,7 @@ namespace Chess.Core.Algorithms
 {
     public class MiniMax
     {
-        // Method to find the best move using minimax algorithm with alpha-beta pruning
+        // Find best move using minimax with alpha-beta pruning
         public static Move FindBestMove(Board board, int depth, int alpha, int beta, bool maximizingPlayer)
         {
             if (depth == 0) // Leaf node reached, evaluate the board state
