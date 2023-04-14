@@ -131,10 +131,10 @@ namespace ChessGameSimple
                         btn.Click += tileClickEvent;
 
                     // attach BoardPoint object in button tag
-                    btn.Tag = new BoardPoint()
+                    btn.Tag = new BoardLocation()
                     {
-                        row = row,
-                        col = col,
+                        Row = row,
+                        Column = col,
                     };
 
                     // add to button array and form

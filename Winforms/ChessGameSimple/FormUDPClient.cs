@@ -99,7 +99,7 @@ namespace ChessGameSimple
 
                 if (_clientPlayer.Symbol == 'b' && !_boardIsFlipped)
                 {
-                    _board.Tiles = ChessUtils.FlipChessboard(_board.Tiles);
+                    //_board.Tiles = ChessUtils.FlipChessboard(_board.Tiles);
                     _boardIsFlipped = true;
                 }
 
@@ -126,9 +126,9 @@ namespace ChessGameSimple
             if (_turn != _clientPlayer.Symbol) return;
 
             Button btn = (Button)sender;
-            BoardPoint boardPoint = (BoardPoint)btn.Tag;
-            int row = boardPoint.row;
-            int col = boardPoint.col;
+            BoardLocation boardPoint = (BoardLocation)btn.Tag;
+            int row = boardPoint.Row;
+            int col = boardPoint.Column;
 
             lstMessages.Items.Add($"{row}, {col}");
 

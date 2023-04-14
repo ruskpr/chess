@@ -14,8 +14,6 @@ namespace ChessGameSimple
 
         private char _turn = 'w';
 
-        int tileSize = 80;
-
         private Tile? _selectedTile = null;
 
         private Button[,] _buttonArray = new Button[BOARDSIZE, BOARDSIZE];
@@ -35,7 +33,7 @@ namespace ChessGameSimple
             //_board.AddPiece<Queen>(6, 2, 'w');
             _board.OnKingChecked += _board_OnKingChecked;
 
-            ChessUtils.CreateTiles(this, _buttonArray, _board, tileSize, Color1, Color2, tileClickEventHandler);
+            ChessUtils.CreateTiles(panel1, _buttonArray, _board, panel1.Width/8, Color1, Color2, tileClickEventHandler);
             ChessUtils.DrawSymbols(_buttonArray, _board);
         }
 
@@ -54,9 +52,9 @@ namespace ChessGameSimple
             ChessUtils.HideMoves(_buttonArray);
 
             Button btn = (Button)sender;
-            BoardPoint boardPoint = (BoardPoint)btn.Tag;
-            int row = boardPoint.row;
-            int col = boardPoint.col;
+            BoardLocation boardPoint = (BoardLocation)btn.Tag;
+            int row = boardPoint.Row;
+            int col = boardPoint.Column;
 
             // if no piece is selected, select the piece
             if (_selectedTile == null)
@@ -110,7 +108,7 @@ namespace ChessGameSimple
                     this.Text = "";
                     SwapTurns();
                     ChessUtils.DrawSymbols(_buttonArray, _board);
-                    
+
                     if (_board.IsGameOver)
                     {
                         this.Text = _turn == 'w' ? "Black wins" : "White wins";
@@ -138,13 +136,25 @@ namespace ChessGameSimple
             lbTurn.Text = _turn == 'w' ? "Turn: White" : "Turn: Black";
         }
 
-        private void btnUndo_Click_1(object sender, EventArgs e)
+        private void btnUndo_Click(object sender, EventArgs e)
         {
             if (_board.MoveStack.Count == 0) return;
 
             _selectedTile = null;
             _board.UndoMove();
             SwapTurns();
+            ChessUtils.DrawSymbols(_buttonArray, _board);
+            ChessUtils.HideMoves(_buttonArray);
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            // reset the game 
+            _board = new Board(BOARDSIZE, true);
+
+            if (_turn == 'b')
+                SwapTurns();
+
             ChessUtils.DrawSymbols(_buttonArray, _board);
             ChessUtils.HideMoves(_buttonArray);
         }

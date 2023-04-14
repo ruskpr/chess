@@ -29,46 +29,56 @@
         private void InitializeComponent()
         {
             lbTurn = new Label();
-            lbSelected = new Label();
             btnUndo = new Button();
+            panel1 = new Panel();
+            btnReset = new Button();
             SuspendLayout();
             // 
             // lbTurn
             // 
             lbTurn.AutoSize = true;
-            lbTurn.Location = new Point(665, 9);
+            lbTurn.Location = new Point(691, 13);
             lbTurn.Name = "lbTurn";
             lbTurn.Size = new Size(68, 15);
             lbTurn.TabIndex = 0;
             lbTurn.Text = "Turn: White";
             // 
-            // lbSelected
-            // 
-            lbSelected.AutoSize = true;
-            lbSelected.Location = new Point(665, 50);
-            lbSelected.Name = "lbSelected";
-            lbSelected.Size = new Size(54, 15);
-            lbSelected.TabIndex = 0;
-            lbSelected.Text = "Selected:";
-            // 
             // btnUndo
             // 
             btnUndo.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnUndo.Location = new Point(665, 77);
+            btnUndo.Location = new Point(688, 41);
             btnUndo.Name = "btnUndo";
             btnUndo.Size = new Size(75, 23);
             btnUndo.TabIndex = 1;
             btnUndo.Text = "Undo";
             btnUndo.UseVisualStyleBackColor = true;
-            btnUndo.Click += btnUndo_Click_1;
+            btnUndo.Click += btnUndo_Click;
+            // 
+            // panel1
+            // 
+            panel1.Location = new Point(12, 9);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(650, 650);
+            panel1.TabIndex = 2;
+            // 
+            // btnReset
+            // 
+            btnReset.Location = new Point(688, 70);
+            btnReset.Name = "btnReset";
+            btnReset.Size = new Size(75, 23);
+            btnReset.TabIndex = 3;
+            btnReset.Text = "Reset";
+            btnReset.UseVisualStyleBackColor = true;
+            btnReset.Click += btnReset_Click;
             // 
             // FormPlayerVsPlayer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(765, 708);
+            ClientSize = new Size(787, 708);
+            Controls.Add(btnReset);
+            Controls.Add(panel1);
             Controls.Add(btnUndo);
-            Controls.Add(lbSelected);
             Controls.Add(lbTurn);
             Name = "FormPlayerVsPlayer";
             Text = "Form1";
@@ -79,7 +89,8 @@
         #endregion
 
         private Label lbTurn;
-        private Label lbSelected;
         private Button btnUndo;
+        private Panel panel1;
+        private Button btnReset;
     }
 }

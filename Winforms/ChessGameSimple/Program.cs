@@ -15,11 +15,11 @@ namespace ChessGameSimple
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            AppContext appContext = new AppContext();
+            //AppContext appContext = new AppContext();
 
-            Application.Run(appContext);
+            //Application.Run(appContext);
             //Application.Run(new FormLauncher());
-            //Application.Run(new FormAIvsAI());
+            Application.Run(new FormPlayerVsPlayer());
         }
     }
 
