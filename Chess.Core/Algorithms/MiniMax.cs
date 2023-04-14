@@ -12,7 +12,8 @@ namespace Chess.Core.Algorithms
         public static Move FindBestMove(Board board, int depth, int alpha, int beta, bool maximizingPlayer)
         {
             if (depth == 0) // Leaf node reached, evaluate the board state
-                return null; // Return null as the best move, as we are not implementing the actual evaluation logic here
+                return null;
+
 
             Board tmpBoard = board.Copy();
 
