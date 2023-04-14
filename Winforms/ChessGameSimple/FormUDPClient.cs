@@ -19,6 +19,8 @@ namespace ChessGameSimple
         public FormUDPClient(string name, string ip, int port)
         {
             InitializeComponent();
+            this.MinimumSize = this.Size;
+
 
             _username = name;
             this.Text = "Chess - " + _username;
@@ -99,7 +101,7 @@ namespace ChessGameSimple
                 ChessUtils.DrawSymbols(_buttons, _board);
 
                 if (_turn == _clientPlayer.Symbol)
-                { 
+                {
                     lstMessages.Items.Add("Your Turn");
                 }
                 else
@@ -176,7 +178,7 @@ namespace ChessGameSimple
 
                 _selectedTile = null;
                 ChessUtils.HideMoves(_buttons);
-                
+
             }
 
         }

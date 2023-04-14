@@ -108,7 +108,7 @@ namespace ChessGameSimple
         /// <summary>
         /// Creates the tiles for the board and adds them to the form with a shared click event
         /// </summary>
-        internal static void CreateTiles(Control control, Button[,] buttonArray, Board board, int tileSize, Color color1, Color color2, EventHandler tileClickEvent)
+        internal static void CreateTiles(Control control, Button[,] buttonArray, Board board, int tileSize, Color color1, Color color2, EventHandler? tileClickEvent)
         {
             int x = 0; // index for alternating colors
             for (int row = 0; row < board.Size; row++)
@@ -127,7 +127,8 @@ namespace ChessGameSimple
                     btn.ImageAlign = ContentAlignment.MiddleCenter;
 
                     // create click event handler
-                    btn.Click += tileClickEvent;
+                    if (tileClickEvent != null)
+                        btn.Click += tileClickEvent;
 
                     // attach BoardPoint object in button tag
                     btn.Tag = new BoardPoint()

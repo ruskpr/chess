@@ -76,22 +76,24 @@
             // 
             // pnlBoard
             // 
-            pnlBoard.Location = new Point(12, 5);
+            pnlBoard.Dock = DockStyle.Left;
+            pnlBoard.Location = new Point(0, 0);
             pnlBoard.Name = "pnlBoard";
-            pnlBoard.Size = new Size(443, 438);
+            pnlBoard.Size = new Size(452, 446);
             pnlBoard.TabIndex = 3;
             // 
-            // FormClient
+            // FormUDPClient
             // 
             AcceptButton = btnSendMessage;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Cornsilk;
+            BackColor = Color.FromArgb(37, 37, 37);
             ClientSize = new Size(703, 446);
             Controls.Add(pnlBoard);
             Controls.Add(panel1);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             KeyPreview = true;
-            Name = "FormClient";
+            Name = "FormUDPClient";
             ShowIcon = false;
             StartPosition = FormStartPosition.Manual;
             Text = "Chess Client";

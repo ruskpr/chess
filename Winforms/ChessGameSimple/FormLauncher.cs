@@ -31,7 +31,8 @@ namespace ChessGameSimple
 
         private void btnAIVsAI_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not implemented");
+            FormAIvsAI frmAi = new FormAIvsAI();
+            frmAi.Show();
         }
 
         private void btnJoinServer_Click(object sender, EventArgs e)
