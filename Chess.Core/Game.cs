@@ -1,4 +1,5 @@
 ﻿using Chess.Core.Pieces;
+using Chess.Core.UDP;
 using Newtonsoft.Json;
 
 namespace Chess.Core

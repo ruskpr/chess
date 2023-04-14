@@ -94,12 +94,12 @@ namespace ChessServer
 
                     if (_p1 is null)
                     {
-                        _p1 = new Player(username, 'w', PlayerType.OnlinePlayer);
+                        _p1 = new Player(username, 'w');
                         _server.Reply(new Packet("SERVER", "You are player 1 (white)", PacketType.Message), packet.SenderEndpointParsed);
                     }
                     else if (_p2 is null)
                     {
-                        _p2 = new Player(username, 'b', PlayerType.OnlinePlayer);
+                        _p2 = new Player(username, 'b');
                         _server.Reply(new Packet("SERVER", "You are player 2 (black)", PacketType.Message), packet.SenderEndpointParsed);
                     }
                     else
