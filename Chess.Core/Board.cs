@@ -1,5 +1,6 @@
 ﻿using Chess.Core.Pieces;
 using Newtonsoft.Json;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Chess.Core
@@ -377,5 +378,33 @@ namespace Chess.Core
                 tile.Piece = null;
         }
 
+        /// <summary>
+        /// 
+        /// Get all moves of all the pieces on the board
+        /// 
+        /// </summary>
+        internal List<Move> GenerateAllValidMoves()
+        {
+            List<Move> moves = new List<Move>();
+
+            for (int row = 0; row < 8; row++)
+            {
+                for (int col = 0; col < 8; col++)
+                {
+                    var currentTile = GetTile(row, col);
+                    if (currentTile.Piece == null) continue;
+
+                    foreach (var move in currentTile.Piece.GetValidMoves(this))
+                        moves.Add(new Move(currentTile, move));
+                }
+            }
+
+            return moves;
+        }
+
+        internal Board Copy()
+        {
+            return this;
+        }
     }
 }
