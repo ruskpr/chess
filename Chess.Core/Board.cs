@@ -85,7 +85,7 @@ namespace Chess.Core
 
         #endregion
 
-        #region tile & piece creation
+        #region private
 
         private void CreateTiles(int rows, int columns)
         {
@@ -143,6 +143,14 @@ namespace Chess.Core
             }
         }
 
+        private void UpdateKingPosition(char color, int row, int col)
+        {
+            if (color == 'w')
+                _whiteKingLocation = new BoardLocation(row, col);
+            else
+                _blackKingLocation = new BoardLocation(row, col);
+        }
+
         #endregion
 
         public bool TryMakeMove(Tile? from, Tile? to)
@@ -183,6 +191,28 @@ namespace Chess.Core
             return true;
 
         }
+        public void UndoMove()
+        {
+            if (MoveStack.Count == 0) return;
+
+            var lastMove = MoveStack.Pop();
+
+            var from = GetTile(lastMove.Item1.Row, lastMove.Item1.Column);
+            var to = GetTile(lastMove.Item2.Row, lastMove.Item2.Column);
+
+            from.Piece = to.Piece;
+            if (from.Piece != null)
+                from.Piece.CurrentLocation = new BoardLocation(from.Row, from.Column);
+
+            to.Piece = lastMove.Item3; // restore captured piece (if there was one)            
+
+            if (from.Piece is King)
+                UpdateKingPosition(from.Piece.Color, from.Row, from.Column);
+
+            if (_gameOver) _gameOver = false;
+            if (_kingInCheck != null) _kingInCheck = null;
+
+        }               
 
         internal void MovePiece(Tile from, Tile to)
         {
@@ -215,28 +245,6 @@ namespace Chess.Core
                 UpdateKingPosition(toTile.Piece.Color, toTile.Row, toTile.Column);
         }
 
-        public void UndoMove()
-        {
-            if (MoveStack.Count == 0) return;
-
-            var lastMove = MoveStack.Pop();
-
-            var from = GetTile(lastMove.Item1.Row, lastMove.Item1.Column);
-            var to = GetTile(lastMove.Item2.Row, lastMove.Item2.Column);
-
-            from.Piece = to.Piece;
-            if (from.Piece != null)
-                from.Piece.CurrentLocation = new BoardLocation(from.Row, from.Column);
-
-            to.Piece = lastMove.Item3; // restore captured piece (if there was one)            
-
-            if (from.Piece is King)
-                UpdateKingPosition(from.Piece.Color, from.Row, from.Column);
-
-            if (_gameOver) _gameOver = false;
-            if (_kingInCheck != null) _kingInCheck = null;
-
-        }               
 
         // create a method to check if the king is in check
         internal bool IsKingInCheck(char attackerColor)
@@ -265,30 +273,6 @@ namespace Chess.Core
             return false;
         }
         
-        private void UpdateKingPosition(char color, int row, int col)
-        {
-            if (color == 'w')
-                _whiteKingLocation = new BoardLocation(row, col);
-            else
-                _blackKingLocation = new BoardLocation(row, col);
-        }
-
-        #region reset board
-
-        public void ResetBoard()
-        {
-            // clear the move stack
-            MoveStack.Clear();
-            // clear the board
-            foreach (var tile in _tiles)
-            {
-                tile.Piece = null;
-            }
-            // add the default pieces
-            AddDefaultPieces();
-        }
-
-        #endregion
 
         // place custom piece on tile
         public IPiece AddPiece<T>(int row, int col, char color) where T : IPiece, new()
@@ -309,6 +293,13 @@ namespace Chess.Core
             return piece;
         }
 
+        /// <summary>
+        /// 
+        /// Add a piece to the board at the specified location.
+        /// Will replace any existing piece at that location.
+        /// Returns the piece that was added.
+        /// 
+        /// </summary>
         public IPiece AddPiece(int row, int col, IPiece piece)
         {
             if (row >= Size || col >= Size)
@@ -353,7 +344,12 @@ namespace Chess.Core
             catch { return null; }
         }
 
-        // get tile by piece
+        /// <summary>
+        /// 
+        /// Gets the tile where the piece is located on the board.
+        /// If it is not found on the board, it will return null.
+        /// 
+        /// </summary>
         public Tile? GetTileByPiece(IPiece piece)
         {
             foreach (Tile tile in _tiles)
@@ -364,6 +360,12 @@ namespace Chess.Core
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// Will remove the piece that is passed in through the parameters
+        /// if it exists on the board.
+        /// 
+        /// </summary>
         public void RemovePiece(IPiece piece)
         {
             var tile = GetTileByPiece(piece);
@@ -380,7 +382,7 @@ namespace Chess.Core
 
         /// <summary>
         /// 
-        /// Get all moves of all the pieces on the board
+        /// Get all moves of all the pieces on the board.
         /// 
         /// </summary>
         internal List<Move> GenerateAllValidMoves()
@@ -402,9 +404,5 @@ namespace Chess.Core
             return moves;
         }
 
-        internal Board Copy()
-        {
-            return this;
-        }
     }
 }

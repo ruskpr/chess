@@ -14,7 +14,7 @@ namespace Chess.Core.Algorithms
             if (depth == 0) // Leaf node reached, evaluate the board state
                 return null; // Return null as the best move, as we are not implementing the actual evaluation logic here
 
-            Board tmpBoard = board.Copy();
+            Board tmpBoard = board;
 
             List<Move> legalMoves = tmpBoard.GenerateAllValidMoves();
 
