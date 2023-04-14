@@ -37,7 +37,7 @@ namespace Chess.Core.UDP
         {
             _maxClientCount = maxClientCount;
             _listenOn = endpoint;
-            Client = new UdpClient(_listenOn);
+            Client = new System.Net.Sockets.UdpClient(_listenOn);
         }
 
         #region public

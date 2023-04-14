@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Chess.Core.UDP
 {
-    public class UdpUser : UdpBase
+    public class UdpClient : UdpBase
     {        
 
-        private UdpUser() { }
+        private UdpClient() { }
 
-        public static UdpUser ConnectTo(string username, string hostname, int port)
+        public static UdpClient ConnectTo(string username, string hostname, int port)
         {
-            var connection = new UdpUser();
+            var connection = new UdpClient();
             connection.Client.Connect(hostname, port);
             connection.Send(new Packet(username, $"{username} connected", PacketType.Connect));
             return connection;

@@ -9,11 +9,11 @@ namespace Chess.Core.UDP
         public delegate void PacketRecieved(Packet packet);
         public event PacketRecieved? OnPacketRecieved;
 
-        protected UdpClient Client;
+        protected System.Net.Sockets.UdpClient Client;
 
         protected UdpBase()
         {
-            Client = new UdpClient();
+            Client = new System.Net.Sockets.UdpClient();
         }
 
         public async Task<Packet> Receive()

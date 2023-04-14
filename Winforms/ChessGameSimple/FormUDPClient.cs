@@ -7,7 +7,7 @@ namespace ChessGameSimple
     public partial class FormUDPClient : Form
     {
         string _username;
-        private UdpUser _client;
+        private UdpClient _client;
 
         private Button[,] _buttons = new Button[8, 8];
 
@@ -27,7 +27,7 @@ namespace ChessGameSimple
             this.Text = "Chess - " + _username;
             ChessUtils.CreateTiles(pnlBoard, _buttons, _board, pnlBoard.Width / 8, Color.Gainsboro, Color.Tan, OnTileClicked);
 
-            _client = UdpUser.ConnectTo(_username, ip, port);
+            _client = UdpClient.ConnectTo(_username, ip, port);
             _client.OnPacketRecieved += Client_OnPacketRecieved;
             _client.Listen();
         }
