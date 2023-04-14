@@ -15,10 +15,10 @@ namespace ChessGameSimple
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            //AppContext appContext = new AppContext();
+            AppContext appContext = new AppContext();
 
-            //Application.Run(appContext);
-            Application.Run(new FormLauncher());
+            Application.Run(appContext);
+            //Application.Run(new FormLauncher());
             //Application.Run(new FormAIvsAI());
         }
     }
@@ -31,8 +31,8 @@ namespace ChessGameSimple
         public AppContext()
         {
             Thread.Sleep(1000);
-            _form1 = new("russ", "172.18.31.108", 32123);
-            _form2 = new("john", "172.18.31.108", 32123);
+            _form1 = new("russ", "192.168.56.1", 32123);
+            _form2 = new("john", "192.168.56.1", 32123);
 
             _form1.StartPosition = FormStartPosition.Manual;
             _form2.StartPosition = FormStartPosition.Manual;

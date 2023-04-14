@@ -146,5 +146,11 @@ namespace ChessGameSimple
             }
         }
 
+        
+
+        internal static Button[,] FlipBoard(Button[,] buttons, int boardSize)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

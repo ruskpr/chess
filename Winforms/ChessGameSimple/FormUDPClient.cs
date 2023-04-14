@@ -15,6 +15,7 @@ namespace ChessGameSimple
         private Tile? _selectedTile = null;
         private Player _clientPlayer;
         private char _turn;
+        private bool _boardIsFlipped = false;
 
         public FormUDPClient(string name, string ip, int port)
         {
@@ -79,8 +80,8 @@ namespace ChessGameSimple
 
         private void UpdateGame(Packet packet)
         {
-            // packet payload will be board as json
-            // deserizalize packet payload
+            // packet payload will be game as json
+            // incoming payload is JSON-serialized Game object
             var game = JsonConvert.DeserializeObject<Game>(packet.Payload, new JsonSerializerSettings
             {
                 TypeNameHandling = Newtonsoft.Json.TypeNameHandling.Auto,
@@ -95,6 +96,12 @@ namespace ChessGameSimple
 
                 if (_clientPlayer == null)
                     _clientPlayer = game.Player1.Name == _username ? game.Player1 : game.Player2;
+
+                if (_clientPlayer.Symbol == 'b' && !_boardIsFlipped)
+                {
+                    _board.Tiles = ChessUtils.FlipChessboard(_board.Tiles);
+                    _boardIsFlipped = true;
+                }
 
                 _turn = game.Turn;
 

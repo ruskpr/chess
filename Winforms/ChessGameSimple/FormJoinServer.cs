@@ -34,10 +34,12 @@ namespace ChessGameSimple
                 return;
             }
 
-            if (IPEndPoint.TryParse($"{tbIP.Text}:{tbPort.Text}", out IPEndPoint ipEp))
+            // handle loopback address if user inputs "localhost"
+            if (tbIP.Text.Trim().ToLower() == "localhost") tbIP.Text = "127.0.0.1";
+            if (IPEndPoint.TryParse($"{tbIP.Text}:{tbPort.Text}", out IPEndPoint ipEndpoint))
             {
                 Username = tbUsername.Text;
-                EndpointAddress = ipEp;
+                EndpointAddress = ipEndpoint;
                 DialogResult = DialogResult.OK;
             }
             else
