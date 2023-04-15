@@ -23,8 +23,7 @@ namespace ChessServer
             Console.SetWindowPosition(0, 0);
             Console.SetWindowSize(60, 40);
             Console.CursorVisible = false;
-
-            
+                       
 
             // set port from command args, or use default '32123'
             int port = args.Length == 1 ? Convert.ToInt32(args[0]) : 32123;
@@ -62,6 +61,7 @@ namespace ChessServer
                     if (_p1 is not null && _p2 is not null)
                     {
                         _game = new Game(board, _p1, _p2);
+                        _game.Board.OnGameOver += Board_OnGameOver;
                         _gameStarted = true;
                         break;
                     }
@@ -70,18 +70,13 @@ namespace ChessServer
             });
         }
 
-        #region game logic
-
-        private void MakeMove(Tile from, Tile to)
+        private static void Board_OnGameOver(char? winner, GameOverType type)
         {
-            // try to make the move
-            if (_game.Board.TryMakeMove(_game.Board.GetTileByPiece(from.Piece), to))
-            {
-                _server.ReplyAll(new Packet("SERVER", "piece moved", PacketType.GameUpdateResponse));
-            }
-        }
+            string winnerName = winner == 'w' ? _p1.Name : _p2.Name;
+            string payload = $"{type.ToString()}! {winnerName} wins.";
 
-        #endregion
+            _server.ReplyAll(new Packet("SERVER", payload, PacketType.GameEnd));
+        }
 
         #region packet received event
 
@@ -129,6 +124,13 @@ namespace ChessServer
                     {
                         _game.SwapTurn();
                         _server.ReplyAll(UpdateGamePacket());
+
+                        if (_game.Board.IsGameOver)
+                        {
+                            string winner = _game.Board.Winner == 'w' ? _p1.Name : _p2.Name;
+                            _gameOver = true;
+                            _server.ReplyAll(new Packet("SERVER", "Game Over", PacketType.Message));
+                        }
                     }
 
                     break;

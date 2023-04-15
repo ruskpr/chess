@@ -1,7 +1,5 @@
 ﻿using Chess.Core.Pieces;
 using Newtonsoft.Json;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Chess.Core
 {

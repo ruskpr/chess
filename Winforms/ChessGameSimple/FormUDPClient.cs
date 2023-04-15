@@ -41,7 +41,7 @@ namespace ChessGameSimple
             _client.Send(p);
         }
 
-        // will be called when a packet is recieved from the server
+        // will be called when a packet is received from the server
         private void Client_OnPacketReceived(Packet packet)
         {
             HandlePacket(packet);
@@ -57,7 +57,6 @@ namespace ChessGameSimple
                     break;
                 case PacketType.Disconnect:
                     throw new NotImplementedException();
-                    break;
                 case PacketType.Message:
                     this.Invoke(() => lstMessages.Items.Add($"{packet.SenderName}: {packet.Payload}"));
 
@@ -69,6 +68,11 @@ namespace ChessGameSimple
                     SendUpdateGameRequest();
                     break;
                 case PacketType.GameEnd:
+                    this.Invoke(() =>
+                    {
+                        MessageBox.Show(packet.Payload, "Chess");
+                        this.Close();
+                    });
                     break;
                 case PacketType.Error:
                     break;
