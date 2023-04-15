@@ -34,8 +34,8 @@ namespace Chess.Core
         private Tile[,] _tiles;
         public Stack<Tuple<BoardLocation, BoardLocation, IPiece?>> MoveStack = new Stack<Tuple<BoardLocation, BoardLocation, IPiece?>>();
 
-        internal BoardLocation _whiteKingLocation;
-        internal BoardLocation _blackKingLocation;
+        private BoardLocation _whiteKingLocation;
+        private BoardLocation _blackKingLocation;
         private char? _kingInCheck;
         private bool _gameOver = false;
         private char? _winner = null;
@@ -49,6 +49,8 @@ namespace Chess.Core
         public char? KingInCheck { get => _kingInCheck; set => _kingInCheck = value; }
         public bool IsGameOver { get => _gameOver; set => _gameOver = value; }
         public char? Winner { get => _winner; set => _winner = value; }
+        public BoardLocation WhiteKingLocation { get => _whiteKingLocation; set => _whiteKingLocation = value; }
+        public BoardLocation BlackKingLocation { get => _blackKingLocation; set => _blackKingLocation = value; }
 
         #endregion
 

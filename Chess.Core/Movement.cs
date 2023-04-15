@@ -206,7 +206,7 @@ namespace Chess.Core
 
         private static bool IsKingInCheck(Board board, char attackerColor)
         {
-            var kingPos = attackerColor == 'w' ? board._blackKingLocation : board._whiteKingLocation;
+            var kingPos = attackerColor == 'w' ? board.BlackKingLocation : board.WhiteKingLocation;
             var king = board.GetTile(kingPos);
 
             foreach (var tile in board.Tiles)
