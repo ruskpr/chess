@@ -52,7 +52,7 @@ namespace Chess.Core
             if (Piece != null)
                 return Piece.ToString();
             else
-                return base.ToString();
+                return $"Empty tile at {Row}, {Column}";
         }
 
     }
