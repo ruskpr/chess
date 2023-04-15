@@ -31,7 +31,7 @@ namespace ChessServer
 
             //start a new server
             _server = new UdpListener(new IPEndPoint(IPAddress.Any, port), 2);
-            _server.OnPacketRecieved += Server_OnPacketRecieved;
+            _server.OnPacketReceived += Server_OnPacketRecieved;
             _server.StartListening();
             
             Console.WriteLine($"SERVER STARTED...");

@@ -7,7 +7,7 @@ namespace Chess.Core.UDP
     public abstract class UdpBase
     {
         public delegate void PacketRecieved(Packet packet);
-        public event PacketRecieved? OnPacketRecieved;
+        public event PacketRecieved? OnPacketReceived;
 
         protected System.Net.Sockets.UdpClient Client;
 
@@ -21,7 +21,7 @@ namespace Chess.Core.UDP
             var result = await Client.ReceiveAsync();
             Packet p = Packet.Deserialize(Encoding.ASCII.GetString(result.Buffer, 0, result.Buffer.Length));            
             p.SenderEndpoint = result.RemoteEndPoint.Address + ":" + result.RemoteEndPoint.Port;
-            OnPacketRecieved?.Invoke(p);
+            OnPacketReceived?.Invoke(p);
             return p;
         }
     }

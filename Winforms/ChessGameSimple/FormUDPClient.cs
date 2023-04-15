@@ -28,7 +28,7 @@ namespace ChessGameSimple
             ChessUtils.CreateTiles(pnlBoard, _buttons, _board, pnlBoard.Width / 8, Color.Gainsboro, Color.Tan, OnTileClicked);
 
             _client = UdpClient.ConnectTo(_username, ip, port);
-            _client.OnPacketRecieved += Client_OnPacketRecieved;
+            _client.OnPacketReceived += Client_OnPacketReceived;
             _client.Listen();
         }
 
@@ -42,7 +42,7 @@ namespace ChessGameSimple
         }
 
         // will be called when a packet is recieved from the server
-        private void Client_OnPacketRecieved(Packet packet)
+        private void Client_OnPacketReceived(Packet packet)
         {
             HandlePacket(packet);
         }
