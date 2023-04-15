@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessConsoleApp", "CLI\Ches
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessGameSimple", "Winforms\ChessGameSimple\ChessGameSimple.csproj", "{6DF7624D-DDF3-442A-B349-856A726FBE95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChessServer", "CLI\ChessServer\ChessServer.csproj", "{7FE27475-0D46-41E8-AE8F-595005B2617D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChessServer", "CLI\ChessServer\ChessServer.csproj", "{7FE27475-0D46-41E8-AE8F-595005B2617D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
