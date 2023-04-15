@@ -78,6 +78,24 @@ namespace Chess.Core
             return ret;
         }
 
+        internal static bool MovePutsKingInCheck(Board board, Tile from, Tile to)
+        {
+            var tmpBoard = board.Copy();
+            
+            var attackerColor = tmpBoard.GetTile(from.Row, from.Column).Piece.Color == 'w' ? 'b' : 'w';
+            tmpBoard.MovePiece(from, to);
+
+            if (IsKingInCheck(tmpBoard, attackerColor))
+            {
+                tmpBoard.UndoMove();
+                return true;
+            }
+
+            tmpBoard.UndoMove();
+            return false;
+        }
+
+
         /// <summary>
         /// 
         /// Used to generate moves for a piece when the king is in check.
@@ -198,6 +216,7 @@ namespace Chess.Core
 
                 if (tile.Piece.Color == attackerColor)
                 {
+                    board.KingInCheck = null;
                     var attackerMoves = board.GetPiece(tile.Row, tile.Column).GetValidMoves(board);
                     if (attackerMoves.Any(a => a.Row == kingPos.Row && a.Column == kingPos.Column))
                     {

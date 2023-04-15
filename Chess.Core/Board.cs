@@ -163,7 +163,9 @@ namespace Chess.Core
             // validates that the selected piece can move to the selected tile
             if (!Movement.MoveIsValid(this, from, to))
                 return false;
-            
+
+            if (Movement.MovePutsKingInCheck(this, from, to))
+                return false;
 
             if (from.Piece.Color == to.Piece?.Color) return false; // same color check
             if (to.Piece is King) return false; // king piece check
@@ -384,21 +386,6 @@ namespace Chess.Core
             if (toTile.Piece is King)
                 UpdateKingPosition(toTile.Piece.Color, toTile.Row, toTile.Column);
         }
-
-        internal void TempMove(BoardLocation from, BoardLocation to)
-        {
-            // move piece
-            var fromTile = GetTile(from);
-            var toTile = GetTile(to);
-
-            toTile.Piece = fromTile.Piece;
-            toTile.Piece.CurrentLocation = to;
-            fromTile.Piece = null;
-
-            if (toTile.Piece is King)
-                UpdateKingPosition(toTile.Piece.Color, toTile.Row, toTile.Column);
-        }
-
 
         // create a method to check if the king is in check
         internal bool IsKingInCheck(char attackerColor)
