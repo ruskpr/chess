@@ -65,7 +65,7 @@
             panel1.Controls.Add(btnSendMessage);
             panel1.Controls.Add(lstMessages);
             panel1.Dock = DockStyle.Right;
-            panel1.Location = new Point(458, 0);
+            panel1.Location = new Point(459, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(245, 446);
             panel1.TabIndex = 2;
