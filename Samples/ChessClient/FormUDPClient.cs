@@ -109,7 +109,7 @@ namespace ChessGameSimple
 
                 if (_clientPlayer.Symbol == 'b' && !_boardIsFlipped)
                 {
-                    //_board.Tiles = ChessUtils.FlipChessboard(_board.Tiles);
+                    ChessUtils.FlipBoard(_buttons, 8);
                     _boardIsFlipped = true;
                 }
 

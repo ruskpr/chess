@@ -147,10 +147,11 @@ namespace ChessGameSimple
         }
 
         
-
-        internal static Button[,] FlipBoard(Button[,] buttons, int boardSize)
+        internal static void FlipBoard(Button[,] buttons, int boardSize)
         {
-            throw new NotImplementedException();
+            // reverse the first dimension of the array
+            //Array.Reverse(buttons, 2, boardSize);
+
         }
     }
 }
