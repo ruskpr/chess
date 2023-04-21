@@ -101,6 +101,7 @@
             ShowIcon = false;
             StartPosition = FormStartPosition.Manual;
             Text = "Chess Client";
+            FormClosing += FormUDPClient_FormClosing;
             KeyDown += FormClient_KeyDown;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();

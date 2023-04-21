@@ -34,12 +34,8 @@ namespace Chess.Core.UDP
                     try
                     {
                         var packet = await this.Receive();
-                        //OnUserReceiveMessage?.Invoke(packet);
                     }
-                    catch (Exception ex)
-                    {
-
-                    }
+                    catch { }
                 }
             });
         }

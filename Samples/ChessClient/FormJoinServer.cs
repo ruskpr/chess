@@ -23,16 +23,33 @@ namespace ChessGameSimple
 
         private void btnJoin_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbIP.Text))
+            #region validation
+
+            if (string.IsNullOrWhiteSpace(tbUsername.Text))
             {
                 MessageBox.Show("Enter a username.");
                 return;
             }
-            if (tbIP.Text.Length >= 30)
+
+            if (string.IsNullOrWhiteSpace(tbIP.Text))
+            {
+                MessageBox.Show("Enter an IP address.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(tbPort.Text))
+            {
+                MessageBox.Show("Enter a port.");
+                return;
+            }
+
+            if (tbUsername.Text.Length >= 30)
             {
                 MessageBox.Show("username must be less that 30 characters.");
                 return;
             }
+
+            #endregion
 
             // handle loopback address if user inputs "localhost"
             if (tbIP.Text.Trim().ToLower() == "localhost") tbIP.Text = "127.0.0.1";
@@ -44,7 +61,7 @@ namespace ChessGameSimple
             }
             else
             {
-                MessageBox.Show("Invalid server address, check you Ip and port then try again.");
+                MessageBox.Show("Invalid server address, check you IP and port then try again.");
             }
         }
     }

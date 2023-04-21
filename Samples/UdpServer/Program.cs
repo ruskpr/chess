@@ -42,10 +42,6 @@ namespace ChessServer
 
 
             Console.WriteLine($"Game has started! {_p1.Name} (white) vs {_p2.Name} (black)");
-            //while (!_gameOver)
-            //{
-
-            //}
 
             Console.ReadKey();
         }
@@ -76,6 +72,7 @@ namespace ChessServer
             string payload = $"{type.ToString()}! {winnerName} wins.";
 
             _server.ReplyAll(new Packet("SERVER", payload, PacketType.GameEnd));
+            Console.WriteLine($"payload");
         }
 
         #region packet received event
@@ -91,16 +88,15 @@ namespace ChessServer
                     {
                         _p1 = new Player(username, 'w');
                         _server.Reply(new Packet("SERVER", "You are player 1 (white)", PacketType.Message), packet.SenderEndpointParsed);
+                        Console.WriteLine($"{username} joined as player 1 (white)");
                     }
                     else if (_p2 is null)
                     {
                         _p2 = new Player(username, 'b');
                         _server.Reply(new Packet("SERVER", "You are player 2 (black)", PacketType.Message), packet.SenderEndpointParsed);
+                        Console.WriteLine($"{username} joined as player 2 (black)");
                     }
-                    else
-                    {
-                        _server.Reply(new Packet("SERVER", "Game is full", PacketType.Message), packet.SenderEndpointParsed);
-                    }
+
                     break;
 
                 case PacketType.GameUpdateRequest:
@@ -129,7 +125,7 @@ namespace ChessServer
                         {
                             string winner = _game.Board.Winner == 'w' ? _p1.Name : _p2.Name;
                             _gameOver = true;
-                            _server.ReplyAll(new Packet("SERVER", "Game Over", PacketType.Message));
+                            _server.ReplyAll(new Packet("SERVER", $"Game Over, {winner} wins!", PacketType.Message));
                         }
                     }
 

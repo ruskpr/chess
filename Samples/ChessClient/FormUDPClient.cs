@@ -21,11 +21,12 @@ namespace ChessGameSimple
         {
             InitializeComponent();
             this.MinimumSize = this.Size;
-
+            this.StartPosition = FormStartPosition.CenterScreen;
 
             _username = name;
             this.Text = "Chess - " + _username;
             ChessUtils.CreateTiles(pnlBoard, _buttons, _board, pnlBoard.Width / 8, Color.Gainsboro, Color.Tan, OnTileClicked);
+
 
             _client = UdpClient.ConnectTo(_username, ip, port);
             _client.OnPacketReceived += Client_OnPacketReceived;
@@ -75,6 +76,11 @@ namespace ChessGameSimple
                     });
                     break;
                 case PacketType.Error:
+                    this.Invoke(() =>
+                    {
+                        MessageBox.Show(packet.SenderName + ": " + packet.Payload, "Chess", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        this.Close();
+                    });
                     break;
                 default:
                     break;
@@ -134,8 +140,6 @@ namespace ChessGameSimple
             int row = boardPoint.Row;
             int col = boardPoint.Column;
 
-            lstMessages.Items.Add($"{row}, {col}");
-
             // if no piece is selected, select the piece
             if (_selectedTile == null)
             {
@@ -149,7 +153,6 @@ namespace ChessGameSimple
 
                     _selectedTile = selectedTile;
                     ChessUtils.ShowMoves(_buttons, _board, _selectedTile);
-                    lstMessages.Items.Add($"Selected {_selectedTile.Piece.Symbol} at {_selectedTile.Row}, {_selectedTile.Column}");
                 }
             }
             // unselect the piece if it is already selected
@@ -191,7 +194,6 @@ namespace ChessGameSimple
                 ChessUtils.HideMoves(_buttons);
 
             }
-
         }
 
         #endregion
@@ -214,6 +216,14 @@ namespace ChessGameSimple
 
         #endregion
 
+        #region handle client disconnect
 
+        private void FormUDPClient_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Packet p = new(_username, $"{_username} left", PacketType.Disconnect);
+            _client.Send(p);
+        }
+
+        #endregion
     }
 }

@@ -81,12 +81,15 @@ namespace Chess.Core.UDP
 
         private void DisconnectUser(IPEndPoint clientEndpoint)
         {
-            string user;
-            _userConnections.Remove(clientEndpoint, out user);
-            Console.WriteLine($"{user} was removed was disconnected by the server");
+            _userConnections.Remove(clientEndpoint, out string? user);
+            Console.WriteLine($"{user ?? "A user"} was disconnected from the server.");
 
-            // TODO: handle udp dispose
-            throw new NotImplementedException();
+            Reply(new Packet("SERVER", "Game is full", PacketType.Error), clientEndpoint);
+
+            if (UsersConnected == 0)
+                Console.WriteLine("No users are connected to the server.");
+            else
+                Console.WriteLine($"Current number of users connected: {UsersConnected}");
         }
 
         private void HandleClientPacket(Packet packet)
@@ -99,7 +102,7 @@ namespace Chess.Core.UDP
 
                     bool isNewConnection = TryStoreUserConnection(packet.SenderName, packet.SenderEndpointParsed);
 
-                    if (isNewConnection)
+                    if (isNewConnection && UsersConnected <= 2)
                     {
                         // update user with all previous packets
                         foreach (var p in _packetHistory)
@@ -125,12 +128,14 @@ namespace Chess.Core.UDP
                 case PacketType.Disconnect:
                     #region handle udp client properly when a user disconnects
 
-                    throw new NotImplementedException();
-
+                    DisconnectUser(packet.SenderEndpointParsed);
+                    ReplyAll(new Packet("SERVER" , packet.Payload, PacketType.Message));
+                    break;
                     #endregion
 
                 case PacketType.Message:
                     #region send a text message to all users that are connected
+
                     ReplyAll(packet);
 
                     #endregion
