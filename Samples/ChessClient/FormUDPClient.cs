@@ -73,9 +73,9 @@ namespace ChessGameSimple
                     {
                         lstMessages.Items.Add(packet.Payload);
 
-                        // delete all processes named 'ChessServer.exe'
-                        foreach (var process in Process.GetProcessesByName("ChessServer"))
-                            process.Kill();
+                        //// delete all processes named 'ChessServer.exe'
+                        //foreach (var process in Process.GetProcessesByName("ChessServer"))
+                        //    process.Kill();
 
                         //this.Close();
                     });

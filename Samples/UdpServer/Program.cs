@@ -40,22 +40,30 @@ namespace ChessServer
 
             await WaitForPlayers();
 
+            while (_p1 != null && _p2 != null)
+            {
+                var board = new Board(8, true);
+                _game = new Game(board, _p1, _p2);
+                _game.Board.OnGameOver += Board_OnGameOver;
+                _server.ReplyAll(UpdateGamePacket());
+                _server.ReplyAll(new Packet("SERVER", $"Game has started! {_p1.Name} (white) vs {_p2.Name} (black).", PacketType.Message));
+                await Play();
+                Console.WriteLine("Game has ended. Resetting in 10 seconds...");
+                _server.ReplyAll(new Packet("SERVER", "The game will reset in 10 seconds...", PacketType.Message));
 
-            Console.WriteLine($"Game has started! {_p1.Name} (white) vs {_p2.Name} (black)");
+                Thread.Sleep(10000);
+            }
 
-            await Play();
         }
 
         private static Task Play()
         {
             return Task.Factory.StartNew(() => {
-                while (!_game.Board.IsGameOver)
-                {
-
-                }
+                Console.WriteLine($"Game has started! {_p1.Name} (white) vs {_p2.Name} (black)");
+                while (!_game.Board.IsGameOver) { }
                 _server.ReplyAll(UpdateGamePacket());
 
-                Thread.Sleep(3000);
+                Thread.Sleep(1000);
             });
         }
 
@@ -82,10 +90,10 @@ namespace ChessServer
         private static void Board_OnGameOver(char? winner, GameOverType type)
         {
             string winnerName = winner == 'w' ? _p1.Name : _p2.Name;
-            string payload = $"{type.ToString()}! {winnerName} wins.";
+            string payload = $"Checkmate! {winnerName} wins.";
 
             _server.ReplyAll(new Packet("SERVER", payload, PacketType.GameEnd));
-            Console.WriteLine($"payload");
+            Console.WriteLine(payload);
         }
 
         #region packet received event
@@ -100,13 +108,13 @@ namespace ChessServer
                     if (_p1 is null)
                     {
                         _p1 = new Player(username, 'w');
-                        _server.Reply(new Packet("SERVER", "You are player 1 (white)", PacketType.Message), packet.SenderEndpointParsed);
+                        _server.Reply(new Packet("SERVER", $"Hi {username}, you are player 1 (white)", PacketType.Message), packet.SenderEndpointParsed);
                         Console.WriteLine($"{username} joined as player 1 (white)");
                     }
                     else if (_p2 is null)
                     {
                         _p2 = new Player(username, 'b');
-                        _server.Reply(new Packet("SERVER", "You are player 2 (black)", PacketType.Message), packet.SenderEndpointParsed);
+                        _server.Reply(new Packet("SERVER", $"Hi {username}, you are player 2 (black)", PacketType.Message), packet.SenderEndpointParsed);
                         Console.WriteLine($"{username} joined as player 2 (black)");
                     }
 

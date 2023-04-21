@@ -100,15 +100,26 @@ namespace Chess.Core.UDP
                 case PacketType.Connect:
                     #region if the packet is a new connection, store it and reply to all clients
 
+                    // check if the server has a user with the same name
+                    if (_userConnections.Values.Contains(packet.SenderName))
+                    {
+                        Reply(new Packet("SERVER", $"Username '{packet.SenderName} already exists! Try joining with another username.", PacketType.Error), packet.SenderEndpointParsed);
+                        ReplyAll(new Packet("SERVER", $"Disconnecting user '{packet.SenderName}', (username already exists in the server)", PacketType.Message));
+                        DisconnectUser(packet.SenderEndpointParsed);
+                        return;
+                    }
+
                     bool isNewConnection = TryStoreUserConnection(packet.SenderName, packet.SenderEndpointParsed);
 
                     if (isNewConnection && UsersConnected <= 2)
                     {
+                        
                         // update user with all previous packets
                         foreach (var p in _packetHistory)
                             Reply(p, packet.SenderEndpointParsed);
 
                         ReplyAll(packet);
+                        Reply(new Packet("SERVER", $"waiting for players to join...", PacketType.Message), packet.SenderEndpointParsed);
 
                         // the server will start the game when the max number of clients is reached
                         if (UsersConnected == _maxClientCount)
