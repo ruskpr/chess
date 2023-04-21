@@ -108,7 +108,7 @@ namespace ChessGameSimple
         /// <summary>
         /// Creates the tiles for the board and adds them to the form with a shared click event
         /// </summary>
-        internal static void CreateTiles(Control control, Button[,] buttonArray, Board board, int tileSize, Color color1, Color color2, EventHandler? tileClickEvent)
+        internal static void CreateTiles(Control control, Button[,] buttonArray, Board board, int tileSize, Color color1, Color color2, bool reverse, EventHandler? tileClickEvent)
         {
             int x = 0; // index for alternating colors
             for (int row = 0; row < board.Size; row++)
@@ -145,13 +145,6 @@ namespace ChessGameSimple
                 x++;
             }
         }
-
-        
-        internal static void FlipBoard(Button[,] buttons, int boardSize)
-        {
-            // reverse the first dimension of the array
-            //Array.Reverse(buttons, 2, boardSize);
-
-        }
+               
     }
 }

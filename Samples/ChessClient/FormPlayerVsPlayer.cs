@@ -24,16 +24,15 @@ namespace ChessGameSimple
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
             this.MinimumSize = this.Size;
-            this.Text = "";
 
-            _board = new Board(BOARDSIZE, false);
-            _board.AddPiece<King>(2, 4, 'b');
-            _board.AddPiece<Queen>(3, 3, 'b');
-            _board.AddPiece<King>(7, 4, 'w');
-            _board.AddPiece<Queen>(6, 1, 'w');
+            _board = new Board(BOARDSIZE, true);
+            //_board.AddPiece<King>(2, 4, 'b');
+            //_board.AddPiece<Queen>(3, 3, 'b');
+            //_board.AddPiece<King>(7, 4, 'w');
+            //_board.AddPiece<Queen>(6, 1, 'w');
             _board.OnKingChecked += _board_OnKingChecked;
 
-            ChessUtils.CreateTiles(panel1, _buttonArray, _board, panel1.Width / 8, Color1, Color2, tileClickEventHandler);
+            ChessUtils.CreateTiles(panel1, _buttonArray, _board, panel1.Width / 8, Color1, Color2, false, tileClickEventHandler);
             ChessUtils.DrawSymbols(_buttonArray, _board);
         }
 
@@ -140,7 +139,7 @@ namespace ChessGameSimple
             SwapTurns();
             ChessUtils.DrawSymbols(_buttonArray, _board);
             ChessUtils.HideMoves(_buttonArray);
-            this.Text = "";
+            this.Text = "Chess";
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -153,7 +152,7 @@ namespace ChessGameSimple
 
             ChessUtils.DrawSymbols(_buttonArray, _board);
             ChessUtils.HideMoves(_buttonArray);
-            this.Text = "";
+            this.Text = "Chess";
         }
     }
 }

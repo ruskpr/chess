@@ -92,8 +92,11 @@
             Controls.Add(panel1);
             Controls.Add(btnUndo);
             Controls.Add(lbTurn);
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Name = "FormPlayerVsPlayer";
-            Text = "Form1";
+            ShowIcon = false;
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Chess";
             ResumeLayout(false);
             PerformLayout();
         }

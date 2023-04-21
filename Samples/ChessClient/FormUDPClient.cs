@@ -1,6 +1,7 @@
 ﻿using Chess.Core.UDP;
 using Chess.Core;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace ChessGameSimple
 {
@@ -25,8 +26,7 @@ namespace ChessGameSimple
 
             _username = name;
             this.Text = "Chess - " + _username;
-            ChessUtils.CreateTiles(pnlBoard, _buttons, _board, pnlBoard.Width / 8, Color.Gainsboro, Color.Tan, OnTileClicked);
-
+            ChessUtils.CreateTiles(pnlBoard, _buttons, _board, pnlBoard.Width / 8, Color.Gainsboro, Color.Tan, false, OnTileClicked);
 
             _client = UdpClient.ConnectTo(_username, ip, port);
             _client.OnPacketReceived += Client_OnPacketReceived;
@@ -72,6 +72,11 @@ namespace ChessGameSimple
                     this.Invoke(() =>
                     {
                         MessageBox.Show(packet.Payload, "Chess");
+
+                        // delete all processes named 'ChessServer.exe'
+                        foreach (var process in Process.GetProcessesByName("ChessServer"))
+                            process.Kill();
+
                         this.Close();
                     });
                     break;
@@ -109,7 +114,6 @@ namespace ChessGameSimple
 
                 if (_clientPlayer.Symbol == 'b' && !_boardIsFlipped)
                 {
-                    ChessUtils.FlipBoard(_buttons, 8);
                     _boardIsFlipped = true;
                 }
 

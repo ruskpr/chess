@@ -31,7 +31,7 @@ namespace ChessGameSimple
 
             _board = new Board(BOARDSIZE, true);
 
-            ChessUtils.CreateTiles(this, _buttonArray, _board, tileSize, Color1, Color2, null);
+            ChessUtils.CreateTiles(this, _buttonArray, _board, tileSize, Color1, Color2, false, null);
             ChessUtils.DrawSymbols(_buttonArray, _board);
         }
 
