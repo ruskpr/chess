@@ -43,7 +43,20 @@ namespace ChessServer
 
             Console.WriteLine($"Game has started! {_p1.Name} (white) vs {_p2.Name} (black)");
 
-            Console.ReadKey();
+            await Play();
+        }
+
+        private static Task Play()
+        {
+            return Task.Factory.StartNew(() => {
+                while (!_game.Board.IsGameOver)
+                {
+
+                }
+                _server.ReplyAll(UpdateGamePacket());
+
+                Thread.Sleep(3000);
+            });
         }
 
         private static Task WaitForPlayers()

@@ -71,13 +71,13 @@ namespace ChessGameSimple
                 case PacketType.GameEnd:
                     this.Invoke(() =>
                     {
-                        MessageBox.Show(packet.Payload, "Chess");
+                        lstMessages.Items.Add(packet.Payload);
 
                         // delete all processes named 'ChessServer.exe'
                         foreach (var process in Process.GetProcessesByName("ChessServer"))
                             process.Kill();
 
-                        this.Close();
+                        //this.Close();
                     });
                     break;
                 case PacketType.Error:
@@ -112,10 +112,10 @@ namespace ChessGameSimple
                 if (_clientPlayer == null)
                     _clientPlayer = game.Player1.Name == _username ? game.Player1 : game.Player2;
 
-                if (_clientPlayer.Symbol == 'b' && !_boardIsFlipped)
-                {
-                    _boardIsFlipped = true;
-                }
+                //if (_clientPlayer.Symbol == 'b' && !_boardIsFlipped)
+                //{
+                //    _boardIsFlipped = true;
+                //}
 
                 _turn = game.Turn;
 
