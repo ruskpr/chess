@@ -53,9 +53,10 @@
             // 
             // btnJoin
             // 
-            btnJoin.BackColor = Color.DimGray;
+            btnJoin.BackColor = Color.Silver;
             btnJoin.FlatAppearance.BorderSize = 0;
             btnJoin.FlatStyle = FlatStyle.Flat;
+            btnJoin.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnJoin.ForeColor = Color.White;
             btnJoin.Location = new Point(63, 108);
             btnJoin.Name = "btnJoin";

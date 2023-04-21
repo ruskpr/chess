@@ -44,7 +44,7 @@ namespace ChessGameSimple
                 {
 
                     FormUDPClient frmClient = new FormUDPClient(frmJoinServer.Username,
-                                                    frmJoinServer.EndpointAddress.Address.ToString(), 
+                                                    frmJoinServer.EndpointAddress.Address.ToString(),
                                                     frmJoinServer.EndpointAddress.Port);
                     frmClient.Show();
                 }
@@ -75,11 +75,11 @@ namespace ChessGameSimple
                     FormUDPClient frmClient = new FormUDPClient(frmHostServer.Username, ipAddress, port);
                     frmClient.Show();
                 }
-                
+
             }
 
 
-            
+
         }
     }
 }

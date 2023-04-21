@@ -38,12 +38,16 @@
             // 
             // btnSendMessage
             // 
+            btnSendMessage.BackColor = Color.Silver;
+            btnSendMessage.FlatAppearance.BorderSize = 0;
+            btnSendMessage.FlatStyle = FlatStyle.Flat;
+            btnSendMessage.ForeColor = Color.White;
             btnSendMessage.Location = new Point(167, 418);
             btnSendMessage.Name = "btnSendMessage";
             btnSendMessage.Size = new Size(75, 23);
             btnSendMessage.TabIndex = 0;
             btnSendMessage.Text = "Send";
-            btnSendMessage.UseVisualStyleBackColor = true;
+            btnSendMessage.UseVisualStyleBackColor = false;
             btnSendMessage.Click += btnSendMessage_Click;
             // 
             // lstMessages
@@ -87,7 +91,7 @@
             AcceptButton = btnSendMessage;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(37, 37, 37);
+            BackColor = Color.White;
             ClientSize = new Size(703, 446);
             Controls.Add(pnlBoard);
             Controls.Add(panel1);

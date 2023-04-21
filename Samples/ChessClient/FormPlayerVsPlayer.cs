@@ -33,7 +33,7 @@ namespace ChessGameSimple
             _board.AddPiece<Queen>(6, 1, 'w');
             _board.OnKingChecked += _board_OnKingChecked;
 
-            ChessUtils.CreateTiles(panel1, _buttonArray, _board, panel1.Width/8, Color1, Color2, tileClickEventHandler);
+            ChessUtils.CreateTiles(panel1, _buttonArray, _board, panel1.Width / 8, Color1, Color2, tileClickEventHandler);
             ChessUtils.DrawSymbols(_buttonArray, _board);
         }
 

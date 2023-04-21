@@ -55,11 +55,12 @@
             // 
             // btnStartAndJoin
             // 
-            btnStartAndJoin.BackColor = Color.DimGray;
+            btnStartAndJoin.BackColor = Color.Silver;
             btnStartAndJoin.FlatAppearance.BorderSize = 0;
             btnStartAndJoin.FlatStyle = FlatStyle.Flat;
+            btnStartAndJoin.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
             btnStartAndJoin.ForeColor = Color.White;
-            btnStartAndJoin.Location = new Point(53, 101);
+            btnStartAndJoin.Location = new Point(55, 101);
             btnStartAndJoin.Name = "btnStartAndJoin";
             btnStartAndJoin.Size = new Size(139, 23);
             btnStartAndJoin.TabIndex = 2;
