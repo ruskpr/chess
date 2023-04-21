@@ -170,6 +170,7 @@
             Controls.Add(pictureBox2);
             Controls.Add(pictureBox1);
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            MaximizeBox = false;
             Name = "FormLauncher";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;

@@ -93,6 +93,7 @@
             Controls.Add(btnUndo);
             Controls.Add(lbTurn);
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            MaximizeBox = false;
             Name = "FormPlayerVsPlayer";
             ShowIcon = false;
             StartPosition = FormStartPosition.CenterScreen;

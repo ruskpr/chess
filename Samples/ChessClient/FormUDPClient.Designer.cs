@@ -97,6 +97,7 @@
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.Fixed3D;
             KeyPreview = true;
+            MaximizeBox = false;
             Name = "FormUDPClient";
             ShowIcon = false;
             StartPosition = FormStartPosition.Manual;
