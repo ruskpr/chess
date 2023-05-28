@@ -5,27 +5,25 @@ internal class Program
 {
     private static void Main()
     {
-        var board = new Board(8, false);
-        var king = board.AddPiece<King>(3, 3, 'b');
+        var board = new Board(8, true);
 
-        //var moves = king.GetValidMoves(board);
-
-        //var from = board.GetTile(0, 3);
-        //var to = board.GetTile(1, 3);
-        //board.TryMakeMove(from, to);
-        //DrawBoard(board);
-        //Console.ReadLine();
-
-        // take user input to make a move
         while (true)
         {
 
             DrawBoard(board);
-            Console.WriteLine("Enter the piece you want to move");
-            var selectedPieceInput = Console.ReadLine();
-            int fromRow = Convert.ToInt32(selectedPieceInput[0].ToString());
-            int fromCol = Convert.ToInt32(selectedPieceInput[1].ToString());
-            var pieceToMove = board.GetPiece(fromRow, fromCol);
+            Console.WriteLine("Enter the piece you want to move (ex. 02)");
+
+            IPiece? pieceToMove = null;
+
+            try
+            {
+                var selectedPieceInput = Console.ReadLine();
+                int fromRow = Convert.ToInt32(selectedPieceInput[0].ToString());
+                int fromCol = Convert.ToInt32(selectedPieceInput[1].ToString());
+                pieceToMove = board.GetPiece(fromRow, fromCol);
+            }
+            catch { continue; }
+           
 
             if (pieceToMove == null)
             {
