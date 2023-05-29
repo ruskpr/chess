@@ -12,7 +12,6 @@ This is a C# chess library that provides functionality for playing and managing 
 - Sample console application
 - Sample Windows Forms Application
 - UDP client and server implementations
-- [Under Development] Minimax AI algorithm and implementations
 
 ## Getting Started
 
