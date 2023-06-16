@@ -25,11 +25,11 @@ Here is how to get started:
 
 ### Console Application
 
-The console application provides a simple interface for playing between to players. You simply have to enter your move in the prompt and if it is valid, the game state will be printed out onto the CLI
+The console application provides a simple interface for playing between two players. You simply have to enter your move in the prompt and if it is valid, the game state will be printed out onto the CLI window.
 
 ### Windows Forms Application
 
-This application provides a more fully-featured interface for demonstrating the chess library:
+This application provides a more fully-featured interface for demonstrating the chess library in a windows desktop app:
 - Player vs Player: Control both players and test the functionality of a full chess match with reset and undo capabilities
 - Host Server: Host a UDP server on you local machine on a custom port, upon starting the server a client interface is automatically connected to it.
 - Join Server: Join a UDP server by entering a host's IP and port number
