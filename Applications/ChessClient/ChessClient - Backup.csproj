@@ -6,16 +6,17 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Chess</AssemblyName>
+    <Authors>Rustu Koprulu, RichBearLabs</Authors>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FontAwesome.Sharp" Version="6.3.0" />
     <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Chess.Core\Chess.Core.csproj" />
-    <ProjectReference Include="..\UdpServer\ChessServer.csproj" />
+    <ProjectReference Include="..\ChessServer\ChessServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
