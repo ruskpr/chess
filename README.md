@@ -37,9 +37,4 @@ This application provides a more fully-featured interface for demonstrating the 
 ## Contributing
 
 If you would like to contribute, feel free to open an issue or pull request on the repository. 
-https://github.com/ruskpr/Chess
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
+https://github.com/ruskpr/chess
