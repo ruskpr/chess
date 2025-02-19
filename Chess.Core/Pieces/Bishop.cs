@@ -25,5 +25,10 @@
             return Movement.GetMoves(board, this, board.Size, MoveTemplates);
         }
 
-    }
+		public override Piece Clone()
+		{
+			return new Bishop(this.Color, this.CurrentLocation.Row, this.CurrentLocation.Column);
+		}
+
+	}
 }

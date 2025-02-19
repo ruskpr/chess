@@ -60,5 +60,6 @@
             return $"{Color} {Symbol} at {CurrentLocation}";
         }
 
-    }
+		public abstract Piece Clone();
+	}
 }

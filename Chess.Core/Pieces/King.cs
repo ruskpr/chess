@@ -37,5 +37,10 @@ namespace Chess.Core.Pieces
             return moves;
         }
 
-    }
+		public override Piece Clone()
+		{
+			return new King(this.Color, this.CurrentLocation.Row, this.CurrentLocation.Column);
+		}
+
+	}
 }

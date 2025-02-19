@@ -1,4 +1,5 @@
-﻿using Chess.Core.Pieces;
+﻿using Chess.Core.Chess960;
+using Chess.Core.Pieces;
 using Newtonsoft.Json;
 
 namespace Chess.Core
@@ -61,11 +62,15 @@ namespace Chess.Core
             Size = size;
             CreateTiles(size, size);
 
-            if (addDefaultPieces)
+            if (addDefaultPieces && !Game.is960Selected)
             {
                 AddDefaultPieces();
                 _blackKingLocation = new BoardLocation(0, 4);
                 _whiteKingLocation = new BoardLocation(7, 4);
+            }
+            else if(Game.is960Selected)
+            {
+                Add960Pieces();
             }
         }
          
@@ -142,7 +147,22 @@ namespace Chess.Core
             }
         }
 
-        private void UpdateKingPosition(char color, int row, int col)
+		private void Add960Pieces()
+		{
+            Piece[] whiteConfig = Chess960Generator.GenerateConfig();
+            Piece[] blackConfig = Chess960Generator.GetBlackConfig(whiteConfig);
+
+            for(int i = 0; i < whiteConfig.Length; i++)
+            {
+				_tiles[1, i].Piece = new Pawn('b', 1, i); // adds black pawn to 1st row on i column
+				_tiles[6, i].Piece = new Pawn('w', 6, i); // adds white pawn to 6th row on i column
+
+				_tiles[whiteConfig[i].CurrentLocation.Row, whiteConfig[i].CurrentLocation.Column].Piece = whiteConfig[i]; // White Piece
+				_tiles[blackConfig[i].CurrentLocation.Row, blackConfig[i].CurrentLocation.Column].Piece = blackConfig[i]; // Mirrored Black Piece
+			}
+		}
+
+		private void UpdateKingPosition(char color, int row, int col)
         {
             if (color == 'w')
                 _whiteKingLocation = new BoardLocation(row, col);
