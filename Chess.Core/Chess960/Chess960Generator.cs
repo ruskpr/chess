@@ -8,7 +8,7 @@ namespace Chess.Core.Chess960
 		private const int BOARD_SIZE = 8;
 
 		/// <summary>
-		/// Generates a Chess 960 config for the white back row that reads left to right. 
+		/// Generates a Chess 960 config for the white back row with positions
 		/// </summary>
 		/// <returns>White piece array configured with position on each piece.</returns>
 		public static Piece[] GenerateConfig()
