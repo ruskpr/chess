@@ -20,6 +20,8 @@ namespace Chess.Core
 
         private bool _isGameOver = false;
 
+        public static bool is960Selected = false;
+
         public Game(Board board, Player white, Player black)
         {
             if (white.Symbol != 'w' || black.Symbol != 'b')
