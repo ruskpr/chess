@@ -71,6 +71,7 @@ namespace Chess.Core
             else if(Game.is960Selected)
             {
                 Add960Pieces();
+                FindAndSetKindPositions();
             }
         }
          
@@ -479,5 +480,21 @@ namespace Chess.Core
                 MoveStack = this.MoveStack,
             };
         }
+
+        internal void FindAndSetKindPositions()
+        {
+			for (int i = 0; i < Size; i++)
+			{
+				if (char.ToLower(_tiles[0, i].Piece.Symbol) == 'k')
+				{
+					_blackKingLocation = new BoardLocation(0, i);
+				}
+
+				if (char.ToLower(_tiles[7, i].Piece.Symbol) == 'k')
+				{
+					_whiteKingLocation = new BoardLocation(7, i);
+				}
+			}
+		}
     }
 }
