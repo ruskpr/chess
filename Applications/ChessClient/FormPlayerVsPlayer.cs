@@ -1,5 +1,6 @@
 using Chess.Core;
 using Chess.Core.Pieces;
+using System.Diagnostics;
 using System.Resources;
 
 namespace ChessClient;
@@ -21,7 +22,7 @@ public partial class FormPlayerVsPlayer : Form
 
     public FormPlayerVsPlayer()
     {
-        InitializeComponent();
+		InitializeComponent();
         this.Icon = new Icon("icon.ico");
         this.StartPosition = FormStartPosition.CenterScreen;
         this.MinimumSize = this.Size;

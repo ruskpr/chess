@@ -29,5 +29,10 @@
         {
             return Movement.GetMoves(board, this, 1, MoveTemplates);
         }
-    }
+
+		public override Piece Clone()
+		{
+			return new Knight(this.Color, this.CurrentLocation.Row, this.CurrentLocation.Column);
+		}
+	}
 }
